@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Main</title>
-  </head>
 
+<head>
+  <meta charset="UTF-8">
+  <title>Main</title>
+</head>
 
-  <body>
+ç
+<body>
 
-    <div class="dock">
-      <img id="dockIcons" src="http://icons.iconarchive.com/icons/icons8/ios7/256/Programming-Console-icon.png" alt="">
-    </div>
-    <div class="navbar"></div>
-    <div class="mainOverview">
-      <table class="iconTable">
+  <div class="dock">
+    <img id="dockIcons" src="http://icons.iconarchive.com/icons/icons8/ios7/256/Programming-Console-icon.png" alt="">
+  </div>
+  <div class="navbar"></div>
+  <div class="mainOverview">
+    <table class="iconTable">
       <tr>
         <th>
           <button id="newProjectBtn">
 
-            <img id="menuIcon" src="https://cdn1.iconfinder.com/data/icons/freeline/32/add_cross_new_plus_create-512.png" alt="">
+            <img id="menuIcon"
+              src="https://cdn1.iconfinder.com/data/icons/freeline/32/add_cross_new_plus_create-512.png" alt="">
           </button>
         </th>
         <th>
@@ -33,103 +35,108 @@
         <th id="iconLabels">View Projects</th>
         <th id="iconLabels">Toolbox</th>
       </tr>
-      </table>
-    </div>
+    </table>
+  </div>
 
 
 
 
 
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    <script>
-      
+  <!-- All of the Node.js APIs are available in this renderer process. -->
+  <script>
+    // You can also require other files to run in this process
+    require('./main')
+    require('./renderer.js')
+    
+    // currently builds, but does not work. 
+    // Take a look at https://electronjs.org/docs/tutorial/application-architecture on how to architect
+    const btnNewProject = document.getElementById('newProjectBtn');
+    btnNewProject.addEventListener('click', selectDirectory);
+  </script>
 
-      // You can also require other files to run in this process
-      require('./main')
-      require('./renderer.js')
-      </script>
+</body>
 
-  </body>
 </html>
 
 <style>
-  html{
+  html {
     height: 100%;
   }
-body{
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(161,255,206,1) 0%, rgba(250,255,209,1) 90% );
-  background-repeat: no-repeat;
+
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(161, 255, 206, 1) 0%, rgba(250, 255, 209, 1) 90%);
+    background-repeat: no-repeat;
 
   }
-.navbar{
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 60px;
-  height: 100%;
-  border-right: 1px solid;
-  border-radius: 10px;
+
+  .navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 60px;
+    height: 100%;
+    border-right: 1px solid;
+    border-radius: 10px;
   }
 
-.navbar:hover{
-  width: 20%;
-  border-radius: 30px;
-  transition: All 0.2s ease-in-out;
-}
+  .navbar:hover {
+    width: 20%;
+    border-radius: 30px;
+    transition: All 0.2s ease-in-out;
+  }
 
-.mainOverview{
-  position: relative;
-  min-height: 30%;
-  margin-right: 25%;
-  margin-left: 25%;
-  margin-top: 15%;
+  .mainOverview {
+    position: relative;
+    min-height: 30%;
+    margin-right: 25%;
+    margin-left: 25%;
+    margin-top: 15%;
     width: 50%;
-}
+  }
 
-#menuIcon{
-  
-  margin: 30px;
-  height: 150px;
-}
+  #menuIcon {
 
-#menuIcon:hover{
-  transform: scale(1.2, 1.2);
-  transition: All 0.4s ease-in-out;
-}
+    margin: 30px;
+    height: 150px;
+  }
 
-.iconTable{
-  margin: 0 auto;
-}
+  #menuIcon:hover {
+    transform: scale(1.2, 1.2);
+    transition: All 0.4s ease-in-out;
+  }
 
-#iconLabels{
-  font-size: 25px;
-}
+  .iconTable {
+    margin: 0 auto;
+  }
 
-.dock{
-  position: fixed;
-  bottom: 0;
-  height: 10%;
-  min-width: 40%;
-  left: 30%;
-  border-top: 1px solid gray;
-  border-right: 1px solid gray;
-  border-left: 1px solid gray;
-  border-radius: 12px 12px 0px 0px;
-}
+  #iconLabels {
+    font-size: 25px;
+  }
 
-#dockIcons{
-  margin: 0 auto;
-  height: 90%;
-  margin: 5px;
-}
+  .dock {
+    position: fixed;
+    bottom: 0;
+    height: 10%;
+    min-width: 40%;
+    left: 30%;
+    border-top: 1px solid gray;
+    border-right: 1px solid gray;
+    border-left: 1px solid gray;
+    border-radius: 12px 12px 0px 0px;
+  }
 
-#newProjectBtn{
-  color: transparent;
-  background-color: transparent;
-  border: none;
-}
+  #dockIcons {
+    margin: 0 auto;
+    height: 90%;
+    margin: 5px;
+  }
 
+  #newProjectBtn {
+    color: transparent;
+    background-color: transparent;
+    border: none;
+  }
 </style>
