@@ -1,18 +1,11 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
-const dialog = require('electron').remote
+const electron = require('electron')
+const { app, BrowserWindow } = electron;
 
 
 // currently builds, but does not work. 
 // Take a look at https://electronjs.org/docs/tutorial/application-architecture on how to architect
-function selectDirectory() {
 
-  var dir = dialog.showOpenDialog(mainWindow, {
-    properties: ['openDirectory']
-  })
-  console.log(dir);
-  sessionStorage.setItem("path", dir)
-}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -35,7 +28,7 @@ function createWindow() {
 
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

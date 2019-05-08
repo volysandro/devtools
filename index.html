@@ -7,6 +7,7 @@
 </head>
 
 ç
+
 <body>
 
   <div class="dock">
@@ -45,13 +46,24 @@
   <!-- All of the Node.js APIs are available in this renderer process. -->
   <script>
     // You can also require other files to run in this process
-    require('./main')
+    // require('./main')
     require('./renderer.js')
-    
+    const {
+      dialog
+    } = require('electron').remote
     // currently builds, but does not work. 
     // Take a look at https://electronjs.org/docs/tutorial/application-architecture on how to architect
     const btnNewProject = document.getElementById('newProjectBtn');
     btnNewProject.addEventListener('click', selectDirectory);
+
+    function selectDirectory() {
+
+      const dir = dialog.showOpenDialog({
+        properties: ['openDirectory']
+      })
+
+      sessionStorage.setItem("path", dir[0])
+    }
   </script>
 
 </body>
