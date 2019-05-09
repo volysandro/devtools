@@ -1,7 +1,10 @@
 
 
 const fs = require('fs');
+const homedir = require('os').homedir();
 
+
+console.log(homedir)
 
 const { remote } = require('electron')
 const { dialog } = remote;
@@ -74,15 +77,13 @@ if (pathValue != 0){
     document.getElementById('pathError').innerHTML = "";
 
     var finalPath = document.getElementById('inppath').value;
-
     if (document.getElementById('inptitle').value == 0){
-
+      
       if (process.platform !== 'win32'){
         var pathParts = finalPath.split('/')
-        
+
       }else{
         var pathParts = finalPath.split("\\")
-
       }
       var finalTitle = pathParts[pathParts.length-1];
       document.getElementById('inptitle').value = finalTitle;
@@ -96,22 +97,78 @@ if (pathValue != 0){
         var finalTitle = document.getElementById('inptitle').value;
     }
 
+    var projectConfigPath
+
+
+    if (process.platform !== 'win32'){
+      projectConfigPath = finalPath + '/.devtools-config.json'
+      console.log(projectConfigPath)
+
+    }else{
+      projectConfigPath = finalPath + '\\.devtools-config.json'
+      console.log(projectConfigPath)
+  
+    }
+
+
+
+
+
     var newProject = {
         title: finalTitle,
-        path: finalPath
+        path: finalPath,
+        configpath: projectConfigPath
     }
 
     console.log(newProject);
+    var projectsFileDir
+    if (process.platform !== 'win32'){
+      projectsFileDir = homedir + '/.devtools.json'
+      console.log(projectsFileDir)
+    }else{
+      projectsFileDir = homedir + '\\.devtools.json'
+      console.log(projectsFileDir)
+    }
 
-      
-      //einlesen:
-      let rawcontent = fs.readFileSync('.devtools.json')
-      let content = JSON.parse(rawcontent);
-      content.projects.push(newProject)
-      console.log(content);
-      //...
-      let writeContent = JSON.stringify(content, null, 2);
-      fs.writeFileSync('.devtools.json', writeContent);
+
+      if (fs.existsSync(projectsFileDir)) {
+        //file exists
+        //einlesen:
+        let rawcontent = fs.readFileSync(projectsFileDir)
+        let content = JSON.parse(rawcontent);
+        content.projects.push(newProject)
+        console.log(content);
+        //...
+        let writeContent = JSON.stringify(content, null, 2);
+        fs.writeFileSync(projectsFileDir, writeContent);
+      }
+else{
+      let newFileData = {
+        "projects": [
+          
+        ]
+      }
+
+      fs.writeFile(projectsFileDir, JSON.stringify(newFileData), function (err) {
+        if (err) throw err;
+        console.log('File is created successfully.');
+        let rawcontent = fs.readFileSync(projectsFileDir)
+        let content = JSON.parse(rawcontent);
+        content.projects.push(newProject)
+        console.log(content);
+        //...
+        let writeContent = JSON.stringify(content, null, 2);
+        fs.writeFileSync(projectsFileDir, writeContent);
+
+
+      }); 
+
+
+
+    }
+
+
+    
 }
 
 }
