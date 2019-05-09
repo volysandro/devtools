@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, electron } = require('electron')
 const dialog = require('electron').remote
+
 
 
 // currently builds, but does not work. 
@@ -13,6 +14,8 @@ function selectDirectory() {
   console.log(dir);
   sessionStorage.setItem("path", dir)
 }
+
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -27,6 +30,12 @@ function createWindow() {
       nodeIntegration: true
     }
   })
+
+  mainWindow.maximize()
+
+
+
+
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')

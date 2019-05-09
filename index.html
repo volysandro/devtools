@@ -4,9 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Main</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 
-ç
+
 <body>
 
   <div class="dock">
@@ -20,14 +23,14 @@
           <button id="newProjectBtn">
 
             <img id="menuIcon"
-              src="https://cdn1.iconfinder.com/data/icons/freeline/32/add_cross_new_plus_create-512.png" alt="">
+              src="./images/newproject.png" alt="">
           </button>
         </th>
         <th>
-          <img id="menuIcon" src="https://img.icons8.com/metro/420/open-in-browser.png" alt="">
+          <img id="menuIcon" src="./images/projectexplorer.png" alt="">
         </th>
         <th>
-          <img id="menuIcon" src="http://cdn.onlinewebfonts.com/svg/img_350781.png" alt="">
+          <img id="menuIcon" src="./images/toolbox.png" alt="">
         </th>
       </tr>
       <tr>
@@ -45,13 +48,10 @@
   <!-- All of the Node.js APIs are available in this renderer process. -->
   <script>
     // You can also require other files to run in this process
-    require('./main')
     require('./renderer.js')
     
     // currently builds, but does not work. 
     // Take a look at https://electronjs.org/docs/tutorial/application-architecture on how to architect
-    const btnNewProject = document.getElementById('newProjectBtn');
-    btnNewProject.addEventListener('click', selectDirectory);
   </script>
 
 </body>
@@ -139,4 +139,9 @@
     background-color: transparent;
     border: none;
   }
+
+  #choosepath{
+
+  }
+
 </style>
