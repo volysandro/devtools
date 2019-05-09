@@ -14,8 +14,16 @@ function selectDirectory() {
     sessionStorage.setItem("path", dir)
     document.getElementById('inppath').value = dir;
 
-        var dirParts = dir.toString().split('/')
-        document.getElementById('inptitle').value = dirParts[dirParts.length-1];
+    if (process.platform !== 'win32'){
+      var dirParts = dir.toString().split('/')
+
+    }else{
+      var dirParts = dir.toString().split('\\')
+
+    }
+
+
+      document.getElementById('inptitle').value = dirParts[dirParts.length-1];
 
 
 
@@ -68,10 +76,22 @@ if (pathValue != 0){
     var finalPath = document.getElementById('inppath').value;
 
     if (document.getElementById('inptitle').value == 0){
+
+      if (process.platform !== 'win32'){
         var pathParts = finalPath.split('/')
-        var finalTitle = pathParts[pathParts.length-1];
-        document.getElementById('inptitle').value = finalTitle;
+        
+      }else{
+        var pathParts = finalPath.split("\\")
+
+      }
+      var finalTitle = pathParts[pathParts.length-1];
+      document.getElementById('inptitle').value = finalTitle;
+      
     }
+
+
+
+
     else{
         var finalTitle = document.getElementById('inptitle').value;
     }
@@ -83,15 +103,15 @@ if (pathValue != 0){
 
     console.log(newProject);
 
-    fs.appendFile('.devtools.json','\n' + JSON.stringify(newProject), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-      });
       
       //einlesen:
-      let content = {projects: []}//...
+      let rawcontent = fs.readFileSync('.devtools.json')
+      let content = JSON.parse(rawcontent);
       content.projects.push(newProject)
-      //File content wieder speichern fs.writeFile
+      console.log(content);
+      //...
+      let writeContent = JSON.stringify(content, null, 2);
+      fs.writeFileSync('.devtools.json', writeContent);
 }
 
 }
