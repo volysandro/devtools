@@ -88,7 +88,10 @@ if (pathValue != 0){
         console.log('Saved!');
       });
       
-
+      //einlesen:
+      let content = {projects: []}//...
+      content.projects.push(newProject)
+      //File content wieder speichern fs.writeFile
 }
 
 }
