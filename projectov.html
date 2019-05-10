@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Project Overview</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+</head>
+<body>
+        <button id="backBtn">
+                <img id="backBtnIcon" src="./images/backbutton.png" alt="">
+            </button>
+        
+            <div class="wrapper">
+                    <div id="infocontainer" class="box a"></div>
+                    <div id="settingscontainer" class="box b">
+
+                            <a id="addCommand" class="waves-effect waves-light btn-large">Add command-line script</a>
+                            <a id="addProgram" class="waves-effect waves-light btn-large">Add program to run</a>
+                            <a id="addServer" class="waves-effect waves-light btn-large">Add webserver</a>
+
+
+
+                    </div>
+                    <div id="scriptscontainer" class="box c"></div>
+                    <div id="programscontainer" class="box d"></div>
+                  </div>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="projectov.js"></script>
+</body>
+</html>
+
+<style>
+    body, html{
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+#backBtnIcon{
+    height: 90%;
+    border-radius: 20px;
+
+}
+
+#backBtn{
+    color: transparent;
+    background-color: transparent;
+    border: none;
+    height: 6%;
+    width: 5%;
+    margin: 10px;
+    padding: 0;
+    position: absolute;
+}
+
+#backBtn:hover {
+    transform: scale(1.1, 1.1);
+    transition: All 0.1s ease-in-out;
+  }
+
+
+
+  .wrapper {
+        display: grid;
+        grid-template-columns: [col1-start] calc(100% / 3)  [col2-start] calc(100% / 3)  [col3-start] calc(100% / 3) [col3-end];
+        grid-template-rows: [row1-start] 50% [row2-start] 50% [row2-end];
+        height: 100%;
+        width: 100%;
+        margin: auto;
+    }
+
+    .box {
+        background-color: #444;
+        color: black;
+        border-radius: 5px;
+        padding: 20px;
+        font-size: 150%;
+
+    }
+
+    .a {
+        grid-column: col1-start / col3-start;
+        grid-row: row1-start ;
+        background-color: transparent;
+        border: 1px solid black;
+    }
+    .b {
+        grid-column: col3-start ;
+        grid-row: row1-start / row2-end;
+        background-color: transparent;
+        border: 1px solid black;
+
+    }
+    .c {
+        grid-column: col1-start;
+        grid-row: row2-start ;
+        background-color: transparent;
+        border: 1px solid black;
+
+    }
+    .d {
+        grid-column: col2-start ;
+        grid-row: row2-start ;
+        background-color: transparent;
+        border: 1px solid black;
+
+    }
+
+    #addCommand{
+        margin: 5px;
+    }
+
+    #addProgram{
+        margin: 5px;
+    }
+    #addServer{
+        margin: 5px;
+    }
+
+
+
+</style>

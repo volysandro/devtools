@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>All projects</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+</head>
+<body>
+    <button id="backBtn">
+        <img id="backBtnIcon" src="./images/backbutton.png" alt="">
+    </button>
+
+    <div id="mainContainer"></div>
+<script src="allprojects.js"></script>
+</body>
+</html>
+
+<style>
+html, body{
+    height: 100%;
+    width: 100%;
+    background-image: radial-gradient( circle farthest-corner at 1.3% 2.8%,  rgba(239,249,249,1) 0%, rgba(182,199,226,1) 100.2% );
+    overflow: hidden;
+}
+
+#backBtnIcon{
+    height: 90%;
+    border-radius: 20px;
+
+}
+
+#backBtn{
+    color: transparent;
+    background-color: transparent;
+    border: none;
+    height: 6%;
+    width: 5%;
+    margin: 10px;
+    padding: 0;
+    position: absolute;
+}
+
+#backBtn:hover {
+    transform: scale(1.1, 1.1);
+    transition: All 0.1s ease-in-out;
+  }
+
+
+#mainContainer{
+    margin: auto;
+    margin-top: 20px;
+    width: 1170px;
+    
+}
+
+</style>

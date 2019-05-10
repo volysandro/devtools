@@ -2,11 +2,26 @@
 
 const fs = require('fs');
 const homedir = require('os').homedir();
+const remote = require('electron').remote;
+
+const viewProjectsBtn = document.getElementById('viewProjectsBtn');
+if (viewProjectsBtn){
+
+    viewProjectsBtn.addEventListener('click', openProjectsPage)
+}
+var mainWindow = remote.getCurrentWindow();
+
+function openProjectsPage(){
+    mainWindow.loadURL('file://' + __dirname + '/allprojects.html')
+
+}
+
+
+console.log(mainWindow)
 
 
 console.log(homedir)
 
-const { remote } = require('electron')
 const { dialog } = remote;
 console.log(dialog)
 
@@ -53,6 +68,13 @@ function createBrowserWindow() {
 
   win.loadURL('file://' + __dirname + '/newproject.html');
   
+
+
+  function closeWindow(){
+      win.close()
+  }
+
+
 }
 
 
@@ -62,8 +84,10 @@ if (directoryBtn){
 }
 
 const initProject = document.getElementById('initProject');
+if(initProject){
+    initProject.addEventListener('click', initializeProject);
 
-initProject.addEventListener('click', initializeProject);
+}
 
 function initializeProject(){
     var pathValue = document.getElementById('inppath').value;
@@ -76,7 +100,18 @@ if (pathValue == 0){
 if (pathValue != 0){
     document.getElementById('pathError').innerHTML = "";
 
-    var finalPath = document.getElementById('inppath').value;
+
+
+    if (process.platform !== 'win32'){
+        var finalPath = document.getElementById('inppath').value + '/';
+        
+      }else{
+        var finalPath = document.getElementById('inppath').value + '\\';
+
+      }
+
+    
+
     if (document.getElementById('inptitle').value == 0){
       
       if (process.platform !== 'win32'){
@@ -100,15 +135,12 @@ if (pathValue != 0){
     var projectConfigPath
 
 
-    if (process.platform !== 'win32'){
-      projectConfigPath = finalPath + '/.devtools-config.json'
-      console.log(projectConfigPath)
 
-    }else{
-      projectConfigPath = finalPath + '\\.devtools-config.json'
+
+      projectConfigPath = finalPath + '.devtools-config.json'
       console.log(projectConfigPath)
   
-    }
+
 
 
 
@@ -117,7 +149,8 @@ if (pathValue != 0){
     var newProject = {
         title: finalTitle,
         path: finalPath,
-        configpath: projectConfigPath
+        configpath: projectConfigPath,
+        initialized: false
     }
 
     console.log(newProject);
@@ -141,6 +174,10 @@ if (pathValue != 0){
         //...
         let writeContent = JSON.stringify(content, null, 2);
         fs.writeFileSync(projectsFileDir, writeContent);
+
+        var window = remote.getCurrentWindow();
+        window.close();
+        openProjectsPage();
       }
 else{
       let newFileData = {
@@ -160,6 +197,9 @@ else{
         let writeContent = JSON.stringify(content, null, 2);
         fs.writeFileSync(projectsFileDir, writeContent);
 
+        var window = remote.getCurrentWindow();
+        window.close();
+        openProjectsPage();
 
       }); 
 
@@ -169,9 +209,17 @@ else{
 
 
     
+
+    
 }
 
 }
+
+
+
+
+
+
 
 
 
