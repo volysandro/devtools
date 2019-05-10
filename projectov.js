@@ -1,6 +1,7 @@
 const fs = require('fs');
 const homedir = require('os').homedir();
 const remote = require('electron').remote;
+const {shell} = require('electron');
 
 const Swal = require('sweetalert2')
 
@@ -60,6 +61,8 @@ if(fs.existsSync(activeProject.configpath)){
             'Project initialized!',
             'success'
           )
+
+          remote.getCurrentWindow().reload()
         }else{
             remote.getCurrentWindow().loadURL('file://' + __dirname + '/allprojects.html')
 
@@ -146,7 +149,9 @@ projectConfig.commands.forEach(element => {
 
     abutton.addEventListener('click', e => {
         const invokedButton = document.getElementById('run' + element.name)
-        if (invokedButton.className.includes('green')){
+        runCommand(element)
+
+        /*if (invokedButton.className.includes('green')){
             
             var replaced = invokedButton.className.replace('green', 'red')
             invokedButton.className = replaced
@@ -157,16 +162,8 @@ projectConfig.commands.forEach(element => {
             var replaced = invokedButton.className.replace('red', 'green')
             invokedButton.className = replaced
             stopCommand(element);
-        }
-
-
-
-        
-        
-        
+        }*/
     })
-
-    
 });
 
 
@@ -229,10 +226,13 @@ btnAddCommand.addEventListener('click', e => {
             projectConfig.commands.push(commandToPush)
 
 
+
             let writeContent = JSON.stringify(projectConfig, null, 2);
             fs.writeFileSync(activeProject.configpath, writeContent);
     
-            
+            if(process.platform == 'win32'){
+              fs.writeFileSync(activeProject.path + '.devtools_' + commandToPush.name + '.bat', commandToPush.rawCommandWithPath)
+            }
 
 
           Swal.fire({
@@ -250,13 +250,58 @@ btnAddCommand.addEventListener('click', e => {
 })
 
 
+const runAll = document.getElementById('runAll')
+runAll.addEventListener('click', e => {
+
+  rawConfig = fs.readFileSync(activeProject.configpath)
+  projectConfig = JSON.parse(rawConfig)
+
+
+    projectConfig.commands.forEach(element => {
+      runCommand(element)
+  });
+})
+
+
 
 function runCommand(command){
+
+
     console.log('starting ' + command.name + '...')
-}
+    console.log(activeProject.path + '.devtools_' + command.name + '.bat')
 
-function stopCommand(command){
-    console.log('stopping ' + command.name + '...')
-}
+    // Open a local file in the default app
 
+    if(process.platform == 'win32'){
+      shell.openItem(activeProject.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
+
+    }
+  }
+  
+
+
+  
+
+  
+  function createCmdWindow() {
+    const remote = require('electron').remote;
+    const BrowserWindow = remote.BrowserWindow;
+    const cmdwindow = new BrowserWindow({
+      webPreferences: {
+          nodeIntegration: true
+        },
+      height: 800,
+      width: 1200
+    });
+  
+    cmdwindow.loadURL('file://' + __dirname + '/runcommand.html');
+    
+  
+  
+    function closeWindow(){
+        cmdwindow.close()
+    }
+  
+  
+  }
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Run commans</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="node_modules/xterm/dist/xterm.css" />
+    <script src="node_modules/xterm/dist/xterm.js"></script>
+
+</head>
+<body>
+    <div id="terminal"></div>
+    <script type="module">
+    var term = new Terminal();
+        term.open(document.getElementById('terminal'));
+        term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+
+        term.on('key', (key, ev) => {
+        console.log(key.charCodeAt(0));
+        if (key.charCodeAt(0) == 13)
+            term.write('\n');
+        term.write(key);
+});
+    </script>
+    <script src="runcommand.js"></script>
+</body>
+</html>
