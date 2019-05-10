@@ -232,6 +232,9 @@ btnAddCommand.addEventListener('click', e => {
     
             if(process.platform == 'win32'){
               fs.writeFileSync(activeProject.path + '.devtools_' + commandToPush.name + '.bat', commandToPush.rawCommandWithPath)
+            }else{
+              fs.writeFileSync(activeProject.path + '.devtools_' + commandToPush.name + '.sh', commandToPush.rawCommandWithPath)
+
             }
 
 
@@ -275,6 +278,8 @@ function runCommand(command){
     if(process.platform == 'win32'){
       shell.openItem(activeProject.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
 
+    }else{
+      activeProject.path + '.devtools_' + command.name + '.sh'
     }
   }
   
