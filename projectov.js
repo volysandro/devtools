@@ -88,7 +88,7 @@ scriptscontainer = document.getElementById('scriptscontainer')
 
 
 divcard = document.createElement('div')
-divcard.className = 'card blue-grey darken-1'
+divcard.className = 'card projecttitle blue-grey darken-1'
 infocontainer.appendChild(divcard)
 
 divcontent = document.createElement('div')
@@ -115,7 +115,7 @@ projectConfig = JSON.parse(rawConfig)
 projectConfig.commands.forEach(element => {
 
     divcard = document.createElement('div')
-    divcard.className = 'card blue-grey darken-1'
+    divcard.className = 'card command blue-grey darken-1'
     scriptscontainer.appendChild(divcard)
     divcard.id = 'card_' + element.name
 
@@ -279,7 +279,7 @@ function runCommand(command){
       shell.openItem(activeProject.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
 
     }else{
-      activeProject.path + '.devtools_' + command.name + '.sh'
+      shell.openItem(activeProject.path + '.devtools_' + command.name + '.sh');    //createCmdWindow()
     }
   }
   
