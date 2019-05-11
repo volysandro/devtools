@@ -230,14 +230,19 @@ btnAddServer.addEventListener('click', e => {
     input: 'text',
     confirmButtonText: 'Next &rarr;',
     showCancelButton: true,
-    progressSteps: ['1', '2', '3']
+    progressSteps: ['1', '2', '3', '4']
   }).queue([
     {
       title: 'Path to run the webserver in?',
       text: 'Default: ' + activeProject.path,
     },
     'Enter desired port: ',
-    'Name the webserver'
+    'Name the webserver',
+    {
+      title: 'Default file? leave empty for "index.html',
+      text: 'specify without a "/"'
+    }
+    
   ]).then((result) => {
 
     if(result.value[1] == ''){
@@ -263,6 +268,10 @@ btnAddServer.addEventListener('click', e => {
             result.value[0] = activeProject.path
         }
 
+        if(result.value[3] == ''){
+          result.value[3] = 'index.html'
+        }
+
 
         rawConfig = fs.readFileSync(activeProject.configpath)
         projectConfig = JSON.parse(rawConfig)
@@ -273,7 +282,8 @@ btnAddServer.addEventListener('click', e => {
 
             serverPath: result.value[0],
             port: result.value[1],
-            name: result.value[2]
+            name: result.value[2],
+            defFile: result.value[3]
 
         }
         console.log(serverToPush)
@@ -458,8 +468,15 @@ function runCommand(command){
     webserver.loadURL('file://' + __dirname + './runwebserver.html');
 
     webserver.webContents.on('did-finish-load', () => {
+
+
       webserver.webContents.send('server-data', server);
-    })
+
+
+
+      }
+    
+    )
 
 
   }

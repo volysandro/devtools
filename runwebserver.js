@@ -8,48 +8,76 @@ ipcRenderer.on('server-data', function (event,server) {
     runServer(server)
 });
 
-
 function runServer(webserver){
 
-    var StaticServer = require('static-server');
-    var server = new StaticServer({
-      rootPath: webserver.serverPath,            // required, the root of the server file tree
-      port: webserver.port,               // required, the port to listen
-      name: 'my-http-server',   // optional, will set "X-Powered-by" HTTP header
-      host: '1.0.0.127',       // optional, defaults to any interface
-      cors: '*',                // optional, defaults to undefined
-      followSymlink: true,      // optional, defaults to a 404 error
-      templates: {
-        index: 'foo.html',      // optional, defaults to 'index.html'
-        notFound: '404.html'    // optional, defaults to undefined
+
+  var fs = require('fs');
+  var path = require('path');
+  
+  http.createServer(function (request, response) {
+      console.log('request starting...');
+  
+      var filePath = path.normalize(webserver.serverPath + request.url);
+      console.log(filePath)
+      console.log(request.url)
+      if (filePath == webserver.serverPath)
+          filePath = webserver.serverPath + webserver.defFile;
+
+      console.log(path.normalize(filePath))
+
+      filePath = path.normalize(filePath)
+  
+      var extname = path.extname(filePath);
+      var contentType = 'text/html';
+      switch (extname) {
+          case '.js':
+              contentType = 'text/javascript';
+              break;
+          case '.css':
+              contentType = 'text/css';
+              break;
+          case '.json':
+              contentType = 'application/json';
+              break;
+          case '.png':
+              contentType = 'image/png';
+              break;      
+          case '.jpg':
+              contentType = 'image/jpg';
+              break;
+          case '.wav':
+              contentType = 'audio/wav';
+              break;
       }
-    });
-     
-    server.start(function () {
-      console.log('Server listening to', server.port);
-    });
-     
-    server.on('request', function (req, res) {
-      // req.path is the URL resource (file name) from server.rootPath
-      // req.elapsedTime returns a string of the request's elapsed time
-    });
-     
-    server.on('symbolicLink', function (link, file) {
-      // link is the source of the reference
-      // file is the link reference
-      console.log('File', link, 'is a link to', file);
-    });
-     
-    server.on('response', function (req, res, err, file, stat) {
-      // res.status is the response status sent to the client
-      // res.headers are the headers sent
-      // err is any error message thrown
-      // file the file being served (may be null)
-      // stat the stat of the file being served (is null if file is null)
-     
-      // NOTE: the response has already been sent at this point
-    });    
+  
+      fs.readFile(filePath, function(error, content) {
+          if (error) {
+              if(error.code == 'ENOENT'){
+                  fs.readFile('./404.html', function(error, content) {
+                      response.writeHead(200, { 'Content-Type': contentType });
+                      response.end(content, 'utf-8');
+                  });
+              }
+              else {
+                  response.writeHead(500);
+                  response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+                  response.end(); 
+              }
+          }
+          else {
+              response.writeHead(200, { 'Content-Type': contentType });
+              response.end(content, 'utf-8');
+          }
+      });
+  
+  }).listen(webserver.port);
+  console.log('Server running at http://127.0.0.1:' + webserver.port + '/');
+  document.getElementById('defFile').innerHTML += webserver.defFile;
+  document.getElementById('serverPort').innerHTML += webserver.port;
+  document.getElementById('serverName').innerHTML += webserver.name;
 
 }
+
+
 
 

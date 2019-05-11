@@ -1,3 +1,4 @@
+var StaticServer = require('static-server');
 
 
 const fs = require('fs');
