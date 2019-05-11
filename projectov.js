@@ -112,6 +112,65 @@ rawConfig = fs.readFileSync(activeProject.configpath)
 projectConfig = JSON.parse(rawConfig)
 
 
+
+projectConfig.servers.forEach(element => {
+
+  divcard = document.createElement('div')
+  divcard.className = 'card server blue-grey darken-1'
+  scriptscontainer.appendChild(divcard)
+  divcard.id = 'card_' + element.name
+
+  divcontent = document.createElement('div')
+  divcontent.className = 'card-content white-text'
+  divcard.appendChild(divcontent)
+
+  spantitle = document.createElement('span')
+  spantitle.className = 'card-title'
+  divcontent.appendChild(spantitle)
+  spantitle.innerHTML = element.name
+
+  abutton = document.createElement('a')
+  abutton.className = 'btn-floating halfway-fab waves-effect waves-light green'
+  divcard.appendChild(abutton)
+  abutton.id = 'server' + element.name
+
+  abuttonicon = document.createElement('i')
+  i.className = 'material-icons'
+  abutton.appendChild(abuttonicon)
+  i.innerHTML = 'add'
+
+
+  divcard.style.float = 'left'
+  divcard.style.margin = '19px'
+  divcard.style.width = '40%'
+
+  pdescription = document.createElement('p')
+  divcontent.appendChild(pdescription)
+  pdescription.innerHTML = 'Port: ' + element.port
+
+  abutton.addEventListener('click', e => {
+
+
+    console.log(element)
+    runWebServer(element)
+
+      /*if (invokedButton.className.includes('green')){
+          
+          var replaced = invokedButton.className.replace('green', 'red')
+          invokedButton.className = replaced
+          runCommand(element);
+
+
+      }else{
+          var replaced = invokedButton.className.replace('red', 'green')
+          invokedButton.className = replaced
+          stopCommand(element);
+      }*/
+  })
+});
+
+
+
 projectConfig.commands.forEach(element => {
 
     divcard = document.createElement('div')
@@ -166,7 +225,79 @@ projectConfig.commands.forEach(element => {
     })
 });
 
+btnAddServer.addEventListener('click', e => {
+  Swal.mixin({
+    input: 'text',
+    confirmButtonText: 'Next &rarr;',
+    showCancelButton: true,
+    progressSteps: ['1', '2', '3']
+  }).queue([
+    {
+      title: 'Path to run the webserver in?',
+      text: 'Default: ' + activeProject.path,
+    },
+    'Enter desired port: ',
+    'Name the webserver'
+  ]).then((result) => {
 
+    if(result.value[1] == ''){
+        Swal.fire({
+            title: 'You need to provide a port!',
+        })
+
+    }
+
+    else if (result.value[2] == ''){
+        Swal.fire({
+            title: 'You need to provide a name for the webserver!',
+        })
+
+    }
+
+
+    else if (result.value) {
+
+        console.log(result.value)
+
+        if(result.value[0] == ''){
+            result.value[0] = activeProject.path
+        }
+
+
+        rawConfig = fs.readFileSync(activeProject.configpath)
+        projectConfig = JSON.parse(rawConfig)
+        console.log(projectConfig)
+
+
+        var serverToPush = {
+
+            serverPath: result.value[0],
+            port: result.value[1],
+            name: result.value[2]
+
+        }
+        console.log(serverToPush)
+        
+        projectConfig.servers.push(serverToPush)
+
+
+
+        let writeContent = JSON.stringify(projectConfig, null, 2);
+        fs.writeFileSync(activeProject.configpath, writeContent);
+
+
+
+      Swal.fire({
+        title: 'All done!',
+        
+        confirmButtonText: 'Lovely!'
+      })
+
+      remote.getCurrentWindow().reload()
+    }
+  })
+
+})
 
 btnAddCommand.addEventListener('click', e => {
 
@@ -308,5 +439,28 @@ function runCommand(command){
     }
   
   
+  }
+
+
+  function runWebServer(server){
+
+    const remote = require('electron').remote;
+    const BrowserWindow = remote.BrowserWindow;
+    const webserver = new BrowserWindow({
+      webPreferences: {
+          nodeIntegration: true
+        },
+      height: 800,
+      width: 1200
+    });
+  
+
+    webserver.loadURL('file://' + __dirname + './runwebserver.html');
+
+    webserver.webContents.on('did-finish-load', () => {
+      webserver.webContents.send('server-data', server);
+    })
+
+
   }
 
