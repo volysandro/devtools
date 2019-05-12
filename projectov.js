@@ -465,7 +465,7 @@ function runCommand(command){
     });
   
 
-    webserver.loadURL('file://' + __dirname + './runwebserver.html');
+    webserver.loadURL('file://' + __dirname + '/runwebserver.html');
 
     webserver.webContents.on('did-finish-load', () => {
 
