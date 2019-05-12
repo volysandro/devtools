@@ -393,9 +393,33 @@ btnAddCommand.addEventListener('click', e => {
 
 })
 
-
 const runAll = document.getElementById('runAll')
 runAll.addEventListener('click', e => {
+
+  rawConfig = fs.readFileSync(activeProject.configpath)
+  projectConfig = JSON.parse(rawConfig)
+
+
+    projectConfig.commands.forEach(element => {
+      runCommand(element)
+  });
+
+  rawConfig = fs.readFileSync(activeProject.configpath)
+  projectConfig = JSON.parse(rawConfig)
+
+
+    projectConfig.servers.forEach(element => {
+      runWebServer(element)
+  });
+
+
+
+
+})
+
+
+const runAllCommands = document.getElementById('runAllCommands')
+runAllCommands.addEventListener('click', e => {
 
   rawConfig = fs.readFileSync(activeProject.configpath)
   projectConfig = JSON.parse(rawConfig)
