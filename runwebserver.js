@@ -69,12 +69,24 @@ function runServer(webserver){
               response.end(content, 'utf-8');
           }
       });
+
+
+  
+
+
+
+
+      
+    
   
   }).listen(webserver.port);
   console.log('Server running at http://127.0.0.1:' + webserver.port + '/');
   document.getElementById('defFile').innerHTML += webserver.defFile;
   document.getElementById('serverPort').innerHTML += webserver.port;
   document.getElementById('serverName').innerHTML += webserver.name;
+
+  
+
 
 }
 

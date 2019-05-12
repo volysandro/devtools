@@ -1,12 +1,11 @@
 {
-  "name": "electron-quick-start",
+  "name": "devtools",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "developer framework",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
     "Electron",
     "quick",
