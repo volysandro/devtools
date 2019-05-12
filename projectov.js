@@ -2,7 +2,7 @@ const fs = require('fs');
 const homedir = require('os').homedir();
 const remote = require('electron').remote;
 const {shell} = require('electron');
-
+var Sugar = require('sugar');
 const Swal = require('sweetalert2')
 
 
@@ -134,6 +134,13 @@ projectConfig.servers.forEach(element => {
   divcard.appendChild(abutton)
   abutton.id = 'server' + element.name
 
+  removebutton = document.createElement('a')
+  removebutton.className = 'btn-floating halfway-fab waves-effect waves-light red'
+  divcard.appendChild(removebutton)
+  removebutton.id = 'remove' + element.name
+  removebutton.style.transform = 'translateX(-50px)'
+
+
   abuttonicon = document.createElement('i')
   i.className = 'material-icons'
   abutton.appendChild(abuttonicon)
@@ -147,6 +154,33 @@ projectConfig.servers.forEach(element => {
   pdescription = document.createElement('p')
   divcontent.appendChild(pdescription)
   pdescription.innerHTML = 'Port: ' + element.port
+
+
+  removebutton.addEventListener('click', e => {
+    rawConfig = fs.readFileSync(activeProject.configpath)
+    projectConfig = JSON.parse(rawConfig)
+
+    if(projectConfig.servers.length == 1){
+      projectConfig.servers.pop()
+    }else{
+
+      console.log(element.name)
+      var filtered = projectConfig.servers.filter(function(el) { return el.name == element.name; }); 
+      console.log(filtered)
+      projectConfig.servers = filtered
+      console.log(projectConfig)
+
+    }
+
+
+
+    let writeContent = JSON.stringify(projectConfig, null, 2);
+    fs.writeFileSync(activeProject.configpath, writeContent);
+
+
+    remote.getCurrentWindow().reload()
+  })
+
 
   abutton.addEventListener('click', e => {
 
@@ -192,6 +226,13 @@ projectConfig.commands.forEach(element => {
     divcard.appendChild(abutton)
     abutton.id = 'run' + element.name
 
+    removebutton = document.createElement('a')
+    removebutton.className = 'btn-floating halfway-fab waves-effect waves-light red'
+    divcard.appendChild(removebutton)
+    removebutton.id = 'remove' + element.name
+    removebutton.style.transform = 'translateX(-50px)'
+
+
     abuttonicon = document.createElement('i')
     i.className = 'material-icons'
     abutton.appendChild(abuttonicon)
@@ -205,6 +246,31 @@ projectConfig.commands.forEach(element => {
     pdescription = document.createElement('p')
     divcontent.appendChild(pdescription)
     pdescription.innerHTML = element.command
+
+    removebutton.addEventListener('click', e => {
+      rawConfig = fs.readFileSync(activeProject.configpath)
+      projectConfig = JSON.parse(rawConfig)
+
+      if(projectConfig.commands.length == 1){
+        projectConfig.commands.pop()
+      }else{
+
+        console.log(element.name)
+        var filtered = projectConfig.commands.filter(function(el) { return el.name == element.name; }); 
+        console.log(filtered)
+        projectConfig.commands = filtered
+        console.log(projectConfig)
+
+      }
+
+
+
+      let writeContent = JSON.stringify(projectConfig, null, 2);
+      fs.writeFileSync(activeProject.configpath, writeContent);
+
+
+      remote.getCurrentWindow().reload()
+    })
 
     abutton.addEventListener('click', e => {
         const invokedButton = document.getElementById('run' + element.name)
