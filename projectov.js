@@ -8,8 +8,13 @@ const Swal = require('sweetalert2')
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.fixed-action-btn');
   var instances = M.FloatingActionButton.init(elems, {
-    direction: 'left'
+    direction: 'bottom'
   });
+
+  if(sessionStorage.getItem('runRightAway')){
+    runEverything()
+    sessionStorage.removeItem('runRightAway')
+  }
 });
 
 console.log(sessionStorage.getItem('project'))
@@ -88,30 +93,14 @@ backBtn.addEventListener('click', e => {
 
 infocontainer = document.getElementById('infocontainer')
 programscontainer = document.getElementById('programscontainer')
-settingscontainer = document.getElementById('settingscontainer')
+servercontainer = document.getElementById('servercontainer')
 scriptscontainer = document.getElementById('scriptscontainer')
 
 
-divcard = document.createElement('div')
-divcard.className = 'card projecttitle hoverable'
-infocontainer.appendChild(divcard)
 
-divcontent = document.createElement('div')
-divcontent.className = 'card-content white-text'
-divcard.appendChild(divcontent)
+document.getElementById('projectTitle').innerHTML = activeProject.title
+document.getElementById('projectDescription').innerHTML = activeProject.path
 
-spantitle = document.createElement('span')
-spantitle.className = 'card-title'
-divcontent.appendChild(spantitle)
-spantitle.innerHTML = activeProject.title
-spantitle.style.color = '#6200EE'
-
-divcard.style.float = 'left'
-divcard.style.margin = '19px'
-divcard.style.width = '350px'
-
-pdescription = document.createElement('p')
-divcontent.appendChild(pdescription)
 
 
 rawConfig = fs.readFileSync(activeProject.configpath)
@@ -119,69 +108,6 @@ projectConfig = JSON.parse(rawConfig)
 
 
 
-// divProjectActionsButton = document.createElement('div')
-// divProjectActionsButton.className = 'action-btn'
-// divcard.appendChild(divProjectActionsButton)
-
-// aProjectActionsButtonMain = document.createElement('a')
-// aProjectActionsButtonMain.className = 'btn-floating btn-large red'
-// divProjectActionsButton.appendChild(aProjectActionsButtonMain)
-// iconProjectActionsButtonMain = document.createElement('i')
-// iconProjectActionsButtonMain.className = 'large material-icons'
-// iconProjectActionsButtonMain.innerHTML = 'mode_edit'
-// aProjectActionsButtonMain.appendChild(iconProjectActionsButtonMain)
-
-// ulProjectActionsButton = document.createElement('ul')
-// aProjectActionsButtonMain.appendChild(ulProjectActionsButton)
-
-// liProjectActionsButtonOne = document.createElement('li')
-// liProjectActionsButtonTwo = document.createElement('li')
-// liProjectActionsButtonThree = document.createElement('li')
-// liProjectActionsButtonFour = document.createElement('li')
-// ulProjectActionsButton.appendChild(liProjectActionsButtonOne)
-// ulProjectActionsButton.appendChild(liProjectActionsButtonTwo)
-// ulProjectActionsButton.appendChild(liProjectActionsButtonThree)
-// ulProjectActionsButton.appendChild(liProjectActionsButtonFour)
-
-// aProjectActionsButtonOne = document.createElement('a')
-// aProjectActionsButtonTwo = document.createElement('a')
-// aProjectActionsButtonThree = document.createElement('a')
-// aProjectActionsButtonFour = document.createElement('a')
-// aProjectActionsButtonOne.className = 'btn-floating red'
-// aProjectActionsButtonTwo.className = 'btn-floating yellow darken-1'
-// aProjectActionsButtonThree.className = 'btn-floating green'
-// aProjectActionsButtonFour.className = 'btn-floating blue'
-
-// liProjectActionsButtonOne.appendChild(aProjectActionsButtonOne)
-// liProjectActionsButtonTwo.appendChild(aProjectActionsButtonTwo)
-// liProjectActionsButtonThree.appendChild(aProjectActionsButtonThree)
-// liProjectActionsButtonFour.appendChild(aProjectActionsButtonFour)
-
-// iconProjectActionsButtonOne = document.createElement('i')
-// iconProjectActionsButtonTwo = document.createElement('i')
-// iconProjectActionsButtonThree = document.createElement('i')
-// iconProjectActionsButtonFour = document.createElement('i')
-// iconProjectActionsButtonOne.className = 'material-icons'
-// iconProjectActionsButtonTwo.className = 'material-icons'
-// iconProjectActionsButtonThree.className = 'material-icons'
-// iconProjectActionsButtonFour.className = 'material-icons'
-// iconProjectActionsButtonOne.innerHTML = 'insert_chart'
-// iconProjectActionsButtonTwo.innerHTML = 'format_quote'
-// iconProjectActionsButtonThree.innerHTML = 'publish'
-// iconProjectActionsButtonFour.innerHTML = 'attach_file'
-
-// aProjectActionsButtonOne.appendChild(iconProjectActionsButtonOne)
-// aProjectActionsButtonTwo.appendChild(iconProjectActionsButtonTwo)
-// aProjectActionsButtonThree.appendChild(iconProjectActionsButtonThree)
-// aProjectActionsButtonFour.appendChild(iconProjectActionsButtonFour)
-
-
-// document.addEventListener('DOMContentLoaded', function() {
-//   var elems = document.querySelectorAll('.action-btn');
-//   var instances = M.FloatingActionButton.init(elems, {
-//     direction: 'left'
-//   });
-// });
 
 
 projectConfig.tools.forEach(element => {
@@ -216,11 +142,25 @@ projectConfig.tools.forEach(element => {
   removebutton = document.createElement('a')
   removebutton.className = 'btn-floating halfway-fab waves-effect waves-light red'
   divcard.appendChild(removebutton)
-  removebutton.style.display = 'none'
   removebutton.style.position = 'absolute'
   removebutton.style.left = '-20px'
   removebutton.style.top = '-20px'
   removebutton.id = 'remove' + element.name
+  iconremovebutton = document.createElement('i')
+  iconremovebutton.className = 'material-icons'
+  iconremovebutton.innerHTML = 'delete'
+  removebutton.appendChild(iconremovebutton)
+  document.getElementById('remove' + element.name).style.opacity = '0';
+
+  divcard.addEventListener("mouseover", event => {
+    document.getElementById('remove' + element.name).style.opacity = '100';
+  });
+  
+  divcard.addEventListener("mouseout", event => {
+    document.getElementById('remove' + element.name).style.opacity = '0';
+
+  });
+
 
 
   abuttonicon = document.createElement('i')
@@ -233,20 +173,6 @@ projectConfig.tools.forEach(element => {
   divcard.style.margin = '19px'
   divcard.style.width = '40%'
 
-  divcard.addEventListener("mouseover", func, false);
-  divcard.addEventListener("mouseout", func1, false);
-  
-  function func()
-  {   
-
-     document.getElementById('remove' + element.name).setAttribute("style", "display:block;")
-  }
-  
-  function func1()
-  {  
-
-     document.getElementById('remove' + element.name).setAttribute("style", "display:none;")
-  }
 
 
 
@@ -331,6 +257,20 @@ projectConfig.commands.forEach(element => {
   removebutton.style.position = 'absolute'
   removebutton.style.left = '-20px'
   removebutton.style.top = '-20px'
+  iconremovebutton = document.createElement('i')
+  iconremovebutton.className = 'material-icons'
+  iconremovebutton.innerHTML = 'delete'
+  removebutton.appendChild(iconremovebutton)
+  document.getElementById('remove' + element.name).style.opacity = '0';
+
+  divcard.addEventListener("mouseover", event => {
+    document.getElementById('remove' + element.name).style.opacity = '100';
+  });
+  
+  divcard.addEventListener("mouseout", event => {
+    document.getElementById('remove' + element.name).style.opacity = '0';
+
+  });
 
 
   abuttonicon = document.createElement('i')
@@ -351,17 +291,56 @@ projectConfig.commands.forEach(element => {
   removebutton.addEventListener('click', e => {
     rawConfig = fs.readFileSync(activeProject.configpath)
     projectConfig = JSON.parse(rawConfig)
-
+var path = require('path')
     if(projectConfig.commands.length == 1){
       projectConfig.commands.pop()
+
+      if(process.platform == 'win32'){
+        if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))){
+          fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
+          console.log(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
+
+        }
+
+      }else{
+        if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))){
+          fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
+          console.log(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
+
+        }
+      }
+
+
+
+
     }else{
 
-      console.log(element.name)
-      var filtered = projectConfig.commands.filter(function(el) { return el.name == element.name; }); 
-      console.log(filtered)
-      projectConfig.commands = filtered
-      console.log(projectConfig)
+      if(process.platform == 'win32'){
+        console.log(element.name)
+        var filtered = projectConfig.commands.filter(function(el) { return el.name == element.name; }); 
+        console.log(filtered)
+        projectConfig.commands = filtered
+        console.log(projectConfig)
+        if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))){
+          fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
+          console.log(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
 
+        }
+
+      }else{
+        console.log(element.name)
+        var filtered = projectConfig.commands.filter(function(el) { return el.name != element.name; }); 
+        console.log(filtered)
+        projectConfig.commands = filtered
+        console.log(projectConfig)
+
+        if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))){
+          fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
+          console.log(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
+
+        }
+
+      }
     }
 
 
@@ -372,6 +351,7 @@ projectConfig.commands.forEach(element => {
 
     remote.getCurrentWindow().reload()
   })
+
 
   abutton.addEventListener('click', e => {
       const invokedButton = document.getElementById('run' + element.name)
@@ -398,7 +378,7 @@ projectConfig.servers.forEach(element => {
 
   divcard = document.createElement('div')
   divcard.className = 'card server hoverable'
-  scriptscontainer.appendChild(divcard)
+  servercontainer.appendChild(divcard)
   divcard.id = 'card_' + element.name
 
   divcontent = document.createElement('div')
@@ -428,6 +408,21 @@ projectConfig.servers.forEach(element => {
   removebutton.style.position = 'absolute'
   removebutton.style.left = '-20px'
   removebutton.style.top = '-20px'
+  iconremovebutton = document.createElement('i')
+  iconremovebutton.className = 'material-icons'
+  iconremovebutton.innerHTML = 'delete'
+  removebutton.appendChild(iconremovebutton)
+  document.getElementById('remove' + element.name).style.opacity = '0';
+
+
+  divcard.addEventListener("mouseover", event => {
+    document.getElementById('remove' + element.name).style.opacity = '100';
+  });
+  
+  divcard.addEventListener("mouseout", event => {
+    document.getElementById('remove' + element.name).style.opacity = '0';
+
+  });
 
 
   abuttonicon = document.createElement('i')
@@ -455,11 +450,21 @@ projectConfig.servers.forEach(element => {
       projectConfig.servers.pop()
     }else{
 
-      console.log(element.name)
-      var filtered = projectConfig.servers.filter(function(el) { return el.name == element.name; }); 
-      console.log(filtered)
-      projectConfig.servers = filtered
-      console.log(projectConfig)
+      if(process.platform == 'win32'){
+        console.log(element.name)
+        var filtered = projectConfig.servers.filter(function(el) { return el.name == element.name; }); 
+        console.log(filtered)
+        projectConfig.servers = filtered
+        console.log(projectConfig)
+
+      }else{
+        console.log(element.name)
+        var filtered = projectConfig.servers.filter(function(el) { return el.name != element.name; }); 
+        console.log(filtered)
+        projectConfig.servers = filtered
+        console.log(projectConfig)
+
+      }
 
     }
 
@@ -494,10 +499,13 @@ projectConfig.servers.forEach(element => {
   })
 });
 
-
+if(process.platform == 'linux'){
+  serverPortMessage = 'Enter port. (For your OS it has to be 1024 or higher)'
+}else(serverPortMessage = 'Enter desired port: ')
 
 
 btnAddServer.addEventListener('click', e => {
+  document.getElementById('onAlert').hidden = false;
   Swal.mixin({
     input: 'text',
     confirmButtonText: 'Next &rarr;',
@@ -508,7 +516,7 @@ btnAddServer.addEventListener('click', e => {
       title: 'Path to run the webserver in?',
       text: 'Default: ' + activeProject.path,
     },
-    'Enter desired port: ',
+    serverPortMessage,
     'Name the webserver',
     {
       title: 'Default file? leave empty for "index.html',
@@ -583,6 +591,7 @@ btnAddServer.addEventListener('click', e => {
 
 btnAddCommand.addEventListener('click', e => {
 
+  document.getElementById('onAlert').hidden = false;
 
     Swal.mixin({
         input: 'text',
@@ -631,13 +640,15 @@ btnAddCommand.addEventListener('click', e => {
 
                 rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + result.value[1],
                 command: result.value[1],
-                name: result.value[2]
+                name: result.value[2],
+                path: result.value[0]
 
             }
             console.log(commandToPush)
             
             projectConfig.commands.push(commandToPush)
 
+            var path = require('path');
 
 
             let writeContent = JSON.stringify(projectConfig, null, 2);
@@ -647,17 +658,31 @@ btnAddCommand.addEventListener('click', e => {
               fs.writeFileSync(activeProject.path + '.devtools_' + commandToPush.name + '.bat', commandToPush.rawCommandWithPath)
             }else{
               fs.writeFileSync(activeProject.path + '.devtools_' + commandToPush.name + '.sh', commandToPush.rawCommandWithPath)
+          
+            }
+          
+            if(process.platform == 'linux'){
+              Swal.fire({
+                title: 'Almost set! Run the following in your terminal this one time:',
+                text: 'sudo chmod +x "' + path.normalize(commandToPush.path + '.devtools_' + commandToPush.name + '.sh"'),
+                confirmButtonText: 'Lovely!'
+              }).then(function(){
+                remote.getCurrentWindow().reload()
+                
+              })
+              
+            }else{
+              Swal.fire({
+                title: 'All done!',
+                confirmButtonText: 'Lovely!'
+              }).then(function(){
+                remote.getCurrentWindow().reload()
+                
+              })
 
             }
 
 
-          Swal.fire({
-            title: 'All done!',
-            
-            confirmButtonText: 'Lovely!'
-          })
-
-          remote.getCurrentWindow().reload()
         }
       })
 
@@ -690,6 +715,7 @@ btnAddProgram.addEventListener('click', e => {
     var exePath = dialog.showOpenDialog({ properties: ['openFile']})
 
   }
+  document.getElementById('onAlert').hidden = false;
 
 
   Swal.mixin({
@@ -706,6 +732,8 @@ btnAddProgram.addEventListener('click', e => {
       'Name the program'
     ]).then((result) => {
 
+      
+
       if(!exePath && result.value[0] == ''){
         Swal.fire({
           title: 'You need to provide a program to run!',
@@ -720,7 +748,7 @@ btnAddProgram.addEventListener('click', e => {
 
       }
 
-
+      
 
       else if (result.value) {
 
@@ -782,11 +810,7 @@ projectConfig = JSON.parse(rawConfig)
 console.log(projectConfig)
 
 
-
-
-const runAll = document.getElementById('runAll')
-runAll.addEventListener('click', e => {
-
+function runEverything(){
   rawConfig = fs.readFileSync(activeProject.configpath)
   projectConfig = JSON.parse(rawConfig)
 
@@ -805,7 +829,13 @@ runAll.addEventListener('click', e => {
     runProgram(element)
 });
 
+}
 
+const runAll = document.getElementById('runAll')
+runAll.addEventListener('click', e => {
+
+
+  runEverything()
 
 
 
@@ -830,15 +860,18 @@ function runCommand(command){
 
 
     console.log('starting ' + command.name + '...')
-    console.log(activeProject.path + '.devtools_' + command.name + '.bat')
 
-    // Open a local file in the default app
 
     if(process.platform == 'win32'){
-      shell.openItem(activeProject.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
+      shell.openItem(command.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
 
     }else{
-      shell.openItem(activeProject.path + '.devtools_' + command.name + '.sh');    //createCmdWindow()
+      var exec = require('child_process').execFile;
+      exec(command.path + '.devtools_' + command.name + '.sh', function(err, data) {  
+        console.log(err)
+        console.log(data.toString());                       
+      });
+  
     }
   }
   

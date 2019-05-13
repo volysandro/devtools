@@ -14,50 +14,116 @@
     
 </head>
 <body>
-    <div class="fixed-action-btn">
-        <a class="btn-floating btn-large red">
-          <i class="large material-icons">settings</i>
-        </a>
-        <ul>
-          <li><a class="btn-floating red"><i class="material-icons">delete_forever</i></a></li>
-          <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_list_bulleted</i></a></li>
-          <li><a class="btn-floating green"><i class="material-icons">flash_on</i></a></li>
-          <li><a class="btn-floating blue"><i class="material-icons">folder_open</i></a></li>
-        </ul>
-      </div>
+
+
+    <div hidden id="onAlert"></div>
+
+        <div id="expandButtonDiv" class="fixed-action-btn button">
+                <a class="btn-floating btn-large white hoverable">
+                  <i style="color:#6200EE" class="large material-icons">settings</i>
+                </a>
+                <ul>
+                  <li><a style="background-color:#6200EE" class="btn-floating hoverable"><i class="material-icons">delete_forever</i></a></li>
+                  <li><a class="btn-floating white hoverable"><i style="color:#6200EE" class="material-icons">format_list_bulleted</i></a></li>
+                  <li><a style="background-color:#6200EE" class="btn-floating hoverable"><i class="material-icons">flash_on</i></a></li>
+                  <li><a class="btn-floating white hoverable"><i style="color:#6200EE" class="material-icons">folder_open</i></a></li>
+                </ul>
+              </div>
+
+
             
             <div class="wrapper">
-                    <div id="infocontainer" class="box a"></div>
-                    <div id="settingscontainer" class="box b">
+                    <div id="infocontainer" class="box a card white hoverable">
 
-                            <a id="addCommand" class="waves-effect waves-light btn-large">Add command-line script</a>
-                            <a id="addProgram" class="waves-effect waves-light btn-large">Add program to run</a>
-                            <a id="addServer" class="waves-effect waves-light btn-large">Add webserver</a>
-                            <a id="runAllCommands" class="waves-effect waves-light btn-large">Run all commands</a>
-                            <a id="runAll" class="waves-effect waves-light btn-large">Run everything</a>
 
-                            <a id="backBtn" class="waves-effect waves-light btn-large">Back</a>
+                            <div hidden id="titleCard" class="card projecttitle hoverable">
+                                    
+                                    <div class="card-content white-text">
+                                        <span id="projectTitle" class="card-title"></span>
+                                        <p id="projectDescription"></p>
+                                    </div>
+                                </div>
+                            
+
+                        <div hidden id="buttonsContainer">
+
+                                <a id="addCommand" class="waves-effect waves-light btn-large button">Add command-line script</a>
+                                <a id="addProgram" class="waves-effect waves-light btn-large button">Add program to run</a>
+                                <a id="addServer" class="waves-effect waves-light btn-large button">Add webserver</a>
+                                <a id="runAllCommands" class="waves-effect waves-light btn-large button">Run all commands</a>
+                                <a id="runAll" class="waves-effect waves-light btn-large button">Run everything</a>
+        
+                                <a id="backBtn" class="waves-effect waves-light btn-large button">Back</a>
+        
+                        </div>
+
+                    </div>
+                    <div id="servercontainer" class="box b card white hoverable">
+
 
 
 
                     </div>
-                    <div id="scriptscontainer" class="box c"></div>
-                    <div id="programscontainer" class="box d"></div>
+                    <div id="scriptscontainer" class="box c card white hoverable"></div>
+                    <div id="programscontainer" class="box d card white hoverable"></div>
                   </div>
                   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
     <script src="projectov.js"></script>
+            <script>
+            window.onload = function() {setTimeout(function(){
+                document.body.style.opacity="100";
+                document.getElementById('buttonsContainer').hidden = false;
+                document.getElementById('expandButtonDiv').hidden = false;
+                document.getElementById('titleCard').hidden = false;
+                document.body.style.backgroundImage='linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)'
+            },500);
+            
+            };
+           </script>
 </body>
 </html>
 
 <style>
+
+    #onAlert{
+        height: 150%;
+        width: 150%;
+        position: absolute;
+        background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+        z-index: 998;
+    }
+
+#projectDescription{
+    color: #6200EE;
+    width: 90%;
+}
+
+#titleCard{
+    margin: auto;
+    width: 400px;
+}
+
+#projectTitle{
+    color: #6200EE;
+}
+
     body, html{
         height: 100%;
         width: 100%;
         overflow: hidden;
     }
+
+body{
+        opacity:0;
+
+}
+
+.button{
+}
+
 #backBtnIcon{
     height: 90%;
     border-radius: 20px;
@@ -65,10 +131,6 @@
 }
 
 
-#backBtn:hover {
-    transform: scale(1.1, 1.1);
-    transition: All 0.1s ease-in-out;
-  }
 
 
 
@@ -87,50 +149,89 @@
         border-radius: 5px;
         padding: 20px;
         font-size: 150%;
+        margin: 5px;
 
     }
 
     .a {
-        grid-column: col1-start / col3-start;
+        grid-column: col1-start / col3-end;
         grid-row: row1-start ;
         background-color: transparent;
-        border: 1px solid black;
     }
     .b {
         grid-column: col3-start ;
-        grid-row: row1-start / row2-end;
+        grid-row: row2-start / row2-end;
         background-color: transparent;
-        border: 1px solid black;
 
     }
     .c {
         grid-column: col1-start;
         grid-row: row2-start ;
         background-color: transparent;
-        border: 1px solid black;
 
     }
     .d {
         grid-column: col2-start ;
         grid-row: row2-start ;
         background-color: transparent;
-        border: 1px solid black;
 
+    }
+
+    #buttonsContainer{
+        height: 100%;
+        width: 300px;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
     #addCommand{
         margin: 5px;
-    }
+        background-color: white;
+        color: #6200EE;
+float: left;   
+ }
 
     #addProgram{
         margin: 5px;
+        background-color: white;
+        color: #6200EE;
+        float: left;   
     }
     #addServer{
         margin: 5px;
+        background-color: white;
+        color: #6200EE;
+        float: left;   
     }
 
     #backBtn{
         margin: 5px;
+        background-color: white;
+        color: #6200EE;
+        float: left;   
+    }
+
+    #runAllCommands{
+        margin: 5px;
+        background-color: white;
+        color: #6200EE;
+        float: left;   
+    }
+
+    #runAll{
+        margin: 5px;
+        background-color: white;
+        color: #6200EE;
+        float: left;   
+
+    }
+
+    #expandButtonDiv{
+        top: 12px;
+        right: 12px;
+        margin: 0;
+        padding: 0;
     }
 
 .command{

@@ -49,7 +49,7 @@ jsonfile.projects.forEach(element => {
 
 
     divcard = document.createElement('div')
-    divcard.className = 'card blue-grey darken-1'
+    divcard.className = 'card hoverable'
     container.appendChild(divcard)
 
     divcontent = document.createElement('div')
@@ -60,6 +60,7 @@ jsonfile.projects.forEach(element => {
     spantitle.className = 'card-title'
     divcontent.appendChild(spantitle)
     spantitle.innerHTML = element.title
+    spantitle.style.color = '#6200EE'
 
     divcard.style.float = 'left'
     divcard.style.margin = '19px'
@@ -67,6 +68,7 @@ jsonfile.projects.forEach(element => {
 
     pdescription = document.createElement('p')
     divcontent.appendChild(pdescription)
+    pdescription.style.color = 'black'
 
     if(element.initialized == false){
         pdescription.innerHTML = ' Project has not been initialized yet, open overview to get started!'
@@ -75,8 +77,9 @@ jsonfile.projects.forEach(element => {
     }
 
     divbuttons = document.createElement('div')
-    divbuttons.className = 'card-action'
+    divbuttons.className = 'card-action hoverable'
     divcard.appendChild(divbuttons)
+
 
 
     //Ovewview button
@@ -88,6 +91,8 @@ jsonfile.projects.forEach(element => {
     link1 = document.createElement('a')
     link1.className = '#'
     link1.innerHTML = 'Project Overview'
+    link1.style.color = '#6200EE'
+
     btnov.id = 'overview_project'
     btnov.appendChild(link1)
 
@@ -118,6 +123,8 @@ jsonfile.projects.forEach(element => {
     btnrun.appendChild(btnlink)
     btnlink.innerHTML = 'Quick run'
     btnlink.id = 'run_project'
+    btnlink.style.color = '#6200EE'
+
 
     
     divbuttons.appendChild(btnrun)
@@ -128,6 +135,10 @@ jsonfile.projects.forEach(element => {
         chosenProject = findObjectByKey(jsonfile.projects, 'title', element.title)
 
         console.log(chosenProject)
+
+        sessionStorage.setItem('runRightAway', true)
+        sessionStorage.setItem('project', element.title)
+        remote.getCurrentWindow().loadURL('file://' + __dirname + '/projectov.html')
 
     })
     
