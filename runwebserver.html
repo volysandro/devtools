@@ -5,14 +5,31 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Webserver</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <script src='runwebserver.js'></script>
 </head>
-<body>
-    <div id="infos">
-        <h2 id="serverName">Server: </h2>
-        <h3 id="serverPort">Running on: </h3>
-        <p id="defFile">Default file redirect is set to: </p>
-    </div>
+<body class="body" style="-webkit-app-region: drag">
+
+        <div id="serverCard" class="card white servertitle hoverable">
+                <div class="card-image">
+                    
+                    <img id="logo" src="./images/onlyD.png" alt="">
+                </div>
+                
+                    <div id="serverCardContent" class="card-content white-text">
+                            <h1 id="devtoolsServer">DEVTOOLS SERVER</h1>
+                            <h2 id="serverName">Server: </h2>
+                            <h3 id="serverPort">Running on port: </h3>
+                            <p id="defFile">Default file redirect is set to: </p>
+                    
+                    </div>
+                </div>
+
+
+
+
 </body>
 </html>
 
@@ -20,12 +37,12 @@
 html, body{
     overflow: hidden;
     height: 100%;
-    
+    border-radius: 10px;
+
 }
 
 body{
-    background-image: radial-gradient( circle 283px at 1.7% 8.6%,  rgba(141,254,235,1) 0%, rgba(232,176,254,1) 90% );
-    background-repeat: no-repeat;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 #infos{
@@ -34,6 +51,54 @@ body{
 text-align: center;
 }
 
+#serverCard{
+    background-color: white;
+    height: 600px;
+    width: 400px;
+    position: absolute;
+    left: calc(50% - 200px);
+    top: calc(50% - 300px);
+    margin: 0;
+}
 
+#logo{
+        height: 200px;
+        width: 180px;
+        margin: auto;
+        margin-top: 80px;
+    }
+
+#serverName{
+    color: #6200EE;
+    font-size: 25px;
+    text-align: center;
+    margin: 5px;
+
+}
+
+#serverPort{
+    color: #6200EE;
+    font-size: 25px;
+    text-align: center;
+    margin: 5px;
+}
+
+#defFile{
+    color: #3700B3;
+    text-align: center;
+}
+
+#serverCardContent{
+    align-content: center;
+}
+
+#devtoolsServer{
+    color: #6200EE;
+    font-size: 35px;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 50px;
+    
+}
 
 </style>

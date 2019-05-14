@@ -2,10 +2,13 @@ const http = require('http')
 const remote = require('electron').remote;
 var currentWindow = remote.getCurrentWindow();
 
+
+
 var ipcRenderer = require('electron').ipcRenderer;
 ipcRenderer.on('server-data', function (event,server) {
     console.log(server);
     runServer(server)
+    remote.getCurrentWindow().setTitle('DEVTOOLS SERVER: ' + server.name)
 });
 
 function runServer(webserver){

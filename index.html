@@ -7,43 +7,34 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 </head>
 
 
 <body>
 
-  <div class="dock">
-    <img id="dockIcons" src="http://icons.iconarchive.com/icons/icons8/ios7/256/Programming-Console-icon.png" alt="">
-  </div>
-  <div class="navbar"></div>
-  <div class="mainOverview">
-    <table class="iconTable">
-      <tr>
-        <th>
-          <button id="newProjectBtn">
+    <div id="indexCard" class="card white servertitle hoverable">
+        <div class="card-image">
+            
+            <img id="logo" src="./images/onlyD.png" alt="">
+        </div>
+        
+            <div id="indexCardContent" class="card-content white-text">
+              <a id='newProjectBtn' class="waves-effect waves-light btn-large button">Add new project</a>
+            
+                      <a id="viewProjectsBtn" class="waves-effect waves-light btn-large button">
+            
+                        View projects
+                      </a>
+            
+            </div>
+        </div>
 
-            <img id="menuIcon"
-              src="./images/newproject.png" alt="">
-          </button>
-        </th>
-        <th>
-          <button id="viewProjectsBtn">
 
-            <img id="menuIcon" src="./images/projectexplorer.png" alt="">
-
-          </button>
-        </th>
-        <th>
-          <img id="menuIcon" src="./images/toolbox.png" alt="">
-        </th>
-      </tr>
-      <tr>
-        <th id="iconLabels">Add Project</th>
-        <th id="iconLabels">View Projects</th>
-        <th id="iconLabels">Toolbox</th>
-      </tr>
-    </table>
-  </div>
 
 
 
@@ -63,6 +54,41 @@
 </html>
 
 <style>
+#indexCard{
+    background-color: white;
+    height: 600px;
+    width: 400px;
+    position: absolute;
+    left: calc(50% - 200px);
+    top: calc(50% - 300px);
+    margin: 0;
+}
+
+#logo{
+        height: 200px;
+        width: 180px;
+        margin: auto;
+        margin-top: 80px;
+    }
+
+
+
+#newProjectBtn{
+        line-height: 90px;
+
+        background-color: white;
+        color: #6200EE;
+        float: left; 
+        height: 90px;
+        margin: 5px;
+        width: 300px;
+        left: calc(50% - 150px);
+        top: 100px;
+
+    }
+
+
+
   html {
     height: 100%;
     overflow: hidden;
@@ -73,8 +99,6 @@
     margin: 0;
     padding: 0;
     width: 100%;
-    background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(161, 255, 206, 1) 0%, rgba(250, 255, 209, 1) 90%);
-    background-repeat: no-repeat;
     overflow: hidden;
 
   }
@@ -141,11 +165,6 @@
     margin: 5px;
   }
 
-  #newProjectBtn {
-    color: transparent;
-    background-color: transparent;
-    border: none;
-  }
 
   #choosepath{
 
@@ -153,10 +172,15 @@
 
 
 #viewProjectsBtn{
-  color: transparent;
-    background-color: transparent;
-    border: none;
+  line-height: 90px;
 
+background-color: white;
+color: #6200EE;
+height: 90px;
+margin: 5px;
+width: 300px;
+position: absolute;
+left: calc(50% - 150px);
 }
 
 

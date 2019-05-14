@@ -20,7 +20,7 @@ console.log(jsonfile)
 
 const backBtn = document.getElementById('backBtn');
 backBtn.addEventListener('click', e => {
-
+    remote.getCurrentWindow().setSize(430,630)
     remote.getCurrentWindow().loadURL('file://' + __dirname + '/index.html')
 
 })

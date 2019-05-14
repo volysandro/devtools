@@ -5,6 +5,23 @@ const {shell} = require('electron');
 var Sugar = require('sugar');
 const Swal = require('sweetalert2')
 
+document.getElementById('btnExpandableRunAll').addEventListener('click', e => {
+  runEverything()
+})
+
+document.getElementById('btnExpandableDelete').addEventListener('click', e => {
+  deleteProject()
+})
+
+document.getElementById('btnExpandableJson').addEventListener('click', e => {
+  openConfig()
+})
+
+document.getElementById('btnExpandableFolder').addEventListener('click', e => {
+  openDirectory()
+})
+
+
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.fixed-action-btn');
   var instances = M.FloatingActionButton.init(elems, {
@@ -53,6 +70,8 @@ for (var i = 0; i < projects.length; i++) {
 if(fs.existsSync(activeProject.configpath)){
 
 }else{
+  document.getElementById('onAlert').hidden = false;
+
     Swal.fire({
         title: 'Initialize project?',
         text: "Config file not found, initialize in project directory?",
@@ -911,13 +930,15 @@ function runCommand(command){
       webPreferences: {
           nodeIntegration: true
         },
-      height: 800,
-      width: 1200
-    });
-  
+      height: 630,
+      width: 430    });
 
+    webserver.setMenuBarVisibility(false)
+    webserver.setResizable(false)
+    webserver.setTitle(server.name)
     webserver.loadURL('file://' + __dirname + '/runwebserver.html');
-
+    webserver.setAlwaysOnTop(true, 'modal-panel', 1);
+    
     webserver.webContents.on('did-finish-load', () => {
 
 
@@ -943,3 +964,93 @@ function runCommand(command){
       console.log(data.toString());                       
   });
   }
+
+  function deleteProject(){
+    const path = require('path')
+    rawConfig = fs.readFileSync(activeProject.configpath)
+    projectConfig = JSON.parse(rawConfig)
+
+    console.log(projectConfig)
+  
+    projectConfig.commands.forEach(element => {
+      
+      if(projectConfig.commands.length == 1){
+        // projectConfig.commands.pop()
+        
+        if(process.platform == 'win32'){
+          if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))){
+            fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
+            console.log(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
+            
+          }
+          
+        }else{
+          if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))){
+            fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
+            console.log(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
+            
+          }
+        }
+    }
+    
+  });
+    
+      
+      
+      
+      fs.unlinkSync(activeProject.configpath)
+
+      let rawcontent = fs.readFileSync(projectsFileDir)
+      let jsonfile = JSON.parse(rawcontent);
+      console.log(jsonfile)
+
+      if(jsonfile.projects.length == 1){
+        jsonfile.projects.pop()
+      }else{
+  
+        if(process.platform == 'win32'){
+          var filtered = jsonfile.projects.filter(function(el) { return el.title == activeProject.title; }); 
+          jsonfile.projects = filtered
+  
+        }else{
+          var filtered = jsonfile.projects.filter(function(el) { return el.title != activeProject.title; }); 
+          jsonfile.projects = filtered
+  
+        }
+  
+      }
+
+      console.log(jsonfile)
+
+      let writeContent = JSON.stringify(jsonfile, null, 2);
+      fs.writeFileSync(projectsFileDir, writeContent);
+
+      
+      remote.getCurrentWindow().loadURL('file://' + __dirname + '/allprojects.html')
+
+  
+
+    }
+
+    function openDirectory(){
+      const openExplorer = require('open-file-explorer');
+      openExplorer(activeProject.path, err => {
+          if(err) {
+              console.log(err);
+          }
+          else {
+              //Do Something
+          }
+      });
+    }
+
+    function openConfig(){
+      shell.openItem(activeProject.configpath);    //createCmdWindow()
+    }
+
+
+
+
+
+
+  

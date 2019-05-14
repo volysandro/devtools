@@ -6,6 +6,8 @@
     <title>All projects</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
+
+
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
@@ -14,11 +16,11 @@
             
 </head>
 <body>
-    <button hidden id="backBtn">
-        <img id="backBtnIcon" src="./images/backbutton.png" alt="">
-    </button>
+        <a id="backBtn" class="waves-effect waves-light btn-large button">Back</a>
+
 
     <div id="mainContainer"></div>
+
 <script src="allprojects.js"></script>
 <script>
         window.onload = function() {setTimeout(function(){
@@ -43,22 +45,17 @@ body{
     opacity: 0;
 }
 
-#backBtnIcon{
-    height: 90%;
-    border-radius: 20px;
-
-}
 
 #backBtn{
-    color: transparent;
-    background-color: transparent;
-    border: none;
-    height: 6%;
-    width: 5%;
-    margin: 10px;
-    padding: 0;
-    position: absolute;
-}
+        line-height: 90px;
+
+        background-color: white;
+        color: #6200EE;
+        float: left; 
+        width: 120px;  
+        height: 90px;
+        margin: 5px;
+    }
 
 #backBtn:hover {
     transform: scale(1.1, 1.1);

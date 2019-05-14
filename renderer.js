@@ -13,8 +13,8 @@ if (viewProjectsBtn){
 var mainWindow = remote.getCurrentWindow();
 
 function openProjectsPage(){
+    mainWindow.maximize()
     mainWindow.loadURL('file://' + __dirname + '/allprojects.html')
-
 }
 
 
@@ -63,8 +63,8 @@ function createBrowserWindow() {
     webPreferences: {
         nodeIntegration: true
       },
-    height: 800,
-    width: 1200
+    height: 600,
+    width: 600
   });
 
   win.loadURL('file://' + __dirname + '/newproject.html');
@@ -198,18 +198,17 @@ else{
         let writeContent = JSON.stringify(content, null, 2);
         fs.writeFileSync(projectsFileDir, writeContent);
 
-        var window = remote.getCurrentWindow();
-        window.close();
-        openProjectsPage();
-
+        
       }); 
-
+      
+      mainWindow.maximize()
+      mainWindow.loadURL('file://' + __dirname + '/allprojects.html')
 
 
     }
 
 
-    
+
 
     
 }
