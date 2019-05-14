@@ -336,7 +336,7 @@ var path = require('path')
 
       if(process.platform == 'win32'){
         console.log(element.name)
-        var filtered = projectConfig.commands.filter(function(el) { return el.name == element.name; }); 
+        var filtered = projectConfig.commands.filter(function(el) { return el.name != element.name; }); 
         console.log(filtered)
         projectConfig.commands = filtered
         console.log(projectConfig)
@@ -683,7 +683,7 @@ btnAddCommand.addEventListener('click', e => {
             if(process.platform == 'linux'){
               Swal.fire({
                 title: 'Almost set! Run the following in your terminal this one time:',
-                text: 'sudo chmod +x "' + path.normalize(commandToPush.path + '.devtools_' + commandToPush.name + '.sh"'),
+                text: 'sudo chmod +x "' + path.normalize(activeProject.path + '.devtools_' + commandToPush.name + '.sh"'),
                 confirmButtonText: 'Lovely!'
               }).then(function(){
                 remote.getCurrentWindow().reload()
@@ -882,7 +882,7 @@ function runCommand(command){
 
 
     if(process.platform == 'win32'){
-      shell.openItem(command.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
+      shell.openItem(activeProject.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
 
     }else{
       var exec = require('child_process').execFile;
@@ -1009,7 +1009,7 @@ function runCommand(command){
       }else{
   
         if(process.platform == 'win32'){
-          var filtered = jsonfile.projects.filter(function(el) { return el.title == activeProject.title; }); 
+          var filtered = jsonfile.projects.filter(function(el) { return el.title != activeProject.title; }); 
           jsonfile.projects = filtered
   
         }else{

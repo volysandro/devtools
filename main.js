@@ -27,9 +27,7 @@ function createWindow() {
       nodeIntegration: true
     },
     height: 630,
-    width: 430,
-    skipTaskbar: true,
-    toolbar: false
+    width: 430
     })
 
 mainWindow.setMenuBarVisibility(false)
