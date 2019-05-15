@@ -184,7 +184,13 @@ else{
       let newFileData = {
         "projects": [
           
+        ],
+        "variables": [
+          {
+          terminalEmulator: 'x-terminal-emulator -e '
+          }
         ]
+        
       }
 
       fs.writeFile(projectsFileDir, JSON.stringify(newFileData), function (err) {

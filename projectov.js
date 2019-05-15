@@ -60,6 +60,8 @@ let newConfig = JSON.stringify(
         servers: []
     }
 )
+let terminal = jsonfile.variables[0].terminalEmulator
+
 
 for (var i = 0; i < projects.length; i++) {
     if (projects[i]['title'] === loadTitle) {
@@ -315,16 +317,16 @@ var path = require('path')
       projectConfig.commands.pop()
 
       if(process.platform == 'win32'){
-        if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))){
-          fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
-          console.log(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
+        if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))){
+          fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
+          console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
 
         }
 
       }else{
-        if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))){
-          fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
-          console.log(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
+        if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))){
+          fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
+          console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
 
         }
       }
@@ -340,9 +342,9 @@ var path = require('path')
         console.log(filtered)
         projectConfig.commands = filtered
         console.log(projectConfig)
-        if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))){
-          fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
-          console.log(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
+        if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))){
+          fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
+          console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
 
         }
 
@@ -353,9 +355,9 @@ var path = require('path')
         projectConfig.commands = filtered
         console.log(projectConfig)
 
-        if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))){
-          fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
-          console.log(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
+        if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))){
+          fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
+          console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
 
         }
 
@@ -654,15 +656,28 @@ btnAddCommand.addEventListener('click', e => {
             projectConfig = JSON.parse(rawConfig)
             console.log(projectConfig)
 
+            if(process.platform == 'linux'){
+              var commandToPush = {
 
-            var commandToPush = {
-
-                rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + result.value[1],
+                rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + terminal + '"' + result.value[1] + '"',
                 command: result.value[1],
                 name: result.value[2],
                 path: result.value[0]
 
             }
+
+            }else{
+
+              var commandToPush = {
+  
+                  rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + result.value[1],
+                  command: result.value[1],
+                  name: result.value[2],
+                  path: result.value[0]
+  
+              }
+            }
+
             console.log(commandToPush)
             
             projectConfig.commands.push(commandToPush)
@@ -885,8 +900,12 @@ function runCommand(command){
       shell.openItem(activeProject.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
 
     }else{
+      
+
+
       var exec = require('child_process').execFile;
-      exec(command.path + '.devtools_' + command.name + '.sh', function(err, data) {  
+      console.log(activeProject.path + '.devtools_' + command.name + '.sh')
+      exec(activeProject.path + '.devtools_' + command.name + '.sh', function(err, data) {  
         console.log(err)
         console.log(data.toString());                       
       });
