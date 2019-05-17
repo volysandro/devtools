@@ -23,6 +23,10 @@ document.getElementById('btnExpandableFolder').addEventListener('click', e => {
   openDirectory()
 })
 
+document.getElementById('btnExpandableColor').addEventListener('click', e => {
+  changeColor()
+})
+
 
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.fixed-action-btn');
@@ -48,6 +52,7 @@ if (process.platform !== 'win32'){
   console.log(projectsFileDir)
 }
 
+
 const btnAddCommand = document.getElementById('addCommand')
 const btnAddServer = document.getElementById('addServer')
 const btnAddProgram = document.getElementById('addProgram')
@@ -56,18 +61,21 @@ let rawcontent = fs.readFileSync(projectsFileDir)
 let jsonfile = JSON.parse(rawcontent);
 let projects = jsonfile.projects;
 let newConfig = JSON.stringify(
-    {
-        tools: [],
-        commands:[],
-        servers: []
-    }
-)
-
-
-
-for (var i = 0; i < projects.length; i++) {
+  {
+    tools: [],
+    commands:[],
+    servers: []
+  }
+  )
+  
+  
+  let activeColor = jsonfile.colorsets[jsonfile.activeColor];
+  console.log(activeColor);
+  
+  
+  for (var i = 0; i < projects.length; i++) {
     if (projects[i]['title'] === loadTitle) {
-        activeProject = projects[i]
+      activeProject = projects[i]
     }
 }
 
@@ -139,6 +147,8 @@ projectConfig.tools.forEach(element => {
   divcard.className = 'card program hoverable'
   programscontainer.appendChild(divcard)
   divcard.id = 'card_' + element.name
+  divcard.style.backgroundColor=activeColor.cardscolor;
+  
 
   divcontent = document.createElement('div')
   divcontent.className = 'card-content white-text'
@@ -148,7 +158,7 @@ projectConfig.tools.forEach(element => {
   spantitle.className = 'card-title'
   divcontent.appendChild(spantitle)
   spantitle.innerHTML = element.name
-  spantitle.style.color = '#3700B3'
+  spantitle.style.color = activeColor.mainfont
 
 
   abutton = document.createElement('a')
@@ -251,6 +261,8 @@ projectConfig.commands.forEach(element => {
   divcard.className = 'card  hoverable'
   scriptscontainer.appendChild(divcard)
   divcard.id = 'card_' + element.name
+  divcard.style.backgroundColor=activeColor.cardscolor;
+
 
   divcontent = document.createElement('div')
   divcontent.className = 'card-content white-text'
@@ -260,7 +272,7 @@ projectConfig.commands.forEach(element => {
   spantitle.className = 'card-title'
   divcontent.appendChild(spantitle)
   spantitle.innerHTML = element.name
-  spantitle.style.color = '#3700B3'
+  spantitle.style.color = activeColor.mainfont
 
   abutton = document.createElement('a')
   abutton.className = 'btn-floating halfway-fab waves-effect waves-light buttonweirdblue'
@@ -309,7 +321,7 @@ projectConfig.commands.forEach(element => {
   pdescription = document.createElement('p')
   divcontent.appendChild(pdescription)
   pdescription.innerHTML = element.command
-  pdescription.style.color = '#6200EE'
+  pdescription.style.color = activeColor.mainfont
 
   removebutton.addEventListener('click', e => {
     rawConfig = fs.readFileSync(activeProject.configpath)
@@ -403,6 +415,8 @@ projectConfig.servers.forEach(element => {
   divcard.className = 'card server hoverable'
   servercontainer.appendChild(divcard)
   divcard.id = 'card_' + element.name
+  divcard.style.backgroundColor=activeColor.cardscolor;
+
 
   divcontent = document.createElement('div')
   divcontent.className = 'card-content white-text'
@@ -412,7 +426,7 @@ projectConfig.servers.forEach(element => {
   spantitle.className = 'card-title'
   divcontent.appendChild(spantitle)
   spantitle.innerHTML = element.name
-  spantitle.style.color = '#3700B3'
+  spantitle.style.color = activeColor.mainfont
 
   abutton = document.createElement('a')
   abutton.className = 'btn-floating halfway-fab waves-effect waves-light buttonweirdblue'
@@ -461,7 +475,7 @@ projectConfig.servers.forEach(element => {
   pdescription = document.createElement('p')
   divcontent.appendChild(pdescription)
   pdescription.innerHTML = 'Port: ' + element.port
-  pdescription.style.color = '#6200EE'
+  pdescription.style.color = activeColor.mainfont
 
 
 
@@ -1145,7 +1159,19 @@ function runCommand(command){
     }
 
 
+function changeColor(){
+    var currentlyActive = jsonfile.activeColor
 
+    currentlyActive = currentlyActive + 1;
+    if((currentlyActive + 1) > jsonfile.colorsets.length){
+      currentlyActive = 0
+    }
+
+      jsonfile.activeColor = currentlyActive;
+      writejson = JSON.stringify(jsonfile, null, 2)
+      fs.writeFileSync(projectsFileDir, writejson)
+      remote.getCurrentWindow().reload();
+  }
 
 
 

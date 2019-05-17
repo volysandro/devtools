@@ -190,7 +190,33 @@ else{
           terminalEmulator: 'x-terminal-emulator -e ',
           quotes: true
           }
-        ]
+        ],
+
+        "colorsets": [
+          {
+            background: "linear-gradient(to bottom, #C39BE8, #FFFFFF)",
+            basecolor: "#FFFFFF",
+            cardscolor: "#FFFFFF",
+            mainfont: "#6200FF",
+            secondaryfont: "#3700B3",
+            iconsmain: "#FFFFFF",
+            iconssecondary: "#6200FF",
+            iconsbgmain: "#FFFFFF",
+            iconsbgsecondary: "#6200FF"
+          },
+          {
+            background: "linear-gradient(315deg, #000000 0%, #414141 74%)",
+            basecolor: "#212121",
+            cardscolor: "#424242",
+            mainfont: "#FFFFFF",
+            secondaryfont: "#3700B3",
+            iconsmain: "#FFFFFF",
+            iconssecondary: "#FFFFFF",
+            iconsbgmain: "#424242",
+            iconsbgsecondary: "#6200FF"
+          }
+        ],
+        activeColor: 0
         
       }
 

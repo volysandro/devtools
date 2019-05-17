@@ -20,14 +20,16 @@
 
     <div hidden id="hideExpandableButton">
         <div id="expandButtonDiv" class="fixed-action-btn button">
-                <a class="btn-floating btn-large white hoverable">
-                  <i style="color:#6200EE" class="large material-icons">settings</i>
+                <a id="btnSettingsA" class="btn-floating btn-large hoverable">
+                  <i id="settingsIcon" class="large material-icons">settings</i>
                 </a>
                 <ul>
-                  <li><a style="background-color:#6200EE" class="btn-floating hoverable"><i id="btnExpandableDelete" class="material-icons">delete_forever</i></a></li>
-                  <li><a class="btn-floating white hoverable"><i id="btnExpandableJson" style="color:#6200EE" class="material-icons">format_list_bulleted</i></a></li>
-                  <li><a style="background-color:#6200EE" class="btn-floating hoverable"><i id="btnExpandableRunAll" class="material-icons">flash_on</i></a></li>
-                  <li><a class="btn-floating white hoverable"><i id="btnExpandableFolder" style="color:#6200EE" class="material-icons">folder_open</i></a></li>
+                  <li><a id="btnDeleteA" class="btn-floating hoverable"><i id="btnExpandableDelete" class="material-icons">delete_forever</i></a></li>
+                  <li><a id="btnJsonA" class="btn-floating hoverable"><i id="btnExpandableJson" class="material-icons">format_list_bulleted</i></a></li>
+                  <li><a id="btnRunAllA" class="btn-floating hoverable"><i id="btnExpandableRunAll" class="material-icons">flash_on</i></a></li>
+                  <li><a id="btnFolderA" class="btn-floating hoverable"><i id="btnExpandableFolder" class="material-icons">folder_open</i></a></li>
+                  <li><a id="btnColorA" class="btn-floating hoverable"><i id="btnExpandableColor" class="material-icons">bubble_chart</i></a></li>
+
                 </ul>
               </div>
 
@@ -36,7 +38,7 @@
 
             
             <div class="wrapper">
-                    <div id="infocontainer" class="box a card white hoverable">
+                    <div id="infocontainer" class="box a card hoverable">
 
                             
                             <div hidden id="titleCard" class="card projecttitle hoverable">
@@ -68,14 +70,14 @@
         
 
                     </div>
-                    <div id="servercontainer" class="box b card white hoverable">
+                    <div id="servercontainer" class="box b card hoverable">
 
 
 
 
                     </div>
-                    <div id="scriptscontainer" class="box c card white hoverable"></div>
-                    <div id="programscontainer" class="box d card white hoverable"></div>
+                    <div id="scriptscontainer" class="box c card hoverable"></div>
+                    <div id="programscontainer" class="box d card hoverable"></div>
                   </div>
                   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
@@ -91,7 +93,44 @@
                 document.getElementById('hideAllButtons').hidden = false;
                 document.getElementById('hideExpandableButton').hidden = false;
                 
-                document.body.style.backgroundImage='linear-gradient(to bottom, #C39BE8, #FFFFFF'
+                document.body.style.backgroundImage=activeColor.background
+
+                document.getElementById('projectDescription').style.color=activeColor.mainfont;
+                document.getElementById('projectTitle').style.color=activeColor.mainfont;
+
+                document.getElementById('addCommand').style.color=activeColor.mainfont;
+                document.getElementById('addCommand').style.backgroundColor=activeColor.cardscolor;
+                document.getElementById('addProgram').style.color=activeColor.mainfont;
+                document.getElementById('addProgram').style.backgroundColor=activeColor.cardscolor;
+                document.getElementById('addServer').style.color=activeColor.mainfont;
+                document.getElementById('addServer').style.backgroundColor=activeColor.cardscolor;
+                document.getElementById('backBtn').style.color=activeColor.mainfont;
+                document.getElementById('backBtn').style.backgroundColor=activeColor.cardscolor;
+                document.getElementById('runAllCommands').style.color=activeColor.mainfont;
+                document.getElementById('runAllCommands').style.backgroundColor=activeColor.cardscolor;
+                document.getElementById('runAll').style.color=activeColor.mainfont;
+                document.getElementById('runAll').style.backgroundColor=activeColor.cardscolor;
+                document.getElementById('titleCard').style.backgroundColor=activeColor.cardscolor;
+                document.getElementById('infocontainer').style.backgroundColor=activeColor.basecolor;
+                document.getElementById('servercontainer').style.backgroundColor=activeColor.basecolor;
+                document.getElementById('programscontainer').style.backgroundColor=activeColor.basecolor;
+                document.getElementById('scriptscontainer').style.backgroundColor=activeColor.basecolor;
+                
+                document.getElementById('btnSettingsA').style.backgroundColor=activeColor.iconsbgmain;
+                document.getElementById('btnDeleteA').style.backgroundColor=activeColor.iconsbgsecondary;
+                document.getElementById('btnRunAllA').style.backgroundColor=activeColor.iconsbgsecondary;
+                document.getElementById('btnJsonA').style.backgroundColor=activeColor.iconsbgmain;
+                document.getElementById('btnFolderA').style.backgroundColor=activeColor.iconsbgmain;
+                document.getElementById('btnColorA').style.backgroundColor=activeColor.iconsbgsecondary;
+
+                document.getElementById('settingsIcon').style.color=activeColor.iconssecondary;
+                document.getElementById('btnExpandableRunAll').style.color=activeColor.iconsmain;
+                document.getElementById('btnExpandableDelete').style.color=activeColor.iconsmain;
+                document.getElementById('btnExpandableJson').style.color=activeColor.iconssecondary;
+                document.getElementById('btnExpandableFolder').style.color=activeColor.iconssecondary;
+                document.getElementById('btnExpandableColor').style.color=activeColor.iconsmain;
+
+
             },500);
             
             };
@@ -117,7 +156,6 @@
     }
 
 #projectDescription{
-    color: #6200EE;
     width: 90%;
     font-size: 15px;
 }
@@ -132,7 +170,6 @@
 } 
 
 #projectTitle{
-    color: #6200EE;
 }
 
     body, html{
@@ -219,8 +256,6 @@ body{
         left: calc(50% - 200px - 5px - 280px);
 
         bottom: calc(50% + 145px - 90px);
-        background-color: white;
-        color: #6200EE;
         float: left;  
         height: 90px; 
  }
@@ -230,8 +265,6 @@ body{
 
         position: absolute;
         margin: 0;
-        background-color: white;
-        color: #6200EE;
         float: left; 
         width: 280px;  
         left: calc(50% - 200px - 5px - 280px);
@@ -244,8 +277,6 @@ body{
 
         position: absolute;
         margin: 0;
-        background-color: white;
-        color: #6200EE;
         float: left; 
         width: 280px;  
         left: calc(50% - 200px - 5px - 280px);
@@ -257,8 +288,6 @@ body{
     #backBtn{
         line-height: 90px;
 
-        background-color: white;
-        color: #6200EE;
         float: left; 
         width: 280px;  
         height: 90px;
@@ -270,8 +299,6 @@ body{
 
     #runAllCommands{
         margin: 0;
-        background-color: white;
-        color: #6200EE;
         float: left;   
         width: 280px;  
         height: 90px; 
@@ -285,8 +312,6 @@ body{
     #runAll{
         line-height: 90px;
         margin: 0;
-        background-color: white;
-        color: #6200EE;
         float: left;   
         width: 280px;  
         height: 90px; 
