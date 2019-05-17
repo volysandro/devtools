@@ -546,6 +546,16 @@ btnAddServer.addEventListener('click', e => {
     
   ]).then((result) => {
 
+    var doesItExist = false;
+
+    projectConfig.servers.forEach(element => {
+      if (element.name == result.value[2]){
+        doesItExist = true;
+      }
+      
+    });
+
+
     if(result.value[1] == ''){
         Swal.fire({
             title: 'You need to provide a port!',
@@ -559,6 +569,14 @@ btnAddServer.addEventListener('click', e => {
         })
 
     }
+
+    else if (doesItExist == true){
+      Swal.fire({
+        title: 'A tool with this name already exists!',
+    })
+
+    }
+
 
 
     else if (result.value) {
@@ -627,7 +645,15 @@ btnAddCommand.addEventListener('click', e => {
         'Enter your command WITH parameters: ',
         'Name the command'
       ]).then((result) => {
+        var doesItExist = false;
 
+        projectConfig.commands.forEach(element => {
+          if (element.name == result.value[2]){
+            doesItExist = true;
+          }
+          
+        });
+        
         if(result.value[1] == ''){
             Swal.fire({
                 title: 'You need to provide a command!',
@@ -641,6 +667,14 @@ btnAddCommand.addEventListener('click', e => {
             })
  
         }
+
+        else if (doesItExist == true){
+          Swal.fire({
+            title: 'A command with this name already exists!',
+        })
+
+        }
+
 
 
         else if (result.value) {
@@ -766,6 +800,16 @@ btnAddProgram.addEventListener('click', e => {
       'Name the program'
     ]).then((result) => {
 
+      var doesItExist = false;
+
+      projectConfig.tools.forEach(element => {
+        if (element.name == result.value[2]){
+          doesItExist = true;
+        }
+        
+      });
+
+
       
 
       if(!exePath && result.value[0] == ''){
@@ -781,6 +825,16 @@ btnAddProgram.addEventListener('click', e => {
           })
 
       }
+
+      else if (doesItExist == true){
+        Swal.fire({
+          title: 'A tool with this name already exists!',
+      })
+
+      }
+
+
+      
 
       
 
@@ -899,7 +953,13 @@ function runCommand(command){
     if(process.platform == 'win32'){
       shell.openItem(activeProject.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
 
-    }else{
+    }
+    else if(process.platform == 'darwin'){
+      shell.openItem(activeProject.path + '.devtools_' + command.name + '.sh');    //createCmdWindow()
+
+    }
+    
+    else{
       
 
 
