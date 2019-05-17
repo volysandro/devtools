@@ -187,7 +187,8 @@ else{
         ],
         "variables": [
           {
-          terminalEmulator: 'x-terminal-emulator -e '
+          terminalEmulator: 'x-terminal-emulator -e ',
+          quotes: true
           }
         ]
         

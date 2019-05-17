@@ -62,7 +62,10 @@ let newConfig = JSON.stringify(
         servers: []
     }
 )
-let terminal = jsonfile.variables[0].terminalEmulator
+if(process.platform == 'linux'){
+
+  let terminal = jsonfile.variables[0].terminalEmulator
+}
 
 
 for (var i = 0; i < projects.length; i++) {
@@ -693,14 +696,29 @@ btnAddCommand.addEventListener('click', e => {
             console.log(projectConfig)
 
             if(process.platform == 'linux'){
-              var commandToPush = {
 
-                rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + terminal + '"' + result.value[1] + '"',
-                command: result.value[1],
-                name: result.value[2],
-                path: result.value[0]
+              if(jsonfile.variables.quotes == true){
+                var commandToPush = {
+  
+                  rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + terminal + '"' + result.value[1] + '"',
+                  command: result.value[1],
+                  name: result.value[2],
+                  path: result.value[0]
+  
+              }
 
-            }
+              }else{
+                var commandToPush = {
+  
+                  rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + terminal + result.value[1],
+                  command: result.value[1],
+                  name: result.value[2],
+                  path: result.value[0]
+  
+              }
+
+              }
+
 
             }else{
 
