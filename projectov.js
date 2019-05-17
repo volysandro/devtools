@@ -130,7 +130,14 @@ scriptscontainer = document.getElementById('scriptscontainer')
 
 
 document.getElementById('projectTitle').innerHTML = activeProject.title
-document.getElementById('projectDescription').innerHTML = activeProject.path
+if(activeProject.path.length > 43){
+  document.getElementById('projectDescription').innerHTML = activeProject.path.substring(0, 43) + '...'
+
+}
+else{
+  document.getElementById('projectDescription').innerHTML = activeProject.path
+
+}
 
 
 
