@@ -3,7 +3,9 @@ const homedir = require('os').homedir();
 const remote = require('electron').remote;
 const {shell} = require('electron');
 var Sugar = require('sugar');
-const Swal = require('sweetalert2')
+const Swal = require('sweetalert2');
+
+
 
 document.getElementById('btnExpandableRunAll').addEventListener('click', e => {
   runEverything()
