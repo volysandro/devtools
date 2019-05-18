@@ -225,7 +225,7 @@ projectConfig.tools.forEach(element => {
     }else{
 
       console.log(element.name)
-      var filtered = projectConfig.tools.filter(function(el) { return el.name == element.name; }); 
+      var filtered = projectConfig.tools.filter(function(el) { return el.name != element.name; }); 
       console.log(filtered)
       projectConfig.tools = filtered
       console.log(projectConfig)
@@ -1073,13 +1073,28 @@ function runCommand(command){
 
   function runProgram(program){
 
-    console.log(program.executable)
+    if(process.platform == 'win32'){
+      console.log(program.executable)
   
-    var exec = require('child_process').execFile;
-    exec(program.executable, function(err, data) {  
-      console.log(err)
-      console.log(data.toString());                       
-  });
+      var exec = require('child_process').exec;
+      exec('"' + program.executable + '"', function (err, stdout, stderr) {
+          if (err) {
+              throw err;
+          }
+      })      
+
+
+    }else{
+
+      console.log(program.executable)
+    
+      var exec = require('child_process').execFile;
+      exec(program.executable, function(err, data) {  
+        console.log(err)
+        console.log(data.toString());                       
+    });
+    }
+
   }
 
   function deleteProject(){
