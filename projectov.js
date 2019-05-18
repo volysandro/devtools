@@ -767,7 +767,7 @@ btnAddCommand.addEventListener('click', e => {
           
             }
           
-            if(process.platform == 'linux'){
+            if(process.platform == 'linux' || process.platform == 'darwin'){
               Swal.fire({
                 title: 'Almost set! Run the following in your terminal this one time:',
                 text: 'sudo chmod +x "' + path.normalize(activeProject.path + '.devtools_' + commandToPush.name + '.sh"'),
@@ -993,7 +993,13 @@ function runCommand(command){
 
     }
     else if(process.platform == 'darwin'){
-      shell.openItem(activeProject.path + '.devtools_' + command.name + '.sh');    //createCmdWindow()
+      var exec = require('child_process').exec;
+      exec('open -a Terminal "' + activeProject.path + '.devtools_' + command.name + '.sh' + '"', function (err, stdout, stderr) {
+          if (err) {
+              throw err;
+          }
+      })      
+
 
     }
     
@@ -1084,7 +1090,18 @@ function runCommand(command){
       })      
 
 
-    }else{
+    }
+    else if(process.platform == 'darwin'){
+      var exec = require('child_process').exec;
+      exec('open -a "' + program.executable + '"', function (err, stdout, stderr) {
+          if (err) {
+              throw err;
+          }
+      })      
+
+    }
+    
+    else{
 
       console.log(program.executable)
     
@@ -1110,16 +1127,16 @@ function runCommand(command){
         // projectConfig.commands.pop()
         
         if(process.platform == 'win32'){
-          if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))){
-            fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
-            console.log(path.normalize(element.path + '.devtools_' + element.name + '.bat'))
+          if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))){
+            fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
+            console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
             
           }
           
         }else{
-          if(fs.existsSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))){
-            fs.unlinkSync(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
-            console.log(path.normalize(element.path + '.devtools_' + element.name + '.sh'))
+          if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))){
+            fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
+            console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
             
           }
         }
