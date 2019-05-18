@@ -1,5 +1,44 @@
 var StaticServer = require('static-server');
 
+let newFileData = {
+  "projects": [
+    
+  ],
+  "variables": [
+    {
+    terminalEmulator: 'x-terminal-emulator -e ',
+    quotes: true
+    }
+  ],
+
+  "colorsets": [
+    {
+      background: "linear-gradient(to bottom, #C39BE8, #FFFFFF)",
+      basecolor: "#FFFFFF",
+      cardscolor: "#FFFFFF",
+      mainfont: "#6200FF",
+      secondaryfont: "#3700B3",
+      iconsmain: "#FFFFFF",
+      iconssecondary: "#6200FF",
+      iconsbgmain: "#FFFFFF",
+      iconsbgsecondary: "#6200FF"
+    },
+    {
+      background: "linear-gradient(315deg, #000000 0%, #414141 74%)",
+      basecolor: "#212121",
+      cardscolor: "#424242",
+      mainfont: "#FFFFFF",
+      secondaryfont: "#3700B3",
+      iconsmain: "#FFFFFF",
+      iconssecondary: "#FFFFFF",
+      iconsbgmain: "#424242",
+      iconsbgsecondary: "#6200FF"
+    }
+  ],
+  activeColor: 0
+  
+}
+
 
 const fs = require('fs');
 const homedir = require('os').homedir();
@@ -13,6 +52,7 @@ if (viewProjectsBtn){
 var mainWindow = remote.getCurrentWindow();
 
 function openProjectsPage(){
+    updateConfig();
     mainWindow.maximize()
     mainWindow.loadURL('file://' + __dirname + '/allprojects.html')
 }
@@ -175,52 +215,14 @@ if (pathValue != 0){
         //...
         let writeContent = JSON.stringify(content, null, 2);
         fs.writeFileSync(projectsFileDir, writeContent);
-
+        updateConfig()
         var window = remote.getCurrentWindow();
         window.close();
         openProjectsPage();
       }
 else{
-      let newFileData = {
-        "projects": [
-          
-        ],
-        "variables": [
-          {
-          terminalEmulator: 'x-terminal-emulator -e ',
-          quotes: true
-          }
-        ],
 
-        "colorsets": [
-          {
-            background: "linear-gradient(to bottom, #C39BE8, #FFFFFF)",
-            basecolor: "#FFFFFF",
-            cardscolor: "#FFFFFF",
-            mainfont: "#6200FF",
-            secondaryfont: "#3700B3",
-            iconsmain: "#FFFFFF",
-            iconssecondary: "#6200FF",
-            iconsbgmain: "#FFFFFF",
-            iconsbgsecondary: "#6200FF"
-          },
-          {
-            background: "linear-gradient(315deg, #000000 0%, #414141 74%)",
-            basecolor: "#212121",
-            cardscolor: "#424242",
-            mainfont: "#FFFFFF",
-            secondaryfont: "#3700B3",
-            iconsmain: "#FFFFFF",
-            iconssecondary: "#FFFFFF",
-            iconsbgmain: "#424242",
-            iconsbgsecondary: "#6200FF"
-          }
-        ],
-        activeColor: 0
-        
-      }
-
-      fs.writeFile(projectsFileDir, JSON.stringify(newFileData), function (err) {
+        fs.writeFile(projectsFileDir, JSON.stringify(newFileData), function (err) {
         if (err) throw err;
         console.log('File is created successfully.');
         let rawcontent = fs.readFileSync(projectsFileDir)
@@ -250,7 +252,38 @@ else{
 
 
 
+function updateConfig(){
 
+
+  var projectsFileDir
+  if (process.platform !== 'win32'){
+    projectsFileDir = homedir + '/.devtools.json'
+    console.log(projectsFileDir)
+  }else{
+    projectsFileDir = homedir + '\\.devtools.json'
+    console.log(projectsFileDir)
+  }
+
+
+
+    newColors = newFileData.colorsets;
+
+    let rawcontent = fs.readFileSync(projectsFileDir)
+    let content = JSON.parse(rawcontent);
+
+    if (content.colorsets != newColors){
+      content.colorsets = newColors;
+    }
+
+    if (!content.activeColor){
+      content.activeColor = newFileData.activeColor;
+    }
+
+    let updateContent = JSON.stringify(content, null, 2);
+    fs.writeFileSync(projectsFileDir, updateContent);
+
+
+}
 
 
 
