@@ -569,6 +569,11 @@ btnAddServer.addEventListener('click', e => {
     
   ]).then((result) => {
 
+    if(!result.value){
+      remote.getCurrentWindow().reload()
+
+    }
+
     var doesItExist = false;
 
     projectConfig.servers.forEach(element => {
@@ -648,6 +653,7 @@ btnAddServer.addEventListener('click', e => {
       remote.getCurrentWindow().reload()
     }
   })
+ 
 
 })
 
@@ -669,6 +675,12 @@ btnAddCommand.addEventListener('click', e => {
         'Name the command'
       ]).then((result) => {
         var doesItExist = false;
+
+        if(!result.value){
+          remote.getCurrentWindow().reload()
+    
+        }
+    
 
         projectConfig.commands.forEach(element => {
           if (element.name == result.value[2]){
@@ -839,6 +851,12 @@ btnAddProgram.addEventListener('click', e => {
     ]).then((result) => {
 
       var doesItExist = false;
+
+      if(!result.value){
+        remote.getCurrentWindow().reload()
+  
+      }
+  
 
       projectConfig.tools.forEach(element => {
         if (element.name == result.value[2]){
