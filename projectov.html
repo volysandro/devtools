@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -7,12 +8,13 @@
     <link rel="stylesheet" href="node_modules/xterm/dist/xterm.css" />
     <script src="node_modules/xterm/dist/xterm.js"></script>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!-- Compiled and minified JavaScript -->
-    
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified JavaScript -->
+
 </head>
+
 <body>
 
 
@@ -20,134 +22,140 @@
 
     <div hidden id="hideExpandableButton">
         <div id="expandButtonDiv" class="fixed-action-btn button">
-                <a id="btnSettingsA" class="btn-floating btn-large hoverable">
-                  <i id="settingsIcon" class="large material-icons">settings</i>
-                </a>
-                <ul>
-                  <li><a id="btnDeleteA" class="btn-floating hoverable"><i id="btnExpandableDelete" class="material-icons">delete_forever</i></a></li>
-                  <li><a id="btnJsonA" class="btn-floating hoverable"><i id="btnExpandableJson" class="material-icons">format_list_bulleted</i></a></li>
-                  <li><a id="btnRunAllA" class="btn-floating hoverable"><i id="btnExpandableRunAll" class="material-icons">flash_on</i></a></li>
-                  <li><a id="btnFolderA" class="btn-floating hoverable"><i id="btnExpandableFolder" class="material-icons">folder_open</i></a></li>
-                  <li><a id="btnColorA" class="btn-floating hoverable"><i id="btnExpandableColor" class="material-icons">bubble_chart</i></a></li>
+            <a id="btnSettingsA" class="btn-floating btn-large hoverable">
+                <i id="settingsIcon" class="large material-icons">settings</i>
+            </a>
+            <ul>
+                <li><a id="btnDeleteA" class="btn-floating hoverable"><i id="btnExpandableDelete"
+                            class="material-icons">delete_forever</i></a></li>
+                <li><a id="btnJsonA" class="btn-floating hoverable"><i id="btnExpandableJson"
+                            class="material-icons">format_list_bulleted</i></a></li>
+                <li><a id="btnRunAllA" class="btn-floating hoverable"><i id="btnExpandableRunAll"
+                            class="material-icons">flash_on</i></a></li>
+                <li><a id="btnFolderA" class="btn-floating hoverable"><i id="btnExpandableFolder"
+                            class="material-icons">folder_open</i></a></li>
+                <li><a id="btnColorA" class="btn-floating hoverable"><i id="btnExpandableColor"
+                            class="material-icons">bubble_chart</i></a></li>
 
-                </ul>
-              </div>
+            </ul>
+        </div>
 
     </div>
 
 
-            
-            <div class="wrapper">
-                    <div id="infocontainer" class="box a card hoverable">
 
-                            
-                            <div hidden id="titleCard" class="card projecttitle hoverable">
-                                <div class="card-image">
-                                    
-                                    <img hidden id="logo" src="./images/onlyD.png" alt="">
-                                </div>
-                                
-                                    <div class="card-content white-text">
-                                        <span id="projectTitle" class="card-title"></span>
-                                        <p id="projectDescription"></p>
-                                    </div>
-                                </div>
+    <div class="wrapper">
+        <div id="infocontainer" class="box a card hoverable">
 
 
-                            <div hidden id="hideAllButtons">
-                                
-                                                                <a id="addCommand" class="waves-effect waves-light btn-large button">Add command-line script</a>
-                                                                <a id="addProgram" class="waves-effect waves-light btn-large button">Add program to run</a>
-                                                                <a id="addServer" class="waves-effect waves-light btn-large button">Add webserver</a>
-                                                                <a id="runAllCommands" class="waves-effect waves-light btn-large button">Run all commands</a>
-                                                                <a id="runAll" class="waves-effect waves-light btn-large button">Run everything</a>
-                                        
-                                                                <a id="backBtn" class="waves-effect waves-light btn-large button">Back</a>
+            <div hidden id="titleCard" class="card projecttitle hoverable">
+                <div class="card-image">
+
+                    <img hidden id="logo" src="./images/onlyD.png" alt="">
+                </div>
+
+                <div class="card-content white-text">
+                    <span id="projectTitle" class="card-title"></span>
+                    <p id="projectDescription"></p>
+                </div>
+            </div>
 
 
-                            </div>
+            <div hidden id="hideAllButtons">
 
-        
+                <a id="addCommand" class="waves-effect waves-light btn-large button">Add command-line script</a>
+                <a id="addProgram" class="waves-effect waves-light btn-large button">Add program to run</a>
+                <a id="addServer" class="waves-effect waves-light btn-large button">Add webserver</a>
+                <a id="runAllCommands" class="waves-effect waves-light btn-large button">Run all commands</a>
+                <a id="runAll" class="waves-effect waves-light btn-large button">Run everything</a>
 
-                    </div>
-                    <div id="servercontainer" class="box b card hoverable">
+                <a id="backBtn" class="waves-effect waves-light btn-large button">Back</a>
+
+
+            </div>
 
 
 
+        </div>
+        <div id="servercontainer" class="box b card hoverable">
 
-                    </div>
-                    <div id="scriptscontainer" class="box c card hoverable"></div>
-                    <div id="programscontainer" class="box d card hoverable"></div>
-                  </div>
-                  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+
+        </div>
+        <div id="scriptscontainer" class="box c card hoverable"></div>
+        <div id="programscontainer" class="box d card hoverable"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
     <script src="projectov.js"></script>
-            <script>
-            window.onload = function() {setTimeout(function(){
-                document.body.style.opacity="100";
+    <script>
+        window.onload = function () {
+            setTimeout(function () {
+                document.body.style.opacity = "100";
                 document.getElementById('expandButtonDiv').hidden = false;
                 document.getElementById('titleCard').hidden = false;
                 document.getElementById('logo').hidden = false;
                 document.getElementById('hideAllButtons').hidden = false;
                 document.getElementById('hideExpandableButton').hidden = false;
-                
-                document.body.style.backgroundImage=activeColor.background
 
-                document.getElementById('projectDescription').style.color=activeColor.mainfont;
-                document.getElementById('projectTitle').style.color=activeColor.mainfont;
+                document.body.style.backgroundImage = activeColor.background
 
-                document.getElementById('addCommand').style.color=activeColor.mainfont;
-                document.getElementById('addCommand').style.backgroundColor=activeColor.cardscolor;
-                document.getElementById('addProgram').style.color=activeColor.mainfont;
-                document.getElementById('addProgram').style.backgroundColor=activeColor.cardscolor;
-                document.getElementById('addServer').style.color=activeColor.mainfont;
-                document.getElementById('addServer').style.backgroundColor=activeColor.cardscolor;
-                document.getElementById('backBtn').style.color=activeColor.mainfont;
-                document.getElementById('backBtn').style.backgroundColor=activeColor.cardscolor;
-                document.getElementById('runAllCommands').style.color=activeColor.mainfont;
-                document.getElementById('runAllCommands').style.backgroundColor=activeColor.cardscolor;
-                document.getElementById('runAll').style.color=activeColor.mainfont;
-                document.getElementById('runAll').style.backgroundColor=activeColor.cardscolor;
-                document.getElementById('titleCard').style.backgroundColor=activeColor.cardscolor;
-                document.getElementById('infocontainer').style.backgroundColor=activeColor.basecolor;
-                document.getElementById('servercontainer').style.backgroundColor=activeColor.basecolor;
-                document.getElementById('programscontainer').style.backgroundColor=activeColor.basecolor;
-                document.getElementById('scriptscontainer').style.backgroundColor=activeColor.basecolor;
-                
-                document.getElementById('btnSettingsA').style.backgroundColor=activeColor.iconsbgmain;
-                document.getElementById('btnDeleteA').style.backgroundColor=activeColor.iconsbgsecondary;
-                document.getElementById('btnRunAllA').style.backgroundColor=activeColor.iconsbgsecondary;
-                document.getElementById('btnJsonA').style.backgroundColor=activeColor.iconsbgmain;
-                document.getElementById('btnFolderA').style.backgroundColor=activeColor.iconsbgmain;
-                document.getElementById('btnColorA').style.backgroundColor=activeColor.iconsbgsecondary;
+                document.getElementById('projectDescription').style.color = activeColor.mainfont;
+                document.getElementById('projectTitle').style.color = activeColor.mainfont;
 
-                document.getElementById('settingsIcon').style.color=activeColor.iconssecondary;
-                document.getElementById('btnExpandableRunAll').style.color=activeColor.iconsmain;
-                document.getElementById('btnExpandableDelete').style.color=activeColor.iconsmain;
-                document.getElementById('btnExpandableJson').style.color=activeColor.iconssecondary;
-                document.getElementById('btnExpandableFolder').style.color=activeColor.iconssecondary;
-                document.getElementById('btnExpandableColor').style.color=activeColor.iconsmain;
+                document.getElementById('addCommand').style.color = activeColor.mainfont;
+                document.getElementById('addCommand').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('addProgram').style.color = activeColor.mainfont;
+                document.getElementById('addProgram').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('addServer').style.color = activeColor.mainfont;
+                document.getElementById('addServer').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('backBtn').style.color = activeColor.mainfont;
+                document.getElementById('backBtn').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('runAllCommands').style.color = activeColor.mainfont;
+                document.getElementById('runAllCommands').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('runAll').style.color = activeColor.mainfont;
+                document.getElementById('runAll').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('titleCard').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('infocontainer').style.backgroundColor = activeColor.basecolor;
+                document.getElementById('servercontainer').style.backgroundColor = activeColor.basecolor;
+                document.getElementById('programscontainer').style.backgroundColor = activeColor.basecolor;
+                document.getElementById('scriptscontainer').style.backgroundColor = activeColor.basecolor;
+
+                document.getElementById('btnSettingsA').style.backgroundColor = activeColor.iconsbgmain;
+                document.getElementById('btnDeleteA').style.backgroundColor = activeColor.iconsbgsecondary;
+                document.getElementById('btnRunAllA').style.backgroundColor = activeColor.iconsbgsecondary;
+                document.getElementById('btnJsonA').style.backgroundColor = activeColor.iconsbgmain;
+                document.getElementById('btnFolderA').style.backgroundColor = activeColor.iconsbgmain;
+                document.getElementById('btnColorA').style.backgroundColor = activeColor.iconsbgsecondary;
+
+                document.getElementById('settingsIcon').style.color = activeColor.iconssecondary;
+                document.getElementById('btnExpandableRunAll').style.color = activeColor.iconsmain;
+                document.getElementById('btnExpandableDelete').style.color = activeColor.iconsmain;
+                document.getElementById('btnExpandableJson').style.color = activeColor.iconssecondary;
+                document.getElementById('btnExpandableFolder').style.color = activeColor.iconssecondary;
+                document.getElementById('btnExpandableColor').style.color = activeColor.iconsmain;
 
 
-            },500);
-            
-            };
-           </script>
+            }, 500);
+
+        };
+    </script>
 </body>
+
 </html>
 
 <style>
-
-    #logo{
+    #logo {
         height: 150px;
         width: 135px;
         margin: auto;
         margin-top: 20px;
     }
 
-    #onAlert{
+    #onAlert {
         height: 150%;
         width: 150%;
         position: absolute;
@@ -155,50 +163,49 @@
         z-index: 998;
     }
 
-#projectDescription{
-    width: 90%;
-    font-size: 15px;
-}
+    #projectDescription {
+        width: 90%;
+        font-size: 15px;
+    }
 
-#titleCard{
-    position: absolute;
-    left: calc(50% - 200px); 
-    width: 400px;
-    height: 290px;
-    bottom: calc(50% - 145px);
-    margin: 0;
-} 
+    #titleCard {
+        position: absolute;
+        left: calc(50% - 200px);
+        width: 400px;
+        height: 290px;
+        bottom: calc(50% - 145px);
+        margin: 0;
+    }
 
-#projectTitle{
-}
+    #projectTitle {}
 
-    body, html{
+    body,
+    html {
         height: 100%;
         width: 100%;
         overflow: hidden;
     }
 
-body{
-        opacity:0;
+    body {
+        opacity: 0;
 
-}
+    }
 
-.button{
-}
+    .button {}
 
-#backBtnIcon{
-    height: 90%;
-    border-radius: 20px;
+    #backBtnIcon {
+        height: 90%;
+        border-radius: 20px;
 
-}
-
+    }
 
 
 
 
-  .wrapper {
+
+    .wrapper {
         display: grid;
-        grid-template-columns: [col1-start] calc(100% / 3)  [col2-start] calc(100% / 3)  [col3-start] calc(100% / 3) [col3-end];
+        grid-template-columns: [col1-start] calc(100% / 3) [col2-start] calc(100% / 3) [col3-start] calc(100% / 3) [col3-end];
         grid-template-rows: [row1-start] 50% [row2-start] 50% [row2-end];
         height: 100%;
         width: 100%;
@@ -217,29 +224,32 @@ body{
 
     .a {
         grid-column: col1-start / col3-end;
-        grid-row: row1-start ;
+        grid-row: row1-start;
         background-color: transparent;
     }
+
     .b {
-        grid-column: col3-start ;
+        grid-column: col3-start;
         grid-row: row2-start / row2-end;
         background-color: transparent;
 
     }
+
     .c {
         grid-column: col1-start;
-        grid-row: row2-start ;
+        grid-row: row2-start;
         background-color: transparent;
 
     }
+
     .d {
-        grid-column: col2-start ;
-        grid-row: row2-start ;
+        grid-column: col2-start;
+        grid-row: row2-start;
         background-color: transparent;
 
     }
 
-    #buttonsContainer{
+    #buttonsContainer {
         height: 100%;
         width: 300px;
         position: absolute;
@@ -247,49 +257,50 @@ body{
         left: 0;
     }
 
-    #addCommand{
+    #addCommand {
         line-height: 90px;
 
         position: absolute;
         margin: 0;
-        width: 280px;  
+        width: 280px;
         left: calc(50% - 200px - 5px - 280px);
 
         bottom: calc(50% + 145px - 90px);
-        float: left;  
-        height: 90px; 
- }
+        float: left;
+        height: 90px;
+    }
 
-    #addProgram{
+    #addProgram {
         line-height: 90px;
 
         position: absolute;
         margin: 0;
-        float: left; 
-        width: 280px;  
+        float: left;
+        width: 280px;
         left: calc(50% - 200px - 5px - 280px);
-        height: 90px; 
+        height: 90px;
         bottom: calc(50% + 145px - 190px);
 
     }
-    #addServer{
+
+    #addServer {
         line-height: 90px;
 
         position: absolute;
         margin: 0;
-        float: left; 
-        width: 280px;  
+        float: left;
+        width: 280px;
         left: calc(50% - 200px - 5px - 280px);
-        height: 90px; 
+        height: 90px;
         bottom: calc(50% - 145px);
 
     }
 
-    #backBtn{
+    #backBtn {
         line-height: 90px;
 
-        float: left; 
-        width: 280px;  
+        float: left;
+        width: 280px;
         height: 90px;
         position: absolute;
         margin: 0;
@@ -297,11 +308,11 @@ body{
         bottom: calc(50% - 145px);
     }
 
-    #runAllCommands{
+    #runAllCommands {
         margin: 0;
-        float: left;   
-        width: 280px;  
-        height: 90px; 
+        float: left;
+        width: 280px;
+        height: 90px;
         position: absolute;
         left: calc(50% + 200px + 5px);
         bottom: calc(50% + 145px - 190px);
@@ -309,45 +320,36 @@ body{
 
     }
 
-    #runAll{
+    #runAll {
         line-height: 90px;
         margin: 0;
-        float: left;   
-        width: 280px;  
-        height: 90px; 
+        float: left;
+        width: 280px;
+        height: 90px;
         left: calc(50% + 200px + 5px);
         position: absolute;
         bottom: calc(50% + 145px - 90px);
     }
 
-    #expandButtonDiv{
+    #expandButtonDiv {
         top: 12px;
         right: 12px;
         margin: 0;
         padding: 0;
-        
+
     }
 
-.command{
+    .command {}
 
+    .server {}
 
-}
-.server{
+    .projecttitle {}
 
-}
+    .program {}
 
-.projecttitle{
-    
-}
+    .buttonweirdblue {
 
-.program{
+        background-color: #6200EE;
 
-}
-
-.buttonweirdblue{
-
-    background-color: #6200EE;
-
-}
-
+    }
 </style>

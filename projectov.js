@@ -1,7 +1,9 @@
 const fs = require('fs');
 const homedir = require('os').homedir();
 const remote = require('electron').remote;
-const {shell} = require('electron');
+const {
+  shell
+} = require('electron');
 var Sugar = require('sugar');
 const Swal = require('sweetalert2');
 
@@ -28,13 +30,13 @@ document.getElementById('btnExpandableColor').addEventListener('click', e => {
 })
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('.fixed-action-btn');
   var instances = M.FloatingActionButton.init(elems, {
     direction: 'bottom'
   });
 
-  if(sessionStorage.getItem('runRightAway')){
+  if (sessionStorage.getItem('runRightAway')) {
     runEverything()
     sessionStorage.removeItem('runRightAway')
   }
@@ -44,10 +46,10 @@ console.log(sessionStorage.getItem('project'))
 const loadTitle = sessionStorage.getItem('project')
 
 var projectsFileDir
-if (process.platform !== 'win32'){
+if (process.platform !== 'win32') {
   projectsFileDir = homedir + '/.devtools.json'
   console.log(projectsFileDir)
-}else{
+} else {
   projectsFileDir = homedir + '\\.devtools.json'
   console.log(projectsFileDir)
 }
@@ -60,55 +62,53 @@ const btnAddProgram = document.getElementById('addProgram')
 let rawcontent = fs.readFileSync(projectsFileDir)
 let jsonfile = JSON.parse(rawcontent);
 let projects = jsonfile.projects;
-let newConfig = JSON.stringify(
-  {
-    tools: [],
-    commands:[],
-    servers: []
+let newConfig = JSON.stringify({
+  tools: [],
+  commands: [],
+  servers: []
+})
+
+
+let activeColor = jsonfile.colorsets[jsonfile.activeColor];
+console.log(activeColor);
+
+
+for (var i = 0; i < projects.length; i++) {
+  if (projects[i]['title'] === loadTitle) {
+    activeProject = projects[i]
   }
-  )
-  
-  
-  let activeColor = jsonfile.colorsets[jsonfile.activeColor];
-  console.log(activeColor);
-  
-  
-  for (var i = 0; i < projects.length; i++) {
-    if (projects[i]['title'] === loadTitle) {
-      activeProject = projects[i]
-    }
 }
 
-if(fs.existsSync(activeProject.configpath)){
+if (fs.existsSync(activeProject.configpath)) {
 
-}else{
+} else {
   document.getElementById('onAlert').hidden = false;
 
-    Swal.fire({
-        title: 'Initialize project?',
-        text: "Config file not found, initialize in project directory?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
-      }).then((result) => {
-        if (result.value) {
+  Swal.fire({
+    title: 'Initialize project?',
+    text: "Config file not found, initialize in project directory?",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes'
+  }).then((result) => {
+    if (result.value) {
 
-        fs.writeFileSync(activeProject.configpath, newConfig)
-        
-          Swal.fire(
-            'Nice!',
-            'Project initialized!',
-            'success'
-          )
+      fs.writeFileSync(activeProject.configpath, newConfig)
 
-          remote.getCurrentWindow().reload()
-        }else{
-            remote.getCurrentWindow().loadURL('file://' + __dirname + '/allprojects.html')
+      Swal.fire(
+        'Nice!',
+        'Project initialized!',
+        'success'
+      )
 
-        }
-      })      
+      remote.getCurrentWindow().reload()
+    } else {
+      remote.getCurrentWindow().loadURL('file://' + __dirname + '/allprojects.html')
+
+    }
+  })
 }
 
 console.log(activeProject)
@@ -116,9 +116,9 @@ console.log(activeProject)
 
 const backBtn = document.getElementById('backBtn');
 backBtn.addEventListener('click', e => {
-    
-    remote.getCurrentWindow().loadURL('file://' + __dirname + '/allprojects.html')
-    
+
+  remote.getCurrentWindow().loadURL('file://' + __dirname + '/allprojects.html')
+
 })
 
 
@@ -130,11 +130,10 @@ scriptscontainer = document.getElementById('scriptscontainer')
 
 
 document.getElementById('projectTitle').innerHTML = activeProject.title
-if(activeProject.path.length > 43){
+if (activeProject.path.length > 43) {
   document.getElementById('projectDescription').innerHTML = activeProject.path.substring(0, 43) + '...'
 
-}
-else{
+} else {
   document.getElementById('projectDescription').innerHTML = activeProject.path
 
 }
@@ -154,8 +153,8 @@ projectConfig.tools.forEach(element => {
   divcard.className = 'card program hoverable'
   programscontainer.appendChild(divcard)
   divcard.id = 'card_' + element.name
-  divcard.style.backgroundColor=activeColor.cardscolor;
-  
+  divcard.style.backgroundColor = activeColor.cardscolor;
+
 
   divcontent = document.createElement('div')
   divcontent.className = 'card-content white-text'
@@ -195,7 +194,7 @@ projectConfig.tools.forEach(element => {
   divcard.addEventListener("mouseover", event => {
     document.getElementById('remove' + element.name).style.opacity = '100';
   });
-  
+
   divcard.addEventListener("mouseout", event => {
     document.getElementById('remove' + element.name).style.opacity = '0';
 
@@ -220,12 +219,14 @@ projectConfig.tools.forEach(element => {
     rawConfig = fs.readFileSync(activeProject.configpath)
     projectConfig = JSON.parse(rawConfig)
 
-    if(projectConfig.tools.length == 1){
+    if (projectConfig.tools.length == 1) {
       projectConfig.tools.pop()
-    }else{
+    } else {
 
       console.log(element.name)
-      var filtered = projectConfig.tools.filter(function(el) { return el.name != element.name; }); 
+      var filtered = projectConfig.tools.filter(function (el) {
+        return el.name != element.name;
+      });
       console.log(filtered)
       projectConfig.tools = filtered
       console.log(projectConfig)
@@ -244,18 +245,18 @@ projectConfig.tools.forEach(element => {
   abutton.addEventListener('click', e => {
 
     runProgram(element)
-      /*if (invokedButton.className.includes('green')){
-          
-          var replaced = invokedButton.className.replace('green', 'red')
-          invokedButton.className = replaced
-          runCommand(element);
+    /*if (invokedButton.className.includes('green')){
+        
+        var replaced = invokedButton.className.replace('green', 'red')
+        invokedButton.className = replaced
+        runCommand(element);
 
 
-      }else{
-          var replaced = invokedButton.className.replace('red', 'green')
-          invokedButton.className = replaced
-          stopCommand(element);
-      }*/
+    }else{
+        var replaced = invokedButton.className.replace('red', 'green')
+        invokedButton.className = replaced
+        stopCommand(element);
+    }*/
   })
 });
 
@@ -268,7 +269,7 @@ projectConfig.commands.forEach(element => {
   divcard.className = 'card  hoverable'
   scriptscontainer.appendChild(divcard)
   divcard.id = 'card_' + element.name
-  divcard.style.backgroundColor=activeColor.cardscolor;
+  divcard.style.backgroundColor = activeColor.cardscolor;
 
 
   divcontent = document.createElement('div')
@@ -308,7 +309,7 @@ projectConfig.commands.forEach(element => {
   divcard.addEventListener("mouseover", event => {
     document.getElementById('remove' + element.name).style.opacity = '100';
   });
-  
+
   divcard.addEventListener("mouseout", event => {
     document.getElementById('remove' + element.name).style.opacity = '0';
 
@@ -333,19 +334,19 @@ projectConfig.commands.forEach(element => {
   removebutton.addEventListener('click', e => {
     rawConfig = fs.readFileSync(activeProject.configpath)
     projectConfig = JSON.parse(rawConfig)
-var path = require('path')
-    if(projectConfig.commands.length == 1){
+    var path = require('path')
+    if (projectConfig.commands.length == 1) {
       projectConfig.commands.pop()
 
-      if(process.platform == 'win32'){
-        if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))){
+      if (process.platform == 'win32') {
+        if (fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))) {
           fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
           console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
 
         }
 
-      }else{
-        if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))){
+      } else {
+        if (fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))) {
           fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
           console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
 
@@ -355,28 +356,32 @@ var path = require('path')
 
 
 
-    }else{
+    } else {
 
-      if(process.platform == 'win32'){
+      if (process.platform == 'win32') {
         console.log(element.name)
-        var filtered = projectConfig.commands.filter(function(el) { return el.name != element.name; }); 
+        var filtered = projectConfig.commands.filter(function (el) {
+          return el.name != element.name;
+        });
         console.log(filtered)
         projectConfig.commands = filtered
         console.log(projectConfig)
-        if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))){
+        if (fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))) {
           fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
           console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
 
         }
 
-      }else{
+      } else {
         console.log(element.name)
-        var filtered = projectConfig.commands.filter(function(el) { return el.name != element.name; }); 
+        var filtered = projectConfig.commands.filter(function (el) {
+          return el.name != element.name;
+        });
         console.log(filtered)
         projectConfig.commands = filtered
         console.log(projectConfig)
 
-        if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))){
+        if (fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))) {
           fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
           console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
 
@@ -396,21 +401,21 @@ var path = require('path')
 
 
   abutton.addEventListener('click', e => {
-      const invokedButton = document.getElementById('run' + element.name)
-      runCommand(element)
+    const invokedButton = document.getElementById('run' + element.name)
+    runCommand(element)
 
-      /*if (invokedButton.className.includes('green')){
-          
-          var replaced = invokedButton.className.replace('green', 'red')
-          invokedButton.className = replaced
-          runCommand(element);
+    /*if (invokedButton.className.includes('green')){
+        
+        var replaced = invokedButton.className.replace('green', 'red')
+        invokedButton.className = replaced
+        runCommand(element);
 
 
-      }else{
-          var replaced = invokedButton.className.replace('red', 'green')
-          invokedButton.className = replaced
-          stopCommand(element);
-      }*/
+    }else{
+        var replaced = invokedButton.className.replace('red', 'green')
+        invokedButton.className = replaced
+        stopCommand(element);
+    }*/
   })
 });
 
@@ -422,7 +427,7 @@ projectConfig.servers.forEach(element => {
   divcard.className = 'card server hoverable'
   servercontainer.appendChild(divcard)
   divcard.id = 'card_' + element.name
-  divcard.style.backgroundColor=activeColor.cardscolor;
+  divcard.style.backgroundColor = activeColor.cardscolor;
 
 
   divcontent = document.createElement('div')
@@ -439,7 +444,7 @@ projectConfig.servers.forEach(element => {
   abutton.className = 'btn-floating halfway-fab waves-effect waves-light buttonweirdblue'
   divcard.appendChild(abutton)
   abutton.id = 'server' + element.name
-  
+
   iconRunButton = document.createElement('i')
   iconRunButton.className = 'material-icons'
   iconRunButton.innerHTML = 'flight_takeoff'
@@ -462,7 +467,7 @@ projectConfig.servers.forEach(element => {
   divcard.addEventListener("mouseover", event => {
     document.getElementById('remove' + element.name).style.opacity = '100';
   });
-  
+
   divcard.addEventListener("mouseout", event => {
     document.getElementById('remove' + element.name).style.opacity = '0';
 
@@ -490,20 +495,24 @@ projectConfig.servers.forEach(element => {
     rawConfig = fs.readFileSync(activeProject.configpath)
     projectConfig = JSON.parse(rawConfig)
 
-    if(projectConfig.servers.length == 1){
+    if (projectConfig.servers.length == 1) {
       projectConfig.servers.pop()
-    }else{
+    } else {
 
-      if(process.platform == 'win32'){
+      if (process.platform == 'win32') {
         console.log(element.name)
-        var filtered = projectConfig.servers.filter(function(el) { return el.name == element.name; }); 
+        var filtered = projectConfig.servers.filter(function (el) {
+          return el.name == element.name;
+        });
         console.log(filtered)
         projectConfig.servers = filtered
         console.log(projectConfig)
 
-      }else{
+      } else {
         console.log(element.name)
-        var filtered = projectConfig.servers.filter(function(el) { return el.name != element.name; }); 
+        var filtered = projectConfig.servers.filter(function (el) {
+          return el.name != element.name;
+        });
         console.log(filtered)
         projectConfig.servers = filtered
         console.log(projectConfig)
@@ -528,24 +537,24 @@ projectConfig.servers.forEach(element => {
     console.log(element)
     runWebServer(element)
 
-      /*if (invokedButton.className.includes('green')){
-          
-          var replaced = invokedButton.className.replace('green', 'red')
-          invokedButton.className = replaced
-          runCommand(element);
+    /*if (invokedButton.className.includes('green')){
+        
+        var replaced = invokedButton.className.replace('green', 'red')
+        invokedButton.className = replaced
+        runCommand(element);
 
 
-      }else{
-          var replaced = invokedButton.className.replace('red', 'green')
-          invokedButton.className = replaced
-          stopCommand(element);
-      }*/
+    }else{
+        var replaced = invokedButton.className.replace('red', 'green')
+        invokedButton.className = replaced
+        stopCommand(element);
+    }*/
   })
 });
 
-if(process.platform == 'linux'){
+if (process.platform == 'linux') {
   serverPortMessage = 'Enter port. (For your OS it has to be 1024 or higher)'
-}else(serverPortMessage = 'Enter desired port: ')
+} else(serverPortMessage = 'Enter desired port: ')
 
 
 btnAddServer.addEventListener('click', e => {
@@ -555,8 +564,7 @@ btnAddServer.addEventListener('click', e => {
     confirmButtonText: 'Next &rarr;',
     showCancelButton: true,
     progressSteps: ['1', '2', '3', '4']
-  }).queue([
-    {
+  }).queue([{
       title: 'Path to run the webserver in?',
       text: 'Default: ' + activeProject.path,
     },
@@ -566,10 +574,10 @@ btnAddServer.addEventListener('click', e => {
       title: 'Default file? leave empty for "index.html',
       text: 'specify without a "/"'
     }
-    
+
   ]).then((result) => {
 
-    if(!result.value){
+    if (!result.value) {
       remote.getCurrentWindow().reload()
 
     }
@@ -577,83 +585,75 @@ btnAddServer.addEventListener('click', e => {
     var doesItExist = false;
 
     projectConfig.servers.forEach(element => {
-      if (element.name == result.value[2]){
+      if (element.name == result.value[2]) {
         doesItExist = true;
       }
-      
+
     });
 
 
-    if(result.value[1] == ''){
-        Swal.fire({
-            title: 'You need to provide a port!',
-        })
+    if (result.value[1] == '') {
+      Swal.fire({
+        title: 'You need to provide a port!',
+      })
 
-    }
+    } else if (result.value[2] == '') {
+      Swal.fire({
+        title: 'You need to provide a name for the webserver!',
+      })
 
-    else if (result.value[2] == ''){
-        Swal.fire({
-            title: 'You need to provide a name for the webserver!',
-        })
-
-    }
-
-    else if (doesItExist == true){
+    } else if (doesItExist == true) {
       Swal.fire({
         title: 'A tool with this name already exists!',
-    })
+      })
 
-    }
+    } else if (result.value) {
 
+      console.log(result.value)
 
+      if (result.value[0] == '') {
+        result.value[0] = activeProject.path
+      }
 
-    else if (result.value) {
-
-        console.log(result.value)
-
-        if(result.value[0] == ''){
-            result.value[0] = activeProject.path
-        }
-
-        if(result.value[3] == ''){
-          result.value[3] = 'index.html'
-        }
+      if (result.value[3] == '') {
+        result.value[3] = 'index.html'
+      }
 
 
-        rawConfig = fs.readFileSync(activeProject.configpath)
-        projectConfig = JSON.parse(rawConfig)
-        console.log(projectConfig)
+      rawConfig = fs.readFileSync(activeProject.configpath)
+      projectConfig = JSON.parse(rawConfig)
+      console.log(projectConfig)
 
 
-        var serverToPush = {
+      var serverToPush = {
 
-            serverPath: result.value[0],
-            port: result.value[1],
-            name: result.value[2],
-            defFile: result.value[3]
+        serverPath: result.value[0],
+        port: result.value[1],
+        name: result.value[2],
+        defFile: result.value[3]
 
-        }
-        console.log(serverToPush)
-        
-        projectConfig.servers.push(serverToPush)
+      }
+      console.log(serverToPush)
+
+      projectConfig.servers.push(serverToPush)
 
 
 
-        let writeContent = JSON.stringify(projectConfig, null, 2);
-        fs.writeFileSync(activeProject.configpath, writeContent);
+      let writeContent = JSON.stringify(projectConfig, null, 2);
+      fs.writeFileSync(activeProject.configpath, writeContent);
 
 
 
       Swal.fire({
         title: 'All done!',
-        
+
         confirmButtonText: 'Lovely!'
       })
 
       remote.getCurrentWindow().reload()
     }
   })
- 
+
 
 })
 
@@ -661,148 +661,139 @@ btnAddCommand.addEventListener('click', e => {
 
   document.getElementById('onAlert').hidden = false;
 
-    Swal.mixin({
-        input: 'text',
-        confirmButtonText: 'Next &rarr;',
-        showCancelButton: true,
-        progressSteps: ['1', '2', '3']
-      }).queue([
-        {
-          title: 'Path to run the command in?',
-          text: 'Default: ' + activeProject.path,
-        },
-        'Enter your command WITH parameters: ',
-        'Name the command'
-      ]).then((result) => {
-        var doesItExist = false;
+  Swal.mixin({
+    input: 'text',
+    confirmButtonText: 'Next &rarr;',
+    showCancelButton: true,
+    progressSteps: ['1', '2', '3']
+  }).queue([{
+      title: 'Path to run the command in?',
+      text: 'Default: ' + activeProject.path,
+    },
+    'Enter your command WITH parameters: ',
+    'Name the command'
+  ]).then((result) => {
+    var doesItExist = false;
 
-        if(!result.value){
-          remote.getCurrentWindow().reload()
-    
-        }
-    
+    if (!result.value) {
+      remote.getCurrentWindow().reload()
 
-        projectConfig.commands.forEach(element => {
-          if (element.name == result.value[2]){
-            doesItExist = true;
+    }
+
+
+    projectConfig.commands.forEach(element => {
+      if (element.name == result.value[2]) {
+        doesItExist = true;
+      }
+
+    });
+
+    if (result.value[1] == '') {
+      Swal.fire({
+        title: 'You need to provide a command!',
+      })
+
+    } else if (result.value[2] == '') {
+      Swal.fire({
+        title: 'You need to provide a name for the command!',
+      })
+
+    } else if (doesItExist == true) {
+      Swal.fire({
+        title: 'A command with this name already exists!',
+      })
+
+    } else if (result.value) {
+
+      console.log(result.value)
+
+      if (result.value[0] == '') {
+        result.value[0] = activeProject.path
+      }
+
+
+      rawConfig = fs.readFileSync(activeProject.configpath)
+      projectConfig = JSON.parse(rawConfig)
+      console.log(projectConfig)
+
+      if (process.platform == 'linux') {
+
+        if (jsonfile.variables[0].quotes == true) {
+          var commandToPush = {
+
+            rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + jsonfile.variables[0].terminalEmulator + '"' + result.value[1] + '"',
+            command: result.value[1],
+            name: result.value[2],
+            path: result.value[0]
+
           }
-          
-        });
-        
-        if(result.value[1] == ''){
-            Swal.fire({
-                title: 'You need to provide a command!',
-            })
-    
+
+        } else {
+          var commandToPush = {
+
+            rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + jsonfile.variables[0].terminalEmulator + result.value[1],
+            command: result.value[1],
+            name: result.value[2],
+            path: result.value[0]
+
+          }
+
         }
 
-        else if (result.value[2] == ''){
-            Swal.fire({
-                title: 'You need to provide a name for the command!',
-            })
- 
-        }
 
-        else if (doesItExist == true){
-          Swal.fire({
-            title: 'A command with this name already exists!',
+      } else {
+
+        var commandToPush = {
+
+          rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + result.value[1],
+          command: result.value[1],
+          name: result.value[2],
+          path: result.value[0]
+
+        }
+      }
+
+      console.log(commandToPush)
+
+      projectConfig.commands.push(commandToPush)
+
+      var path = require('path');
+
+
+      let writeContent = JSON.stringify(projectConfig, null, 2);
+      fs.writeFileSync(activeProject.configpath, writeContent);
+
+      if (process.platform == 'win32') {
+        fs.writeFileSync(activeProject.path + '.devtools_' + commandToPush.name + '.bat', commandToPush.rawCommandWithPath)
+      } else {
+        fs.writeFileSync(activeProject.path + '.devtools_' + commandToPush.name + '.sh', commandToPush.rawCommandWithPath)
+
+      }
+
+      if (process.platform == 'linux' || process.platform == 'darwin') {
+        Swal.fire({
+          title: 'Almost set! Run the following in your terminal this one time:',
+          text: 'sudo chmod +x "' + path.normalize(activeProject.path + '.devtools_' + commandToPush.name + '.sh"'),
+          confirmButtonText: 'Lovely!'
+        }).then(function () {
+          remote.getCurrentWindow().reload()
+
         })
 
-        }
+      } else {
+        Swal.fire({
+          title: 'All done!',
+          confirmButtonText: 'Lovely!'
+        }).then(function () {
+          remote.getCurrentWindow().reload()
+
+        })
+
+      }
 
 
-
-        else if (result.value) {
-
-            console.log(result.value)
-
-            if(result.value[0] == ''){
-                result.value[0] = activeProject.path
-            }
-
-
-            rawConfig = fs.readFileSync(activeProject.configpath)
-            projectConfig = JSON.parse(rawConfig)
-            console.log(projectConfig)
-
-            if(process.platform == 'linux'){
-
-              if(jsonfile.variables[0].quotes == true){
-                var commandToPush = {
-  
-                  rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + jsonfile.variables[0].terminalEmulator + '"' + result.value[1] + '"',
-                  command: result.value[1],
-                  name: result.value[2],
-                  path: result.value[0]
-  
-              }
-
-              }else{
-                var commandToPush = {
-  
-                  rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + jsonfile.variables[0].terminalEmulator + result.value[1],
-                  command: result.value[1],
-                  name: result.value[2],
-                  path: result.value[0]
-  
-              }
-
-              }
-
-
-            }else{
-
-              var commandToPush = {
-  
-                  rawCommandWithPath: 'cd ' + result.value[0] + ' && ' + result.value[1],
-                  command: result.value[1],
-                  name: result.value[2],
-                  path: result.value[0]
-  
-              }
-            }
-
-            console.log(commandToPush)
-            
-            projectConfig.commands.push(commandToPush)
-
-            var path = require('path');
-
-
-            let writeContent = JSON.stringify(projectConfig, null, 2);
-            fs.writeFileSync(activeProject.configpath, writeContent);
-    
-            if(process.platform == 'win32'){
-              fs.writeFileSync(activeProject.path + '.devtools_' + commandToPush.name + '.bat', commandToPush.rawCommandWithPath)
-            }else{
-              fs.writeFileSync(activeProject.path + '.devtools_' + commandToPush.name + '.sh', commandToPush.rawCommandWithPath)
-          
-            }
-          
-            if(process.platform == 'linux' || process.platform == 'darwin'){
-              Swal.fire({
-                title: 'Almost set! Run the following in your terminal this one time:',
-                text: 'sudo chmod +x "' + path.normalize(activeProject.path + '.devtools_' + commandToPush.name + '.sh"'),
-                confirmButtonText: 'Lovely!'
-              }).then(function(){
-                remote.getCurrentWindow().reload()
-                
-              })
-              
-            }else{
-              Swal.fire({
-                title: 'All done!',
-                confirmButtonText: 'Lovely!'
-              }).then(function(){
-                remote.getCurrentWindow().reload()
-                
-              })
-
-            }
-
-
-        }
-      })
+    }
+  })
 
 
 
@@ -813,129 +804,133 @@ btnAddCommand.addEventListener('click', e => {
 btnAddProgram.addEventListener('click', e => {
 
 
-  const { dialog } = require('electron').remote
+  const {
+    dialog
+  } = require('electron').remote
 
-  if(process.platform == 'win32'){
-    
-    var exePath = dialog.showOpenDialog({ properties: ['openFile'], filters: [
-  
-      { name: 'executable', extensions: ['exe'] }
-  
-     ] })
-  }else if (process.platform == 'darwin'){
-    var exePath = dialog.showOpenDialog({ properties: ['openFile'], filters: [
-  
-      { name: 'app', extensions: ['app'] }
-  
-     ] })
+  if (process.platform == 'win32') {
 
-  }else{
-    var exePath = dialog.showOpenDialog({ properties: ['openFile']})
+    var exePath = dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [
+
+        {
+          name: 'executable',
+          extensions: ['exe']
+        }
+
+      ]
+    })
+  } else if (process.platform == 'darwin') {
+    var exePath = dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [
+
+        {
+          name: 'app',
+          extensions: ['app']
+        }
+
+      ]
+    })
+
+  } else {
+    var exePath = dialog.showOpenDialog({
+      properties: ['openFile']
+    })
 
   }
   document.getElementById('onAlert').hidden = false;
 
 
   Swal.mixin({
-      input: 'text',
-      confirmButtonText: 'Next &rarr;',
-      showCancelButton: true,
-      progressSteps: ['1', '2']
-    }).queue([
-      {
-        title: 'Choose executable',
-        text: 'Tip: Some programs support command line arguments, if you wish to use them add it as a command instead',
-        inputPlaceholder: exePath
-      },
-      'Name the program'
-    ]).then((result) => {
+    input: 'text',
+    confirmButtonText: 'Next &rarr;',
+    showCancelButton: true,
+    progressSteps: ['1', '2']
+  }).queue([{
+      title: 'Choose executable',
+      text: 'Tip: Some programs support command line arguments, if you wish to use them add it as a command instead',
+      inputPlaceholder: exePath
+    },
+    'Name the program'
+  ]).then((result) => {
 
-      var doesItExist = false;
+    var doesItExist = false;
 
-      if(!result.value){
-        remote.getCurrentWindow().reload()
-  
-      }
-  
+    if (!result.value) {
+      remote.getCurrentWindow().reload()
 
-      projectConfig.tools.forEach(element => {
-        if (element.name == result.value[2]){
-          doesItExist = true;
-        }
-        
-      });
+    }
 
 
-      
-
-      if(!exePath && result.value[0] == ''){
-        Swal.fire({
-          title: 'You need to provide a program to run!',
-        })
-
+    projectConfig.tools.forEach(element => {
+      if (element.name == result.value[2]) {
+        doesItExist = true;
       }
 
-      else if (result.value[1] == ''){
-          Swal.fire({
-              title: 'You need to provide a name for the program!',
-          })
+    });
 
-      }
 
-      else if (doesItExist == true){
-        Swal.fire({
-          title: 'A tool with this name already exists!',
+
+
+    if (!exePath && result.value[0] == '') {
+      Swal.fire({
+        title: 'You need to provide a program to run!',
       })
 
+    } else if (result.value[1] == '') {
+      Swal.fire({
+        title: 'You need to provide a name for the program!',
+      })
+
+    } else if (doesItExist == true) {
+      Swal.fire({
+        title: 'A tool with this name already exists!',
+      })
+
+    } else if (result.value) {
+
+
+
+
+      console.log(result.value)
+
+      if (result.value[0] == '') {
+        result.value[0] = exePath[0]
       }
 
 
-      
-
-      
-
-      else if (result.value) {
+      rawConfig = fs.readFileSync(activeProject.configpath)
+      projectConfig = JSON.parse(rawConfig)
+      console.log(projectConfig)
 
 
-          
+      var programToPush = {
 
-          console.log(result.value)
+        executable: result.value[0],
+        name: result.value[1]
 
-          if(result.value[0] == ''){
-              result.value[0] = exePath[0]
-          }
-
-
-          rawConfig = fs.readFileSync(activeProject.configpath)
-          projectConfig = JSON.parse(rawConfig)
-          console.log(projectConfig)
-
-
-          var programToPush = {
-
-              executable: result.value[0],
-              name: result.value[1]
-
-          }
-          console.log(programToPush)
-          
-          projectConfig.tools.push(programToPush)
-
-
-
-          let writeContent = JSON.stringify(projectConfig, null, 2);
-          fs.writeFileSync(activeProject.configpath, writeContent);
-  
-
-        Swal.fire({
-          title: 'All done!',
-          
-          confirmButtonText: 'Lovely!'
-        })
-
-        remote.getCurrentWindow().reload()
       }
-    })
+      console.log(programToPush)
+
+      projectConfig.tools.push(programToPush)
+
+
+
+      let writeContent = JSON.stringify(projectConfig, null, 2);
+      fs.writeFileSync(activeProject.configpath, writeContent);
+
+
+      Swal.fire({
+        title: 'All done!',
+
+        confirmButtonText: 'Lovely!'
+      })
+
+      remote.getCurrentWindow().reload()
+    }
+  })
 
 
 
@@ -954,24 +949,24 @@ projectConfig = JSON.parse(rawConfig)
 console.log(projectConfig)
 
 
-function runEverything(){
+function runEverything() {
   rawConfig = fs.readFileSync(activeProject.configpath)
   projectConfig = JSON.parse(rawConfig)
 
 
-    projectConfig.commands.forEach(element => {
-      runCommand(element)
+  projectConfig.commands.forEach(element => {
+    runCommand(element)
   });
 
 
 
-    projectConfig.servers.forEach(element => {
-      runWebServer(element)
+  projectConfig.servers.forEach(element => {
+    runWebServer(element)
   });
 
   projectConfig.tools.forEach(element => {
     runProgram(element)
-});
+  });
 
 }
 
@@ -993,243 +988,237 @@ runAllCommands.addEventListener('click', e => {
   projectConfig = JSON.parse(rawConfig)
 
 
-    projectConfig.commands.forEach(element => {
-      runCommand(element)
+  projectConfig.commands.forEach(element => {
+    runCommand(element)
   });
 })
 
 
 
-function runCommand(command){
+function runCommand(command) {
 
 
-    console.log('starting ' + command.name + '...')
+  console.log('starting ' + command.name + '...')
 
 
-    if(process.platform == 'win32'){
-      shell.openItem(activeProject.path + '.devtools_' + command.name + '.bat');    //createCmdWindow()
+  if (process.platform == 'win32') {
+    shell.openItem(activeProject.path + '.devtools_' + command.name + '.bat'); //createCmdWindow()
 
-    }
-    else if(process.platform == 'darwin'){
-      var exec = require('child_process').exec;
-      exec('open -a Terminal "' + activeProject.path + '.devtools_' + command.name + '.sh' + '"', function (err, stdout, stderr) {
-          if (err) {
-              throw err;
-          }
-      })      
-
-
-    }
-    
-    else{
-      
+  } else if (process.platform == 'darwin') {
+    var exec = require('child_process').exec;
+    exec('open -a Terminal "' + activeProject.path + '.devtools_' + command.name + '.sh' + '"', function (err, stdout, stderr) {
+      if (err) {
+        throw err;
+      }
+    })
 
 
-      var exec = require('child_process').execFile;
-      console.log(activeProject.path + '.devtools_' + command.name + '.sh')
-      exec(activeProject.path + '.devtools_' + command.name + '.sh', function(err, data) {  
-        console.log(err)
-        console.log(data.toString());                       
-      });
-  
-    }
-  }
-  
+  } else {
 
 
-  
 
-  
-  function createCmdWindow() {
-    const remote = require('electron').remote;
-    const BrowserWindow = remote.BrowserWindow;
-    const cmdwindow = new BrowserWindow({
-      webPreferences: {
-          nodeIntegration: true
-        },
-      height: 800,
-      width: 1200
+    var exec = require('child_process').execFile;
+    console.log(activeProject.path + '.devtools_' + command.name + '.sh')
+    exec(activeProject.path + '.devtools_' + command.name + '.sh', function (err, data) {
+      console.log(err)
+      console.log(data.toString());
     });
-  
-    cmdwindow.loadURL('file://' + __dirname + '/runcommand.html');
-    
-  
-  
-    function closeWindow(){
-        cmdwindow.close()
-    }
-  
-  
+
+  }
+}
+
+
+
+
+
+
+function createCmdWindow() {
+  const remote = require('electron').remote;
+  const BrowserWindow = remote.BrowserWindow;
+  const cmdwindow = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true
+    },
+    height: 800,
+    width: 1200
+  });
+
+  cmdwindow.loadURL('file://' + __dirname + '/runcommand.html');
+
+
+
+  function closeWindow() {
+    cmdwindow.close()
   }
 
 
-  function runWebServer(server){
+}
 
-    const remote = require('electron').remote;
-    const BrowserWindow = remote.BrowserWindow;
-    const webserver = new BrowserWindow({
-      webPreferences: {
-          nodeIntegration: true
-        },
-      height: 630,
-      width: 430    });
 
-    webserver.setMenuBarVisibility(false)
-    webserver.setResizable(false)
-    webserver.setTitle(server.name)
-    webserver.loadURL('file://' + __dirname + '/runwebserver.html');
-    webserver.setAlwaysOnTop(true, 'modal-panel', 1);
-    
-    webserver.webContents.on('did-finish-load', () => {
+function runWebServer(server) {
+
+  const remote = require('electron').remote;
+  const BrowserWindow = remote.BrowserWindow;
+  const webserver = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true
+    },
+    height: 630,
+    width: 430
+  });
+
+  webserver.setMenuBarVisibility(false)
+  webserver.setResizable(false)
+  webserver.setTitle(server.name)
+  webserver.loadURL('file://' + __dirname + '/runwebserver.html');
+  webserver.setAlwaysOnTop(true, 'modal-panel', 1);
+
+  webserver.webContents.on('did-finish-load', () => {
 
 
       webserver.webContents.send('server-data', server);
 
 
 
+    }
+
+  )
+
+
+}
+
+
+function runProgram(program) {
+
+  if (process.platform == 'win32') {
+    console.log(program.executable)
+
+    var exec = require('child_process').exec;
+    exec('"' + program.executable + '"', function (err, stdout, stderr) {
+      if (err) {
+        throw err;
       }
-    
-    )
+    })
 
 
-  }
+  } else if (process.platform == 'darwin') {
+    var exec = require('child_process').exec;
+    exec('open -a "' + program.executable + '"', function (err, stdout, stderr) {
+      if (err) {
+        throw err;
+      }
+    })
 
+  } else {
 
-  function runProgram(program){
+    console.log(program.executable)
 
-    if(process.platform == 'win32'){
-      console.log(program.executable)
-  
-      var exec = require('child_process').exec;
-      exec('"' + program.executable + '"', function (err, stdout, stderr) {
-          if (err) {
-              throw err;
-          }
-      })      
-
-
-    }
-    else if(process.platform == 'darwin'){
-      var exec = require('child_process').exec;
-      exec('open -a "' + program.executable + '"', function (err, stdout, stderr) {
-          if (err) {
-              throw err;
-          }
-      })      
-
-    }
-    
-    else{
-
-      console.log(program.executable)
-    
-      var exec = require('child_process').execFile;
-      exec(program.executable, function(err, data) {  
-        console.log(err)
-        console.log(data.toString());                       
+    var exec = require('child_process').execFile;
+    exec(program.executable, function (err, data) {
+      console.log(err)
+      console.log(data.toString());
     });
-    }
-
   }
 
-  function deleteProject(){
-    const path = require('path')
-    rawConfig = fs.readFileSync(activeProject.configpath)
-    projectConfig = JSON.parse(rawConfig)
+}
 
-    console.log(projectConfig)
-  
-    projectConfig.commands.forEach(element => {
-      
-      if(projectConfig.commands.length == 1){
-        // projectConfig.commands.pop()
-        
-        if(process.platform == 'win32'){
-          if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))){
-            fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
-            console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
-            
-          }
-          
-        }else{
-          if(fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))){
-            fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
-            console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
-            
-          }
+function deleteProject() {
+  const path = require('path')
+  rawConfig = fs.readFileSync(activeProject.configpath)
+  projectConfig = JSON.parse(rawConfig)
+
+  console.log(projectConfig)
+
+  projectConfig.commands.forEach(element => {
+
+    if (projectConfig.commands.length == 1) {
+      // projectConfig.commands.pop()
+
+      if (process.platform == 'win32') {
+        if (fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))) {
+          fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
+          console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.bat'))
+
         }
-    }
-    
-  });
-    
-      
-      
-      
-      fs.unlinkSync(activeProject.configpath)
 
-      let rawcontent = fs.readFileSync(projectsFileDir)
-      let jsonfile = JSON.parse(rawcontent);
-      console.log(jsonfile)
+      } else {
+        if (fs.existsSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))) {
+          fs.unlinkSync(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
+          console.log(path.normalize(activeProject.path + '.devtools_' + element.name + '.sh'))
 
-      if(jsonfile.projects.length == 1){
-        jsonfile.projects.pop()
-      }else{
-  
-        if(process.platform == 'win32'){
-          var filtered = jsonfile.projects.filter(function(el) { return el.title != activeProject.title; }); 
-          jsonfile.projects = filtered
-  
-        }else{
-          var filtered = jsonfile.projects.filter(function(el) { return el.title != activeProject.title; }); 
-          jsonfile.projects = filtered
-  
         }
-  
       }
-
-      console.log(jsonfile)
-
-      let writeContent = JSON.stringify(jsonfile, null, 2);
-      fs.writeFileSync(projectsFileDir, writeContent);
-
-      
-      remote.getCurrentWindow().loadURL('file://' + __dirname + '/allprojects.html')
-
-  
-
     }
 
-    function openDirectory(){
-      const openExplorer = require('open-file-explorer');
-      openExplorer(activeProject.path, err => {
-          if(err) {
-              console.log(err);
-          }
-          else {
-              //Do Something
-          }
+  });
+
+
+
+
+  fs.unlinkSync(activeProject.configpath)
+
+  let rawcontent = fs.readFileSync(projectsFileDir)
+  let jsonfile = JSON.parse(rawcontent);
+  console.log(jsonfile)
+
+  if (jsonfile.projects.length == 1) {
+    jsonfile.projects.pop()
+  } else {
+
+    if (process.platform == 'win32') {
+      var filtered = jsonfile.projects.filter(function (el) {
+        return el.title != activeProject.title;
       });
+      jsonfile.projects = filtered
+
+    } else {
+      var filtered = jsonfile.projects.filter(function (el) {
+        return el.title != activeProject.title;
+      });
+      jsonfile.projects = filtered
+
     }
 
-    function openConfig(){
-      shell.openItem(activeProject.configpath);    //createCmdWindow()
-    }
-
-
-function changeColor(){
-    var currentlyActive = jsonfile.activeColor
-
-    currentlyActive = currentlyActive + 1;
-    if((currentlyActive + 1) > jsonfile.colorsets.length){
-      currentlyActive = 0
-    }
-
-      jsonfile.activeColor = currentlyActive;
-      writejson = JSON.stringify(jsonfile, null, 2)
-      fs.writeFileSync(projectsFileDir, writejson)
-      remote.getCurrentWindow().reload();
   }
 
+  console.log(jsonfile)
+
+  let writeContent = JSON.stringify(jsonfile, null, 2);
+  fs.writeFileSync(projectsFileDir, writeContent);
 
 
-  
+  remote.getCurrentWindow().loadURL('file://' + __dirname + '/allprojects.html')
+
+
+
+}
+
+function openDirectory() {
+  const openExplorer = require('open-file-explorer');
+  openExplorer(activeProject.path, err => {
+    if (err) {
+      console.log(err);
+    } else {
+      //Do Something
+    }
+  });
+}
+
+function openConfig() {
+  shell.openItem(activeProject.configpath); //createCmdWindow()
+}
+
+
+function changeColor() {
+  var currentlyActive = jsonfile.activeColor
+
+  currentlyActive = currentlyActive + 1;
+  if ((currentlyActive + 1) > jsonfile.colorsets.length) {
+    currentlyActive = 0
+  }
+
+  jsonfile.activeColor = currentlyActive;
+  writejson = JSON.stringify(jsonfile, null, 2)
+  fs.writeFileSync(projectsFileDir, writejson)
+  remote.getCurrentWindow().reload();
+}
