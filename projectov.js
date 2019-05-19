@@ -817,6 +817,10 @@ btnAddProgram.addEventListener('click', e => {
         {
           name: 'executable',
           extensions: ['exe']
+        },
+        {
+          name: 'vmware',
+          extensions: ['vmx']
         }
 
       ]
