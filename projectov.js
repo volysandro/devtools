@@ -1115,13 +1115,36 @@ function runProgram(program) {
 
   } else {
 
-    console.log(program.executable)
+    if(program.executable.includes('.vmx')){
+      var exec = require('child_process').execSync;
+      console.log(jsonfile)
+      if(jsonfile.variables[0].quotes == true){
+        
+        exec(jsonfile.variables[0].terminalEmulator + '"vmrun start ' + program.executable + '"', function (err, stdout, stderr) {
+          if (err) {
+            throw err;
+          }
+        })
+    
+      }else{
+        exec(jsonfile.variables[0].terminalEmulator + 'vmrun start ' + program.executable, function (err, stdout, stderr) {
+          if (err) {
+            throw err;
+          }
+        })
 
-    var exec = require('child_process').execFile;
-    exec(program.executable, function (err, data) {
-      console.log(err)
-      console.log(data.toString());
-    });
+      }
+    }else{
+      
+      
+          console.log(program.executable)
+      
+          var exec = require('child_process').execFile;
+          exec(program.executable, function (err, data) {
+            console.log(err)
+            console.log(data.toString());
+          });
+    }
   }
 
 }
@@ -1226,3 +1249,4 @@ function changeColor() {
   fs.writeFileSync(projectsFileDir, writejson)
   remote.getCurrentWindow().reload();
 }
+

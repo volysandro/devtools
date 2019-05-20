@@ -26,7 +26,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    height: 630,
+    height: 680,
     width: 430
     })
 

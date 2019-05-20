@@ -5,34 +5,40 @@
   <meta charset="UTF-8">
   <title>Main</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-<!-- Compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 </head>
 
 
 <body>
 
-    <div id="indexCard" class="card white servertitle hoverable">
-        <div class="card-image">
-            
-            <img id="logo" src="./images/onlyD.png" alt="">
-        </div>
-        
-            <div id="indexCardContent" class="card-content white-text">
-              <a id='newProjectBtn' class="waves-effect waves-light btn-large button">Add new project</a>
-            
-                      <a id="viewProjectsBtn" class="waves-effect waves-light btn-large button">
-            
-                        View projects
-                      </a>
-            
-            </div>
-        </div>
+  <div id="indexCard" class="card white servertitle hoverable">
+    <div class="card-image">
+
+      <img id="logo" src="./images/onlyD.png" alt="">
+    </div>
+
+    <div id="indexCardContent" class="card-content white-text">
+      <a id='newProjectBtn' class="waves-effect waves-light btn-large button">Add new project</a>
+
+      <a id="viewProjectsBtn" class="waves-effect waves-light btn-large button">
+
+        View projects
+      </a>
+
+      <a id="quickWebserverBtn" class="waves-effect waves-light btn-large button">
+
+        Quick webserver
+      </a>
+
+
+    </div>
+  </div>
 
 
 
@@ -44,7 +50,7 @@
   <script>
     // You can also require other files to run in this process
     require('./renderer.js')
-    
+
     // currently builds, but does not work. 
     // Take a look at https://electronjs.org/docs/tutorial/application-architecture on how to architect
   </script>
@@ -54,38 +60,50 @@
 </html>
 
 <style>
-#indexCard{
+  #indexCard {
     background-color: white;
-    height: 600px;
+    height: 650px;
     width: 400px;
     position: absolute;
     left: calc(50% - 200px);
-    top: calc(50% - 300px);
+    top: calc(50% - 325px);
     margin: 0;
-}
+  }
 
-#logo{
-        height: 200px;
-        width: 180px;
-        margin: auto;
-        margin-top: 80px;
-    }
+  #logo {
+    height: 200px;
+    width: 180px;
+    margin: auto;
+    margin-top: 80px;
+  }
 
+  #quickWebserverBtn {
+    line-height: 90px;
 
+    background-color: white;
+    color: #6200EE;
+    float: left;
+    height: 90px;
+    margin: 5px;
+    width: 300px;
+    left: calc(50% - 150px);
+    top: 100px;
 
-#newProjectBtn{
-        line-height: 90px;
+  }
 
-        background-color: white;
-        color: #6200EE;
-        float: left; 
-        height: 90px;
-        margin: 5px;
-        width: 300px;
-        left: calc(50% - 150px);
-        top: 100px;
+  #newProjectBtn {
+    line-height: 90px;
 
-    }
+    background-color: white;
+    color: #6200EE;
+    float: left;
+    height: 90px;
+    margin: 5px;
+    width: 300px;
+    left: calc(50% - 150px);
+    top: 100px;
+
+  }
 
 
 
@@ -166,22 +184,18 @@
   }
 
 
-  #choosepath{
+  #choosepath {}
 
+
+  #viewProjectsBtn {
+    line-height: 90px;
+
+    background-color: white;
+    color: #6200EE;
+    height: 90px;
+    margin: 5px;
+    width: 300px;
+    position: absolute;
+    left: calc(50% - 150px);
   }
-
-
-#viewProjectsBtn{
-  line-height: 90px;
-
-background-color: white;
-color: #6200EE;
-height: 90px;
-margin: 5px;
-width: 300px;
-position: absolute;
-left: calc(50% - 150px);
-}
-
-
 </style>

@@ -8,8 +8,8 @@ var ipcRenderer = require('electron').ipcRenderer;
 ipcRenderer.on('server-data', function (event,server) {
     console.log(server);
     runServer(server)
-    remote.getCurrentWindow().setTitle('DEVTOOLS SERVER: ' + server.name)
 });
+
 
 function runServer(webserver){
 
@@ -19,8 +19,13 @@ function runServer(webserver){
   
   http.createServer(function (request, response) {
       console.log('request starting...');
+
+      console.log(webserver.serverPath)
+      console.log(request.url)
+
   
       var filePath = path.normalize(webserver.serverPath + request.url);
+
       console.log(filePath)
       console.log(request.url)
       if (filePath == webserver.serverPath)
@@ -29,6 +34,7 @@ function runServer(webserver){
       console.log(path.normalize(filePath))
 
       filePath = path.normalize(filePath)
+        
   
       var extname = path.extname(filePath);
       var contentType = 'text/html';

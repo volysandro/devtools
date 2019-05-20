@@ -227,7 +227,7 @@ else{
         console.log('File is created successfully.');
         let rawcontent = fs.readFileSync(projectsFileDir)
         let content = JSON.parse(rawcontent);
-        content.projects.push(newProject)
+        content.projects.push(newProject);
         console.log(content);
         //...
         let writeContent = JSON.stringify(content, null, 2);
@@ -286,16 +286,125 @@ function updateConfig(){
 }
 
 
+const quickWebserverBtn = document.getElementById('quickWebserverBtn')
+const Swal = require('sweetalert2');
+
+
+if (process.platform == 'linux') {
+  serverPortMessage = 'Enter port. (For your OS it has to be 1024 or higher)'
+} else(serverPortMessage = 'Enter desired port: ')
+
+
+quickWebserverBtn.addEventListener('click', e => {
+
+  var serverdir = dialog.showOpenDialog({ properties: ['openDirectory'] })
+
+
+  Swal.mixin({
+    input: 'text',
+    confirmButtonText: 'Next &rarr;',
+    showCancelButton: true,
+    progressSteps: ['1', '2', '3']
+  }).queue([{
+      title: 'Path to run the webserver in?',
+      inputPlaceholder: serverdir
+    },
+    serverPortMessage,
+    {
+      title: 'Default file? leave empty for "index.html',
+      text: 'specify without a "/"'
+    }
+
+  ]).then((result) => {
+
+    if (!result.value) {
+      remote.getCurrentWindow().reload()
+
+    }
+
+    if (result.value[0] == '') {
+      result.value[0] = serverdir[0] + '/';
+
+    }
+
+    if (result.value[1] == '') {
+      Swal.fire({
+        title: 'You need to provide a port!',
+      })
+
+    
+
+    } 
+    
+    else if (result.value) {
+
+      console.log(result.value)
+
+      if (result.value[0] == '') {
+        remote.getCurrentWindow.reload();
+      }
+
+      if (result.value[2] == '') {
+        result.value[2] = 'index.html'
+      }
 
 
 
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
+
+      var quickServer = {
+
+        serverPath: result.value[0],
+        port: result.value[1],
+        defFile: result.value[2],
+        name: 'really quick devtools server'
+
+      }
+
+
+
+      quickWebserver(quickServer);
 
 
 
 
+    }
+  })
+
+
+})
+
+
+
+function quickWebserver(server){
+
+  const remote = require('electron').remote;
+  const BrowserWindow = remote.BrowserWindow;
+  const webserver = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true
+    },
+    height: 630,
+    width: 430
+  });
+
+  webserver.setMenuBarVisibility(false)
+  webserver.setResizable(false)
+  webserver.loadURL('file://' + __dirname + '/runwebserver.html');
+  webserver.setAlwaysOnTop(true, 'modal-panel', 1);
+
+  webserver.webContents.on('did-finish-load', () => {
+
+
+      webserver.webContents.send('server-data', server);
+
+
+
+    }
+
+  )
+
+
+}
 
 
 
