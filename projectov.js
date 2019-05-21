@@ -1104,6 +1104,9 @@ function runEverything() {
   rawConfig = fs.readFileSync(activeProject.configpath)
   projectConfig = JSON.parse(rawConfig)
 
+  projectConfig.websites.forEach(element => {
+    openWebsite(element)
+  })
 
   projectConfig.commands.forEach(element => {
     runCommand(element)
@@ -1194,11 +1197,23 @@ addWebsite.addEventListener('click', e => {
       console.log(projectConfig)
 
       if(result.value[0].includes('www.')){
-        var websiteToPush = {
-  
-          websiteUrl: result.value[0],
-          name: result.value[1]
-  
+
+        if(result.value[0].includes('http://')){
+          var websiteToPush = {
+    
+            websiteUrl: result.value[0],
+            name: result.value[1]
+    
+          }
+
+        }else{
+          var websiteToPush = {
+    
+            websiteUrl: 'http://' + result.value[0],
+            name: result.value[1]
+    
+          }
+
         }
 
       }else if(result.value[0].includes('localhost')){
@@ -1216,7 +1231,7 @@ addWebsite.addEventListener('click', e => {
       else{
         var websiteToPush = {
   
-          websiteUrl: 'www.' + result.value[0],
+          websiteUrl: 'http://www.' + result.value[0],
           name: result.value[1]
   
         }
@@ -1511,6 +1526,7 @@ function changeColor() {
 
 
 function openWebsite(website){
+  console.log(website.websiteUrl)
   shell.openExternal(website.websiteUrl)
 
 }
