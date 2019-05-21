@@ -799,134 +799,136 @@ btnAddCommand.addEventListener('click', e => {
 
 })
 
+if(projectConfig.websites){
+  projectConfig.websites.forEach(element => {
 
-projectConfig.websites.forEach(element => {
-
-  divcard = document.createElement('div')
-  divcard.className = 'card server hoverable'
-  servercontainer.appendChild(divcard)
-  divcard.id = 'card_' + element.name
-  divcard.style.backgroundColor = activeColor.cardscolor;
-
-
-  divcontent = document.createElement('div')
-  divcontent.className = 'card-content white-text'
-  divcard.appendChild(divcontent)
-
-  spantitle = document.createElement('span')
-  spantitle.className = 'card-title'
-  divcontent.appendChild(spantitle)
-  spantitle.innerHTML = element.name
-  spantitle.style.color = activeColor.mainfont
-
-  abutton = document.createElement('a')
-  abutton.className = 'btn-floating halfway-fab waves-effect waves-light buttonweirdblue'
-  divcard.appendChild(abutton)
-  abutton.id = 'server' + element.name
-
-  iconRunButton = document.createElement('i')
-  iconRunButton.className = 'material-icons'
-  iconRunButton.innerHTML = 'flight_takeoff'
-  abutton.appendChild(iconRunButton)
-
-  removebutton = document.createElement('a')
-  removebutton.className = 'btn-floating halfway-fab waves-effect waves-light red'
-  divcard.appendChild(removebutton)
-  removebutton.id = 'remove' + element.name
-  removebutton.style.position = 'absolute'
-  removebutton.style.left = '-20px'
-  removebutton.style.top = '-20px'
-  iconremovebutton = document.createElement('i')
-  iconremovebutton.className = 'material-icons'
-  iconremovebutton.innerHTML = 'delete'
-  removebutton.appendChild(iconremovebutton)
-  document.getElementById('remove' + element.name).style.opacity = '0';
-
-
-  divcard.addEventListener("mouseover", event => {
-    document.getElementById('remove' + element.name).style.opacity = '100';
-  });
-
-  divcard.addEventListener("mouseout", event => {
+    divcard = document.createElement('div')
+    divcard.className = 'card server hoverable'
+    servercontainer.appendChild(divcard)
+    divcard.id = 'card_' + element.name
+    divcard.style.backgroundColor = activeColor.cardscolor;
+  
+  
+    divcontent = document.createElement('div')
+    divcontent.className = 'card-content white-text'
+    divcard.appendChild(divcontent)
+  
+    spantitle = document.createElement('span')
+    spantitle.className = 'card-title'
+    divcontent.appendChild(spantitle)
+    spantitle.innerHTML = element.name
+    spantitle.style.color = activeColor.mainfont
+  
+    abutton = document.createElement('a')
+    abutton.className = 'btn-floating halfway-fab waves-effect waves-light buttonweirdblue'
+    divcard.appendChild(abutton)
+    abutton.id = 'server' + element.name
+  
+    iconRunButton = document.createElement('i')
+    iconRunButton.className = 'material-icons'
+    iconRunButton.innerHTML = 'flight_takeoff'
+    abutton.appendChild(iconRunButton)
+  
+    removebutton = document.createElement('a')
+    removebutton.className = 'btn-floating halfway-fab waves-effect waves-light red'
+    divcard.appendChild(removebutton)
+    removebutton.id = 'remove' + element.name
+    removebutton.style.position = 'absolute'
+    removebutton.style.left = '-20px'
+    removebutton.style.top = '-20px'
+    iconremovebutton = document.createElement('i')
+    iconremovebutton.className = 'material-icons'
+    iconremovebutton.innerHTML = 'delete'
+    removebutton.appendChild(iconremovebutton)
     document.getElementById('remove' + element.name).style.opacity = '0';
-
-  });
-
-
-  abuttonicon = document.createElement('i')
-  i.className = 'material-icons'
-  abutton.appendChild(abuttonicon)
-  i.innerHTML = 'add'
-
-
-  divcard.style.float = 'left'
-  divcard.style.margin = '19px'
-  divcard.style.width = '40%'
-
-
-
-  removebutton.addEventListener('click', e => {
-    rawConfig = fs.readFileSync(activeProject.configpath)
-    projectConfig = JSON.parse(rawConfig)
-
-    if (projectConfig.websites.length == 1) {
-      projectConfig.websites.pop()
-    } else {
-
-      if (process.platform == 'win32') {
-        console.log(element.name)
-        var filtered = projectConfig.websites.filter(function (el) {
-          return el.name == element.name;
-        });
-        console.log(filtered)
-        projectConfig.websites = filtered
-        console.log(projectConfig)
-
+  
+  
+    divcard.addEventListener("mouseover", event => {
+      document.getElementById('remove' + element.name).style.opacity = '100';
+    });
+  
+    divcard.addEventListener("mouseout", event => {
+      document.getElementById('remove' + element.name).style.opacity = '0';
+  
+    });
+  
+  
+    abuttonicon = document.createElement('i')
+    i.className = 'material-icons'
+    abutton.appendChild(abuttonicon)
+    i.innerHTML = 'add'
+  
+  
+    divcard.style.float = 'left'
+    divcard.style.margin = '19px'
+    divcard.style.width = '40%'
+  
+  
+  
+    removebutton.addEventListener('click', e => {
+      rawConfig = fs.readFileSync(activeProject.configpath)
+      projectConfig = JSON.parse(rawConfig)
+  
+      if (projectConfig.websites.length == 1) {
+        projectConfig.websites.pop()
       } else {
-        console.log(element.name)
-        var filtered = projectConfig.websites.filter(function (el) {
-          return el.name != element.name;
-        });
-        console.log(filtered)
-        projectConfig.websites = filtered
-        console.log(projectConfig)
-
+  
+        if (process.platform == 'win32') {
+          console.log(element.name)
+          var filtered = projectConfig.websites.filter(function (el) {
+            return el.name == element.name;
+          });
+          console.log(filtered)
+          projectConfig.websites = filtered
+          console.log(projectConfig)
+  
+        } else {
+          console.log(element.name)
+          var filtered = projectConfig.websites.filter(function (el) {
+            return el.name != element.name;
+          });
+          console.log(filtered)
+          projectConfig.websites = filtered
+          console.log(projectConfig)
+  
+        }
+  
       }
-
-    }
-
-
-
-    let writeContent = JSON.stringify(projectConfig, null, 2);
-    fs.writeFileSync(activeProject.configpath, writeContent);
-
-
-    remote.getCurrentWindow().reload()
+  
+  
+  
+      let writeContent = JSON.stringify(projectConfig, null, 2);
+      fs.writeFileSync(activeProject.configpath, writeContent);
+  
+  
+      remote.getCurrentWindow().reload()
+    })
+  
+  
+    abutton.addEventListener('click', e => {
+  
+  
+      console.log(element)
+      openWebsite(element)
+  
+      /*if (invokedButton.className.includes('green')){
+          
+          var replaced = invokedButton.className.replace('green', 'red')
+          invokedButton.className = replaced
+          runCommand(element);
+  
+  
+      }else{
+          var replaced = invokedButton.className.replace('red', 'green')
+          invokedButton.className = replaced
+          stopCommand(element);
+      }*/
+    })
+  
+  
   })
-
-
-  abutton.addEventListener('click', e => {
-
-
-    console.log(element)
-    openWebsite(element)
-
-    /*if (invokedButton.className.includes('green')){
-        
-        var replaced = invokedButton.className.replace('green', 'red')
-        invokedButton.className = replaced
-        runCommand(element);
-
-
-    }else{
-        var replaced = invokedButton.className.replace('red', 'green')
-        invokedButton.className = replaced
-        stopCommand(element);
-    }*/
-  })
-
-
-})
+  
+}
 
 
 
