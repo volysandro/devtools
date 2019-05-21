@@ -800,6 +800,137 @@ btnAddCommand.addEventListener('click', e => {
 })
 
 
+projectConfig.websites.forEach(element => {
+
+  divcard = document.createElement('div')
+  divcard.className = 'card server hoverable'
+  servercontainer.appendChild(divcard)
+  divcard.id = 'card_' + element.name
+  divcard.style.backgroundColor = activeColor.cardscolor;
+
+
+  divcontent = document.createElement('div')
+  divcontent.className = 'card-content white-text'
+  divcard.appendChild(divcontent)
+
+  spantitle = document.createElement('span')
+  spantitle.className = 'card-title'
+  divcontent.appendChild(spantitle)
+  spantitle.innerHTML = element.name
+  spantitle.style.color = activeColor.mainfont
+
+  abutton = document.createElement('a')
+  abutton.className = 'btn-floating halfway-fab waves-effect waves-light buttonweirdblue'
+  divcard.appendChild(abutton)
+  abutton.id = 'server' + element.name
+
+  iconRunButton = document.createElement('i')
+  iconRunButton.className = 'material-icons'
+  iconRunButton.innerHTML = 'flight_takeoff'
+  abutton.appendChild(iconRunButton)
+
+  removebutton = document.createElement('a')
+  removebutton.className = 'btn-floating halfway-fab waves-effect waves-light red'
+  divcard.appendChild(removebutton)
+  removebutton.id = 'remove' + element.name
+  removebutton.style.position = 'absolute'
+  removebutton.style.left = '-20px'
+  removebutton.style.top = '-20px'
+  iconremovebutton = document.createElement('i')
+  iconremovebutton.className = 'material-icons'
+  iconremovebutton.innerHTML = 'delete'
+  removebutton.appendChild(iconremovebutton)
+  document.getElementById('remove' + element.name).style.opacity = '0';
+
+
+  divcard.addEventListener("mouseover", event => {
+    document.getElementById('remove' + element.name).style.opacity = '100';
+  });
+
+  divcard.addEventListener("mouseout", event => {
+    document.getElementById('remove' + element.name).style.opacity = '0';
+
+  });
+
+
+  abuttonicon = document.createElement('i')
+  i.className = 'material-icons'
+  abutton.appendChild(abuttonicon)
+  i.innerHTML = 'add'
+
+
+  divcard.style.float = 'left'
+  divcard.style.margin = '19px'
+  divcard.style.width = '40%'
+
+
+
+  removebutton.addEventListener('click', e => {
+    rawConfig = fs.readFileSync(activeProject.configpath)
+    projectConfig = JSON.parse(rawConfig)
+
+    if (projectConfig.websites.length == 1) {
+      projectConfig.websites.pop()
+    } else {
+
+      if (process.platform == 'win32') {
+        console.log(element.name)
+        var filtered = projectConfig.websites.filter(function (el) {
+          return el.name == element.name;
+        });
+        console.log(filtered)
+        projectConfig.websites = filtered
+        console.log(projectConfig)
+
+      } else {
+        console.log(element.name)
+        var filtered = projectConfig.websites.filter(function (el) {
+          return el.name != element.name;
+        });
+        console.log(filtered)
+        projectConfig.websites = filtered
+        console.log(projectConfig)
+
+      }
+
+    }
+
+
+
+    let writeContent = JSON.stringify(projectConfig, null, 2);
+    fs.writeFileSync(activeProject.configpath, writeContent);
+
+
+    remote.getCurrentWindow().reload()
+  })
+
+
+  abutton.addEventListener('click', e => {
+
+
+    console.log(element)
+    openWebsite(element)
+
+    /*if (invokedButton.className.includes('green')){
+        
+        var replaced = invokedButton.className.replace('green', 'red')
+        invokedButton.className = replaced
+        runCommand(element);
+
+
+    }else{
+        var replaced = invokedButton.className.replace('red', 'green')
+        invokedButton.className = replaced
+        stopCommand(element);
+    }*/
+  })
+
+
+})
+
+
+
+
 
 btnAddProgram.addEventListener('click', e => {
 
@@ -952,6 +1083,17 @@ rawConfig = fs.readFileSync(activeProject.configpath)
 projectConfig = JSON.parse(rawConfig)
 console.log(projectConfig)
 
+if(projectConfig.websites){
+
+}else{
+  var websites = []
+  projectConfig.websites = websites
+  console.log(projectConfig)
+  let writeContent = JSON.stringify(projectConfig, null, 2);
+  fs.writeFileSync(activeProject.configpath, writeContent);
+
+}
+
 
 function runEverything() {
   rawConfig = fs.readFileSync(activeProject.configpath)
@@ -985,16 +1127,128 @@ runAll.addEventListener('click', e => {
 })
 
 
-const runAllCommands = document.getElementById('runAllCommands')
-runAllCommands.addEventListener('click', e => {
+const addWebsite = document.getElementById('addWebsite')
+addWebsite.addEventListener('click', e => {
 
-  rawConfig = fs.readFileSync(activeProject.configpath)
-  projectConfig = JSON.parse(rawConfig)
+  document.getElementById('onAlert').hidden = false;
 
 
-  projectConfig.commands.forEach(element => {
-    runCommand(element)
-  });
+
+  Swal.mixin({
+    input: 'text',
+    confirmButtonText: 'Next &rarr;',
+    showCancelButton: true,
+    progressSteps: ['1', '2']
+  }).queue([
+     'Enter the website url:',
+    'Enter the website name'
+  ]).then((result) => {
+    var doesItExist = false;
+
+    if (!result.value) {
+      remote.getCurrentWindow().reload()
+
+    }
+    
+    
+    projectConfig.websites.forEach(element => {
+      if (element.name == result.value[2]) {
+        doesItExist = true;
+      }
+      
+    });
+    
+    
+    
+    if (result.value[0] == '') {
+      Swal.fire({
+        title: 'You need to provide a website!',
+      })
+      
+    } else if (result.value[1] == '') {
+      Swal.fire({
+        title: 'You need to provide a name for the website!',
+      })
+      
+    } else if (doesItExist == true) {
+      Swal.fire({
+        title: 'A command with this name already exists!',
+      })
+
+    }
+      
+
+
+     else if (result.value) {
+
+      console.log(result.value)
+
+
+      rawConfig = fs.readFileSync(activeProject.configpath)
+      projectConfig = JSON.parse(rawConfig)
+      console.log(projectConfig)
+
+      if(result.value[0].includes('www.')){
+        var websiteToPush = {
+  
+          websiteUrl: result.value[0],
+          name: result.value[1]
+  
+        }
+
+      }else if(result.value[0].includes('localhost')){
+        var websiteToPush = {
+  
+          websiteUrl: 'http://' + result.value[0],
+          name: result.value[1]
+  
+        }
+
+
+      }
+
+      
+      else{
+        var websiteToPush = {
+  
+          websiteUrl: 'www.' + result.value[0],
+          name: result.value[1]
+  
+        }
+
+      }
+
+      
+
+      console.log(websiteToPush)
+
+      projectConfig.websites.push(websiteToPush)
+
+
+
+      let writeContent = JSON.stringify(projectConfig, null, 2);
+      fs.writeFileSync(activeProject.configpath, writeContent);
+    
+    
+
+
+        Swal.fire({
+          title: 'All done!',
+          confirmButtonText: 'Lovely!'
+        }).then(function () {
+          remote.getCurrentWindow().reload()
+
+        })
+
+      
+
+
+    }
+  })
+
+
+  
+
 })
 
 
@@ -1250,3 +1504,9 @@ function changeColor() {
   remote.getCurrentWindow().reload();
 }
 
+
+function openWebsite(website){
+  var opn = require('opn');
+  opn(website.websiteUrl)
+
+}
