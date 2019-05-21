@@ -1198,7 +1198,7 @@ addWebsite.addEventListener('click', e => {
 
       if(result.value[0].includes('www.')){
 
-        if(result.value[0].includes('http://')){
+        if(result.value[0].includes('http://') || result.value[0].includes('https://')){
           var websiteToPush = {
     
             websiteUrl: result.value[0],
