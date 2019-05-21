@@ -1511,7 +1511,6 @@ function changeColor() {
 
 
 function openWebsite(website){
-  var opn = require('opn');
-  opn(website.websiteUrl)
+  shell.openExternal(website.websiteUrl)
 
 }
