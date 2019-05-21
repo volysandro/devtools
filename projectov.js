@@ -9,6 +9,8 @@ const Swal = require('sweetalert2');
 
 
 
+
+
 document.getElementById('btnExpandableRunAll').addEventListener('click', e => {
   runEverything()
 })
@@ -144,7 +146,22 @@ rawConfig = fs.readFileSync(activeProject.configpath)
 projectConfig = JSON.parse(rawConfig)
 
 
+rawConfig = fs.readFileSync(activeProject.configpath)
+projectConfig = JSON.parse(rawConfig)
+console.log(projectConfig)
 
+
+
+if(projectConfig.websites){
+
+}else{
+  var websites = []
+  projectConfig.websites = websites
+  console.log(projectConfig)
+  let writeContent = JSON.stringify(projectConfig, null, 2);
+  fs.writeFileSync(activeProject.configpath, writeContent);
+
+}
 
 
 projectConfig.tools.forEach(element => {
@@ -1081,20 +1098,6 @@ btnAddProgram.addEventListener('click', e => {
 
 
 
-rawConfig = fs.readFileSync(activeProject.configpath)
-projectConfig = JSON.parse(rawConfig)
-console.log(projectConfig)
-
-if(projectConfig.websites){
-
-}else{
-  var websites = []
-  projectConfig.websites = websites
-  console.log(projectConfig)
-  let writeContent = JSON.stringify(projectConfig, null, 2);
-  fs.writeFileSync(activeProject.configpath, writeContent);
-
-}
 
 
 function runEverything() {
