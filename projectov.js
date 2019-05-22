@@ -1124,7 +1124,8 @@ function runEverything() {
   projectConfig.websites.forEach(element => {
 
     if(element.websiteUrl.includes('localhost')){
-      var timeToWait = 10000; // in miliseconds.
+      
+      var timeToWait = element.timer; // in miliseconds.
       setTimeout(function(){ openWebsite(element); }, timeToWait);
 
     }else{
@@ -1160,10 +1161,14 @@ addWebsite.addEventListener('click', e => {
     input: 'text',
     confirmButtonText: 'Next &rarr;',
     showCancelButton: true,
-    progressSteps: ['1', '2']
+    progressSteps: ['1', '2', '3']
   }).queue([
      'Enter the website url:',
-    'Enter the website name'
+    'Enter the website name', 
+    {
+      title: 'Time to wait in milliseconds:',
+      text: 'Default: 10000ms. Only for localhost.'
+    }
   ]).then((result) => {
     var doesItExist = false;
 
@@ -1180,6 +1185,9 @@ addWebsite.addEventListener('click', e => {
       
     });
     
+    if(result.value[2] == ''){
+      result.value[2] = '10000'
+    }
     
     
     if (result.value[0] == '') {
@@ -1231,12 +1239,17 @@ addWebsite.addEventListener('click', e => {
         }
 
       }else if(result.value[0].includes('localhost')){
-        var websiteToPush = {
-  
-          websiteUrl: 'http://' + result.value[0],
-          name: result.value[1]
-  
-        }
+
+            
+            
+            var websiteToPush = {
+      
+              websiteUrl: 'http://' + result.value[0],
+              name: result.value[1],
+              timer: result.value[2]
+              
+      
+            }
 
 
       }
