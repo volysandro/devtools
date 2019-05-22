@@ -1527,6 +1527,7 @@ function changeColor() {
 
 remote.getCurrentWindow().on('unmaximize',(e) =>{
   console.log('electron unmaximize');
+  remote.getCurrentWindow().setSize(400, 600)
   remote.getCurrentWindow().isResizable(false)
   document.getElementById('minimalModeOverlay').hidden = false;
   console.log(remote.getCurrentWindow().getBounds().height)
@@ -1534,6 +1535,9 @@ remote.getCurrentWindow().on('unmaximize',(e) =>{
 
   document.getElementById('minimalModeOverlay').style.height = remote.getCurrentWindow().getBounds().height + 'px'
   document.getElementById('minimalModeOverlay').style.width = remote.getCurrentWindow().getBounds().width + 'px'
+
+  document.getElementById('minimalTitleCard').style.height = '95%'
+  document.getElementById('minimalTitleCard').style.width = '95%'
 
 });
 
