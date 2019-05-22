@@ -1238,13 +1238,12 @@ addWebsite.addEventListener('click', e => {
 
         }
 
-      }else if(result.value[0].includes('localhost') || element.websiteUrl.includes('172.0.0.1')){
+      }else if(result.value[0].includes('localhost') || result.value[0].includes('172.0.0.1')){
 
-            
             
             var websiteToPush = {
       
-              websiteUrl: 'http://' + result.value[0],
+              websiteUrl: 'http://' + result.value[0].replace('172.0.0.1', 'localhost'),
               name: result.value[1],
               timer: result.value[2]
               
