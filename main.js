@@ -27,7 +27,8 @@ function createWindow() {
       nodeIntegration: true
     },
     height: 680,
-    width: 430
+    width: 430,
+    icon: path.join('assets/icons/png/64x64.png')
     })
 
 mainWindow.setMenuBarVisibility(false)
@@ -35,7 +36,9 @@ mainWindow.setMenuBarVisibility(false)
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
 
+  console.log(__dirname)
 
+    mainWindow.setIcon('assets/icons/png/64x64.png')
 
 
   // Open the DevTools.
