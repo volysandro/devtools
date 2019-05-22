@@ -1104,24 +1104,38 @@ function runEverything() {
   rawConfig = fs.readFileSync(activeProject.configpath)
   projectConfig = JSON.parse(rawConfig)
 
-  projectConfig.websites.forEach(element => {
-    openWebsite(element)
-  })
-
+  
   projectConfig.commands.forEach(element => {
     runCommand(element)
   });
-
-
-
+  
+  
+  
   projectConfig.servers.forEach(element => {
     runWebServer(element)
   });
-
+  
   projectConfig.tools.forEach(element => {
     runProgram(element)
   });
 
+
+
+  projectConfig.websites.forEach(element => {
+
+    if(element.websiteUrl.includes('localhost')){
+      var timeToWait = 10000; // in miliseconds.
+      setTimeout(function(){ openWebsite(element); }, timeToWait);
+
+    }else{
+      openWebsite(element)
+    }
+
+
+  })
+
+  
+  
 }
 
 const runAll = document.getElementById('runAll')
@@ -1554,6 +1568,8 @@ remote.getCurrentWindow().on('maximize',(e) =>{
 
 
 function openWebsite(website){
+
+  
   console.log(website.websiteUrl)
   shell.openExternal(website.websiteUrl)
 
