@@ -1123,7 +1123,7 @@ function runEverything() {
 
   projectConfig.websites.forEach(element => {
 
-    if(element.websiteUrl.includes('localhost')){
+    if(element.websiteUrl.includes('localhost') || element.websiteUrl.includes('172.0.0.1')){
       
       var timeToWait = element.timer; // in miliseconds.
       setTimeout(function(){ openWebsite(element); }, timeToWait);
@@ -1238,7 +1238,7 @@ addWebsite.addEventListener('click', e => {
 
         }
 
-      }else if(result.value[0].includes('localhost')){
+      }else if(result.value[0].includes('localhost') || element.websiteUrl.includes('172.0.0.1')){
 
             
             
