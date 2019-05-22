@@ -1,4 +1,5 @@
 var StaticServer = require('static-server');
+console.log(__dirname)
 
 let newFileData = {
   "projects": [

@@ -15,6 +15,7 @@ function selectDirectory() {
   sessionStorage.setItem("path", dir)
 }
 
+console.log(__dirname)
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -27,8 +28,7 @@ function createWindow() {
       nodeIntegration: true
     },
     height: 680,
-    width: 430,
-    icon: path.join('assets/icons/png/64x64.png')
+    width: 430
     })
 
 mainWindow.setMenuBarVisibility(false)
@@ -36,9 +36,7 @@ mainWindow.setMenuBarVisibility(false)
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
 
-  console.log(__dirname)
 
-    mainWindow.setIcon('assets/icons/png/64x64.png')
 
 
   // Open the DevTools.
