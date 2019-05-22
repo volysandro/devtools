@@ -17,6 +17,27 @@
 
 <body>
 
+    <div hidden id="minimalModeOverlay">
+
+            <div id="minimalTitleCard" class="card projecttitle hoverable">
+                    <div class="card-image">
+    
+                        <img id="minimallogo" src="./images/onlyD.png" alt="">
+                    </div>
+
+                    <a id="runAllMinimal" class="waves-effect waves-light btn-large button">Run everything</a>
+                    <a id="addCommandMinimal" class="waves-effect waves-light btn-large button">Add command-line script</a>
+                    <a id="addProgramMinimal" class="waves-effect waves-light btn-large button">Add program to run</a>
+                    <a id="addServerMinimal" class="waves-effect waves-light btn-large button">Add webserver</a>
+                    <a id="addWebsiteMinimal" class="waves-effect waves-light btn-large button">Add Website</a>
+    
+    
+                </div>
+    
+
+    </div>
+
+
 
     <div hidden id="onAlert"></div>
 
@@ -68,8 +89,8 @@
                 <a id="addServer" class="waves-effect waves-light btn-large button">Add webserver</a>
                 <a id="addWebsite" class="waves-effect waves-light btn-large button">Add Website</a>
                 <a id="runAll" class="waves-effect waves-light btn-large button">Run everything</a>
-
                 <a id="backBtn" class="waves-effect waves-light btn-large button">Back</a>
+
 
 
             </div>
@@ -108,17 +129,34 @@
 
                 document.getElementById('addCommand').style.color = activeColor.mainfont;
                 document.getElementById('addCommand').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('addCommandMinimal').style.color = activeColor.mainfont;
+                document.getElementById('addCommandMinimal').style.backgroundColor = activeColor.cardscolor;
+
                 document.getElementById('addProgram').style.color = activeColor.mainfont;
                 document.getElementById('addProgram').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('addProgramMinimal').style.color = activeColor.mainfont;
+                document.getElementById('addProgramMinimal').style.backgroundColor = activeColor.cardscolor;
+
                 document.getElementById('addServer').style.color = activeColor.mainfont;
                 document.getElementById('addServer').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('addServerMinimal').style.color = activeColor.mainfont;
+                document.getElementById('addServerMinimal').style.backgroundColor = activeColor.cardscolor;
+
                 document.getElementById('backBtn').style.color = activeColor.mainfont;
                 document.getElementById('backBtn').style.backgroundColor = activeColor.cardscolor;
                 document.getElementById('addWebsite').style.color = activeColor.mainfont;
                 document.getElementById('addWebsite').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('addWebsiteMinimal').style.color = activeColor.mainfont;
+                document.getElementById('addWebsiteMinimal').style.backgroundColor = activeColor.cardscolor;
+
                 document.getElementById('runAll').style.color = activeColor.mainfont;
                 document.getElementById('runAll').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('runAllMinimal').style.color = activeColor.mainfont;
+                document.getElementById('runAllMinimal').style.backgroundColor = activeColor.cardscolor;
+
                 document.getElementById('titleCard').style.backgroundColor = activeColor.cardscolor;
+                document.getElementById('minimalTitleCard').style.backgroundColor = activeColor.basecolor;
+
                 document.getElementById('infocontainer').style.backgroundColor = activeColor.basecolor;
                 document.getElementById('servercontainer').style.backgroundColor = activeColor.basecolor;
                 document.getElementById('programscontainer').style.backgroundColor = activeColor.basecolor;
@@ -139,6 +177,9 @@
                 document.getElementById('btnExpandableColor').style.color = activeColor.iconsmain;
 
 
+                document.getElementById('minimalModeOverlay').style.backgroundColor = activeColor.basecolor;
+
+
             }, 500);
 
         };
@@ -148,6 +189,88 @@
 </html>
 
 <style>
+
+    #addServerMinimal{
+        line-height: 90px;
+        margin: 0;
+        float: left;
+        width: 280px;
+        height: 90px;
+        top: calc(28% + 95px);
+        left: calc(50% - 140px);
+        position: absolute;
+
+    }
+    #addCommandMinimal{
+        line-height: 90px;
+        margin: 0;
+        float: left;
+        width: 280px;
+        height: 90px;
+        top: calc(28% + 190px);
+        left: calc(50% - 140px);
+        position: absolute;
+
+    }
+    #addProgramMinimal{
+        line-height: 90px;
+        margin: 0;
+        float: left;
+        width: 280px;
+        height: 90px;
+        top: calc(28% + 285px);
+        left: calc(50% - 140px);
+        position: absolute;
+
+    }
+
+    #addWebsiteMinimal{
+        line-height: 90px;
+        margin: 0;
+        float: left;
+        width: 280px;
+        height: 90px;
+        top: calc(28% + 380px);
+        left: calc(50% - 140px);
+        position: absolute;
+
+    }
+
+    #runAllMinimal{
+        line-height: 90px;
+        margin: 0;
+        float: left;
+        width: 280px;
+        height: 90px;
+        top: calc(28%);
+        left: calc(50% - 140px);
+        position: absolute;
+
+    }
+
+    #minimallogo{
+        height: 150px;
+        width: 135px;
+        margin: auto;
+        margin-top: 20px;
+        transform: translateY(20px)
+
+    }
+
+    #minimalTitleCard{
+        position: relative;
+        width: 500px;
+        height: 700px;
+        margin: 0 auto;
+        z-index: 999;
+
+    }
+
+    #minimalModeOverlay{
+        position: absolute;
+        z-index: 998;    
+    }
+
     #logo {
         height: 150px;
         width: 135px;

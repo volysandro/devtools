@@ -129,7 +129,7 @@ programscontainer = document.getElementById('programscontainer')
 servercontainer = document.getElementById('servercontainer')
 scriptscontainer = document.getElementById('scriptscontainer')
 
-
+remote.getCurrentWindow().maximize()
 
 document.getElementById('projectTitle').innerHTML = activeProject.title
 if (activeProject.path.length > 43) {
@@ -1525,8 +1525,42 @@ function changeColor() {
 }
 
 
+remote.getCurrentWindow().on('unmaximize',(e) =>{
+  console.log('electron unmaximize');
+  remote.getCurrentWindow().isResizable(false)
+  document.getElementById('minimalModeOverlay').hidden = false;
+  console.log(remote.getCurrentWindow().getBounds().height)
+  console.log(remote.getCurrentWindow().getBounds().width)
+
+  document.getElementById('minimalModeOverlay').style.height = remote.getCurrentWindow().getBounds().height + 'px'
+  document.getElementById('minimalModeOverlay').style.width = remote.getCurrentWindow().getBounds().width + 'px'
+
+});
+
+
+
+remote.getCurrentWindow().on('maximize',(e) =>{
+  console.log('electron maximize');
+  remote.getCurrentWindow().isResizable(false)
+  document.getElementById('minimalModeOverlay').hidden = true;
+
+});
+
+
+
+
 function openWebsite(website){
   console.log(website.websiteUrl)
   shell.openExternal(website.websiteUrl)
+
+}
+
+// function toggleMinimalMode(){
+//   remote.getCurrentWindow().setSize(1000, 600);
+//   remote.getCurrentWindow().isResizable(false)
+  
+// }
+
+function toggleFullMode(){
 
 }
