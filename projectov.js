@@ -7,7 +7,8 @@ const {
 var Sugar = require('sugar');
 const Swal = require('sweetalert2');
 
-
+const getSize = require('get-folder-size');
+ 
 
 
 
@@ -55,6 +56,9 @@ if (process.platform !== 'win32') {
   projectsFileDir = homedir + '\\.devtools.json'
   console.log(projectsFileDir)
 }
+
+
+
 
 
 const btnAddCommand = document.getElementById('addCommand')
@@ -139,6 +143,15 @@ if (activeProject.path.length > 43) {
   document.getElementById('projectDescription').innerHTML = activeProject.path
 
 }
+
+getSize(activeProject.path, (err, size) => {
+  if (err) { throw err; }
+ 
+  console.log(size + ' bytes');
+  console.log((size / 1024 / 1024).toFixed(2) + ' MB');
+
+  document.getElementById("projectDescription").innerHTML += "<br>" + (size / 1024 / 1024).toFixed(2) + ' MB';
+});
 
 
 
@@ -1255,12 +1268,26 @@ addWebsite.addEventListener('click', e => {
 
       
       else{
-        var websiteToPush = {
-  
-          websiteUrl: 'http://www.' + result.value[0],
-          name: result.value[1]
-  
+
+        if(result.value[0].includes('http://') || result.value[0].includes('https://')){
+          var websiteToPush = {
+    
+            websiteUrl: result.value[0],
+            name: result.value[1]
+    
+          }
+
+        }else{
+          var websiteToPush = {
+    
+            websiteUrl: 'http://www.' + result.value[0],
+            name: result.value[1]
+    
+          }
+
         }
+
+
 
       }
 

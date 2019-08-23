@@ -31,7 +31,7 @@ function createWindow() {
     width: 430
     })
 
-mainWindow.setMenuBarVisibility(false)
+mainWindow.setMenuBarVisibility(true)
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
